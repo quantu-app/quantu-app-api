@@ -1,0 +1,5 @@
+export SECRET_KEY_BASE="Secret key. You can use `mix phx.gen.secret` to get one"
+export GUARDIAN_TOKEN="Secret key. You can use `mix guardian.gen.secret` to get one"
+
+export AWS_ACCESS_KEY_ID="your access key"
+export AWS_SECRET_ACCESS_KEY="your secret access key"
