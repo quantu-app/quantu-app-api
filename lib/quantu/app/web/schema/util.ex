@@ -5,7 +5,7 @@ defmodule Quantu.App.Web.Schema.Util do
     require OpenApiSpex
 
     OpenApiSpex.schema(%{
-      title: "Util.HealthCheck",
+      title: "HealthCheck",
       description: "health check",
       type: :object,
       properties: %{

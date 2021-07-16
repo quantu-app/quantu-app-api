@@ -5,7 +5,7 @@ defmodule Quantu.App.Web.Schema.SignUp do
     require OpenApiSpex
 
     OpenApiSpex.schema(%{
-      title: "SignUp.UsernamePassword",
+      title: "SignUpUsernamePassword",
       description: "user sign up with username and password",
       type: :object,
       properties: %{

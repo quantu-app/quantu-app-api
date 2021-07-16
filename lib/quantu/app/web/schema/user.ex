@@ -5,7 +5,7 @@ defmodule Quantu.App.Web.Schema.User do
     require OpenApiSpex
 
     OpenApiSpex.schema(%{
-      title: "User.Email",
+      title: "Email",
       description: "user email",
       type: :object,
       properties: %{
@@ -21,7 +21,7 @@ defmodule Quantu.App.Web.Schema.User do
         },
         updatedAt: %Schema{type: :string, description: "Update timestamp", format: :"date-time"}
       },
-      required: [:id, :username, :emails, :insertedAt, :updatedAt],
+      required: [:id, :userId, :email, :confirmed, :primary, :insertedAt, :updatedAt],
       example: %{
         "id" => 1234,
         "userId" => "3245asfgws34tersf34t5",
@@ -38,7 +38,7 @@ defmodule Quantu.App.Web.Schema.User do
     require OpenApiSpex
 
     OpenApiSpex.schema(%{
-      title: "User.EmailCreate",
+      title: "EmailCreate",
       description: "create user email",
       type: :object,
       properties: %{
@@ -55,7 +55,7 @@ defmodule Quantu.App.Web.Schema.User do
     require OpenApiSpex
 
     OpenApiSpex.schema(%{
-      title: "User.EmailCreate",
+      title: "PasswordReset",
       description: "create user email",
       type: :object,
       properties: %{
@@ -74,7 +74,7 @@ defmodule Quantu.App.Web.Schema.User do
     require OpenApiSpex
 
     OpenApiSpex.schema(%{
-      title: "User.UsernameUpdate",
+      title: "UsernameUpdate",
       description: "update user's username",
       type: :object,
       properties: %{
@@ -91,7 +91,7 @@ defmodule Quantu.App.Web.Schema.User do
     require OpenApiSpex
 
     OpenApiSpex.schema(%{
-      title: "User.Private",
+      title: "User",
       description: "A private user",
       type: :object,
       properties: %{

@@ -5,7 +5,7 @@ defmodule Quantu.App.Web.Schema.Journel do
     require OpenApiSpex
 
     OpenApiSpex.schema(%{
-      title: "Journel.Show",
+      title: "Journel",
       description: "journel show",
       type: :object,
       properties: %{
@@ -17,7 +17,7 @@ defmodule Quantu.App.Web.Schema.Journel do
           items: %Schema{type: :object},
           description: "Journel content"
         },
-        language: %Schema{type: :string, description: "Journel langauge"},
+        language: %Schema{type: :string, description: "Journel language"},
         wordCount: %Schema{type: :integer, description: "Journel word count"},
         tags: %Schema{type: :array, items: %Schema{type: :string}, description: "Journel tags"},
         insertedAt: %Schema{
@@ -43,7 +43,7 @@ defmodule Quantu.App.Web.Schema.Journel do
         "userId" => "123",
         "name" => "My Journel Entry",
         "content" => [%{insert: "Hello, world!"}],
-        "langauge" => "en",
+        "language" => "en",
         "wordCount" => 2,
         "tags" => ["journel", "me"],
         "insertedAt" => "2017-09-12T12:34:55Z",
@@ -56,8 +56,9 @@ defmodule Quantu.App.Web.Schema.Journel do
     require OpenApiSpex
 
     OpenApiSpex.schema(%{
-      title: "Journel.List",
+      title: "JournelList",
       description: "journel list",
+      type: :array,
       items: Show,
       example: [
         %{
@@ -65,7 +66,7 @@ defmodule Quantu.App.Web.Schema.Journel do
           "userId" => "123",
           "name" => "My Journel Entry",
           "content" => [%{insert: "Hello, world!"}],
-          "langauge" => "en",
+          "language" => "en",
           "wordCount" => 2,
           "tags" => ["journel", "me"],
           "insertedAt" => "2017-09-12T12:34:55Z",
@@ -79,7 +80,7 @@ defmodule Quantu.App.Web.Schema.Journel do
     require OpenApiSpex
 
     OpenApiSpex.schema(%{
-      title: "Journel.Create",
+      title: "JournelCreate",
       description: "journel create",
       type: :object,
       properties: %{
@@ -89,21 +90,17 @@ defmodule Quantu.App.Web.Schema.Journel do
           items: %Schema{type: :object},
           description: "Journel content"
         },
-        language: %Schema{type: :string, description: "Journel langauge"},
+        language: %Schema{type: :string, description: "Journel language"},
         wordCount: %Schema{type: :integer, description: "Journel word count"},
         tags: %Schema{type: :array, items: %Schema{type: :string}, description: "Journel tags"}
       },
       required: [
-        :name,
-        :content,
-        :language,
-        :wordCount,
-        :tags
+        :name
       ],
       example: %{
         "name" => "My Journel Entry",
         "content" => [%{insert: "Hello, world!"}],
-        "langauge" => "en",
+        "language" => "en",
         "wordCount" => 2,
         "tags" => ["journel", "me"]
       }
@@ -114,7 +111,7 @@ defmodule Quantu.App.Web.Schema.Journel do
     require OpenApiSpex
 
     OpenApiSpex.schema(%{
-      title: "Journel.Update",
+      title: "JournelUpdate",
       description: "journel update",
       type: :object,
       properties: %{
@@ -124,7 +121,7 @@ defmodule Quantu.App.Web.Schema.Journel do
           items: %Schema{type: :object},
           description: "Journel content"
         },
-        language: %Schema{type: :string, description: "Journel langauge"},
+        language: %Schema{type: :string, description: "Journel language"},
         wordCount: %Schema{type: :integer, description: "Journel word count"},
         tags: %Schema{type: :array, items: %Schema{type: :string}, description: "Journel tags"}
       },
@@ -132,7 +129,7 @@ defmodule Quantu.App.Web.Schema.Journel do
       example: %{
         "name" => "Another Journel",
         "content" => [%{insert: "Hello, world!"}],
-        "langauge" => "en",
+        "language" => "en",
         "wordCount" => 1201,
         "tags" => ["journel", "me"]
       }

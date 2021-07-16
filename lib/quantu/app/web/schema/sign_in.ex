@@ -5,7 +5,7 @@ defmodule Quantu.App.Web.Schema.SignIn do
     require OpenApiSpex
 
     OpenApiSpex.schema(%{
-      title: "SignIn.UsernameOrEmailAndPassword",
+      title: "SignInUsernameOrEmailAndPassword",
       description: "user sign in with username or email and password",
       type: :object,
       properties: %{
