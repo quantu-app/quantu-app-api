@@ -1,6 +1,5 @@
-defmodule Quantu.App.Service.Document.Index do
+defmodule Quantu.App.Service.Journel.Index do
   use Aicacia.Handler
-  use Waffle.Ecto.Schema
   import Ecto.Query
 
   alias Quantu.App.{Model, Repo}
@@ -19,7 +18,7 @@ defmodule Quantu.App.Service.Document.Index do
 
   def handle(%{} = command) do
     Repo.run(fn ->
-      from(b in Model.Document,
+      from(b in Model.Journel,
         where:
           b.user_id ==
             ^command.user_id

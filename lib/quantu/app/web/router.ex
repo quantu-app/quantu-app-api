@@ -73,13 +73,7 @@ defmodule Quantu.App.Web.Router do
 
       pipe_through(:auth_access)
 
-      resources "/documents", Document, except: [:new, :edit]
-
-      scope "/documents/:id" do
-        get("/download", Document, :download)
-        pipe_through(:upload)
-        post("/upload", Document, :upload)
-      end
+      resources "/journels", Journel, except: [:new, :edit]
 
       scope "/user" do
         scope "/email", User do

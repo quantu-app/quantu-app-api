@@ -1,8 +1,8 @@
-defmodule AicaciaId.Repo.Migrations.CreateDocuments do
+defmodule AicaciaId.Repo.Migrations.CreateJournels do
   use Ecto.Migration
 
   def change do
-    create table(:documents, primary_key: false) do
+    create table(:journels, primary_key: false) do
       add(:id, :binary_id, primary_key: true)
 
       add(
@@ -12,9 +12,7 @@ defmodule AicaciaId.Repo.Migrations.CreateDocuments do
       )
 
       add(:name, :string, null: false)
-      add(:type, :string, null: false)
-      add(:url, :string)
-      add(:content_hash, :string)
+      add(:content, {:array, :map}, null: false, default: [])
       add(:language, :string, null: false, default: "en")
       add(:word_count, :integer, null: false, default: 0)
       add(:tags, {:array, :string}, null: false, default: [])

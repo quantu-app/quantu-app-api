@@ -78,14 +78,4 @@ config :quantu_app, Quantu.App.Repo,
   hostname: "localhost",
   show_sensitive_data_on_connection_error: true
 
-config :ex_aws,
-  json_codec: Jason,
-  access_key_id: access_key_id,
-  secret_access_key: secret_access_key
-
-config :ex_aws, :s3, host: "us-east-1.linodeobjects.com"
-
-config :waffle,
-  storage: Waffle.Storage.S3
-
 import_config "#{Mix.env()}.exs"
