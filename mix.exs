@@ -68,37 +68,32 @@ defmodule Quantu.App.MixProject do
   defp namespace(), do: "api"
   defp helm_dir(), do: "./helm/#{organization()}-#{name()}"
 
-  defp docker_repository(), do: "registry.gitlab.com/quantu/ex-id"
+  defp docker_repository(), do: "docker.pkg.github.com/quantu-app/quantu-app-api/quantu-app-api"
   defp docker_tag(), do: "#{docker_repository()}:#{version()}"
 
   defp helm_overrides(),
     do:
-      "--set image.tag=#{version()} --set image.repository=#{docker_repository()} --set image.hash=$(mix docker.sha256)"
+      "--set image.tag=#{version()}" <>
+        " --set image.repository=#{docker_repository()}" <>
+        " --set image.hash=$(mix docker.sha256)" <>
+        " --set env.SECRET_KEY_BASE=#{System.get_env("SECRET_KEY_BASE")}" <>
+        " --set env.GUARDIAN_TOKEN=#{System.get_env("GUARDIAN_TOKEN")}"
 
-  defp createHelmInstall(values \\ nil),
-    do:
-      "helm install #{helm_dir()} --name #{name()} --namespace=#{namespace()} #{helm_overrides()} #{
-        if values == nil, do: "", else: "--values #{values}"
-      }"
-
-  defp createHelmUpgrade(values \\ nil),
-    do:
-      "helm upgrade #{name()} #{helm_dir()} --namespace=#{namespace()} --install #{
-        helm_overrides()
-      } #{if values == nil, do: "", else: "--values #{values}"}"
+  defp create_helm_upgrade(),
+    do: "helm upgrade #{name()} #{helm_dir()} -n=#{namespace()} --install #{helm_overrides()}"
 
   defp aliases,
     do: [
       # Dev Postgres
       postgres: [
         "cmd docker run --rm -d " <>
-          "--name #{name()}-postgres " <>
+          "--name #{organization()}-#{name()}-postgres " <>
           "-e POSTGRES_PASSWORD=postgres " <>
           "-p 5432:5432 " <>
           "postgres:13-alpine"
       ],
       "postgres.delete": [
-        "cmd docker rm -f #{name()}-postgres"
+        "cmd docker rm -f #{organization()}-#{name()}-postgres"
       ],
 
       # Database
@@ -113,30 +108,22 @@ defmodule Quantu.App.MixProject do
         ~s(cmd docker inspect --format='"{{index .Id}}"' #{docker_tag()})
       ],
       "docker.run": [
-        "cmd docker run --name #{name()} --network=host " <>
-          "-e DATABASE_HOST=$DATABASE_HOST " <>
-          " -e SECRET_KEY_BASE=$SECRET_KEY_BASE " <>
-          " -e GUARDIAN_TOKEN=$GUARDIAN_TOKEN " <>
-          " -e MIX_ENV=#{Mix.env()} " <>
-          "-p 4000:4000 #{docker_tag()}"
+        "cmd docker run --rm --name #{organization()}-#{name()}" <>
+          " --network=host" <>
+          " -e SECRET_KEY_BASE=$SECRET_KEY_BASE" <>
+          " -e GUARDIAN_TOKEN=$GUARDIAN_TOKEN" <>
+          " -e MIX_ENV=#{Mix.env()}" <>
+          " #{docker_tag()}"
       ],
-      "docker.delete": ["cmd docker rm -f #{name()}"],
+      "docker.stop": ["cmd docker rm -f #{organization()}-#{name()}"],
 
       # Helm
       "helm.delete": ["cmd helm delete --namespace #{namespace()} #{name()}"],
-      "helm.install": ["cmd #{createHelmInstall()}"],
-      "helm.install.local": ["cmd #{createHelmInstall("#{helm_dir()}/values-local.yaml")}"],
-      "helm.upgrade": ["cmd #{createHelmUpgrade()}"],
-      "helm.upgrade.local": ["cmd #{createHelmUpgrade("#{helm_dir()}/values-local.yaml")}"],
+      "helm.upgrade": ["cmd #{create_helm_upgrade()}"],
       helm: [
         "docker.build",
         "docker.push",
         "helm.upgrade"
-      ],
-      "helm.local": [
-        "docker.build",
-        "docker.push",
-        "helm.upgrade.local"
       ]
     ]
 end

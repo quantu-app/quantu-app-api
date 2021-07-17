@@ -6,7 +6,7 @@ replicas:
       utilization: 90
 
 image:
-  repository: registry.quantu.com/api/quantu_app
+  repository: docker.pkg.github.com/quantu-app/quantu-app-api/quantu-app-api
   tag: 0.1.0
   pullPolicy: Always
   hash: sha256:13ba025b6c186da3fdce3db68f192721fef8300ae02f2ae76c953d771b7180e4
@@ -15,7 +15,6 @@ env:
   MIX_ENV: prod
   SECRET_KEY_BASE: NjTFMpeV5LeRyS9HmBOsP6PmqdwrhE2Tuor8DyYlzo6lZod4wiG6jDlHzBvGD+Z7
   GUARDIAN_TOKEN: 3QG51fPa72pi4PCeoDPVx8Q0Ocz+xz97y3gPCzyPRpon5XHdQtQ7QdckJS1fCfct
-  DATABASE_HOST: quantu-app-postgresql.api
 
 ingress:
   enabled: true
@@ -34,10 +33,10 @@ ingress:
 
 resources:
   limits:
-    cpu: 500m
-    memory: 512Mi
+    cpu: 200m
+    memory: 256Mi
   requests:
-    cpu: 400m
+    cpu: 50m
     memory: 128Mi
 
 postgresql:

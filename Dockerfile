@@ -1,23 +1,33 @@
-FROM elixir:1.11
+FROM elixir:1.11-alpine as builder
 
-RUN apt update
-RUN apt install postgresql-client -y
-RUN apt autoclean -y
-
-RUN mix local.hex --force && mix local.rebar --force
+RUN apk add --no-cache build-base
 
 WORKDIR /app
 
-ARG MIX_ENV=prod
-ENV MIX_ENV=${MIX_ENV}
+ARG MIX_ENV prod
+ENV MIX_ENV=$MIX_ENV
 
-COPY mix.exs /app/mix.exs
-COPY mix.lock /app/mix.lock
+RUN mix local.hex --force && mix local.rebar --force
 
-RUN mix deps.get && mix deps.compile
+COPY mix.exs mix.lock ./
+COPY config config
+RUN mix do deps.get, deps.compile
 
-COPY . /app
+COPY priv priv
+COPY lib lib
 
-RUN mix compile
+RUN mix do compile, release
 
-ENTRYPOINT /app/entrypoint.sh
+FROM alpine:3.14
+
+RUN apk add --no-cache openssl ncurses-libs
+
+WORKDIR /app
+ENV HOME=/app
+
+ARG MIX_ENV prod
+ENV MIX_ENV=$MIX_ENV
+
+COPY --from=builder /app/_build/$MIX_ENV/rel/quantu_app ./
+
+CMD bin/quantu_app eval "Quantu.App.Release.setup" && bin/quantu_app start

@@ -17,6 +17,8 @@ spec:
       labels:
         {{- include "quantu-app.selectorLabels" . | nindent 8 }}
     spec:
+      imagePullSecrets:
+        - name: regcred
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Chart.AppVersion }}"

@@ -31,7 +31,5 @@ npm-debug.log
 # The directory NPM downloads your dependencies sources to.
 /assets/node_modules/
 
-/.elixir_ls
-/.volumes
-/jenkinsAgent.yaml
-/Jenkinsfile
+/.vscode/
+/.elixir_ls/
