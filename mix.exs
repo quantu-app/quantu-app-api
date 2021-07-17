@@ -43,8 +43,6 @@ defmodule Quantu.App.MixProject do
       {:phoenix_live_view, "~> 0.15"},
       {:phoenix_live_dashboard, "~> 0.4", like: [:dev, :test]},
       {:floki, "~> 0.31", only: :test},
-      {:hackney, "~> 1.9"},
-      {:sweet_xml, "~> 0.6"},
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 0.5"},
       {:aicacia_handler, "~> 0.1"},

@@ -1,4 +1,4 @@
-FROM elixir:1.11-alpine as builder
+FROM elixir:1.12-alpine as builder
 
 RUN apk add --no-cache build-base
 
@@ -18,16 +18,22 @@ COPY lib lib
 
 RUN mix do compile, release
 
-FROM alpine:3.14
+CMD ["sh", "-c", "mix ecto.setup ; mix phx.server"]
 
-RUN apk add --no-cache openssl ncurses-libs
+# RUN mix do compile, release
 
-WORKDIR /app
-ENV HOME=/app
+# FROM alpine:3.14
 
-ARG MIX_ENV prod
-ENV MIX_ENV=$MIX_ENV
+# RUN apk add --no-cache openssl ncurses-libs libstdc++ libgcc
 
-COPY --from=builder /app/_build/$MIX_ENV/rel/quantu_app ./
+# WORKDIR /app
+# ENV HOME=/app
 
-CMD bin/quantu_app eval "Quantu.App.Release.setup" && bin/quantu_app start
+# ARG MIX_ENV prod
+# ENV MIX_ENV=$MIX_ENV
+
+# RUN chown -R nobody:nobody /app
+
+# COPY --from=builder --chown=nobody:nobody /app/_build/$MIX_ENV/rel/quantu_app ./
+
+# CMD ["sh", "-c", "bin/quantu_app eval \"Quantu.App.Release.setup\" ; bin/quantu_app start"]

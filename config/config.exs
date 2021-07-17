@@ -50,8 +50,7 @@ config :peerage,
   app_name: "quantu_app"
 
 config :cors_plug,
-  origin: ~r/.*/,
-  methods: ["GET", "HEAD", "POST", "PUT", "PATCH", "DELETE"]
+  origin: ~r/https.*quantu.app$/
 
 config :bcrypt_elixir, log_rounds: 12
 
