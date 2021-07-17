@@ -10,6 +10,7 @@ defmodule Quantu.App.Model.Journel do
 
     field(:name, :string, null: false)
     field(:content, {:array, :map}, null: false, default: [])
+    field(:location, :string, null: false, default: "")
     field(:language, :string, null: false, default: "en")
     field(:word_count, :integer, null: false, default: 0)
     field(:tags, {:array, :string}, null: false, default: [])

@@ -13,6 +13,7 @@ defmodule AicaciaId.Repo.Migrations.CreateJournels do
 
       add(:name, :string, null: false)
       add(:content, {:array, :map}, null: false, default: [])
+      add(:location, :string, null: false, default: "")
       add(:language, :string, null: false, default: "en")
       add(:word_count, :integer, null: false, default: 0)
       add(:tags, {:array, :string}, null: false, default: [])

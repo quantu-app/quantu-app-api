@@ -15,6 +15,7 @@ defmodule Quantu.App.Web.View.Journel do
       userId: journel.user_id,
       name: journel.name,
       content: journel.content,
+      location: journel.location,
       language: journel.language,
       wordCount: journel.word_count,
       tags: journel.tags,

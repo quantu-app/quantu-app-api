@@ -104,4 +104,31 @@ defmodule Quantu.App.Web.Controller.JournelTest do
       assert journel_json["name"] == update_params["name"]
     end
   end
+
+  describe "delete journel" do
+    test "should delete journel", %{conn: conn, user: user} do
+      %{id: journel_id} =
+        OpenApiSpex.Schema.example(Quantu.App.Web.Schema.Journel.Create.schema())
+        |> Util.underscore()
+        |> Map.put("user_id", user.id)
+        |> Service.Journel.Create.new!()
+        |> Service.Journel.Create.handle!()
+
+      delete_conn =
+        delete(
+          conn,
+          Routes.journel_path(@endpoint, :delete, journel_id)
+        )
+
+      json_response(delete_conn, 204)
+
+      conn =
+        get(
+          conn,
+          Routes.journel_path(@endpoint, :show, journel_id)
+        )
+
+      json_response(conn, 404)
+    end
+  end
 end

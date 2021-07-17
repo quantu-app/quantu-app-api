@@ -113,4 +113,27 @@ defmodule Quantu.App.Web.Controller.Journel do
       |> render("show.json", journel: journel)
     end
   end
+
+  @doc """
+  Delete a Journel
+
+  Returns nothing
+  """
+  @doc responses: [
+         no_content: "Empty response"
+       ],
+       parameters: [
+         id: [in: :path, description: "Journel Id", type: :string, example: "1001"]
+       ]
+  def delete(conn, params) do
+    resource_user = Guardian.Plug.current_resource(conn)
+
+    with {:ok, command} <-
+           Service.Journel.Delete.new(%{journel_id: params["id"], user_id: resource_user.id}),
+         {:ok, _} <- Service.Journel.Delete.handle(command) do
+      conn
+      |> put_status(204)
+      |> json(%{})
+    end
+  end
 end

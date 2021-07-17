@@ -17,6 +17,7 @@ defmodule Quantu.App.Web.Schema.Journel do
           items: %Schema{type: :object},
           description: "Journel content"
         },
+        location: %Schema{type: :string, description: "Journel location"},
         language: %Schema{type: :string, description: "Journel language"},
         wordCount: %Schema{type: :integer, description: "Journel word count"},
         tags: %Schema{type: :array, items: %Schema{type: :string}, description: "Journel tags"},
@@ -32,6 +33,7 @@ defmodule Quantu.App.Web.Schema.Journel do
         :userId,
         :name,
         :content,
+        :location,
         :language,
         :wordCount,
         :tags,
@@ -43,6 +45,7 @@ defmodule Quantu.App.Web.Schema.Journel do
         "userId" => "123",
         "name" => "My Journel Entry",
         "content" => [%{insert: "Hello, world!"}],
+        "location" => "Somewhere in the Americas",
         "language" => "en",
         "wordCount" => 2,
         "tags" => ["journel", "me"],
@@ -66,6 +69,7 @@ defmodule Quantu.App.Web.Schema.Journel do
           "userId" => "123",
           "name" => "My Journel Entry",
           "content" => [%{insert: "Hello, world!"}],
+          "location" => "Somewhere in the Americas",
           "language" => "en",
           "wordCount" => 2,
           "tags" => ["journel", "me"],
@@ -90,6 +94,7 @@ defmodule Quantu.App.Web.Schema.Journel do
           items: %Schema{type: :object},
           description: "Journel content"
         },
+        location: %Schema{type: :string, description: "Journel location"},
         language: %Schema{type: :string, description: "Journel language"},
         wordCount: %Schema{type: :integer, description: "Journel word count"},
         tags: %Schema{type: :array, items: %Schema{type: :string}, description: "Journel tags"}
@@ -100,6 +105,7 @@ defmodule Quantu.App.Web.Schema.Journel do
       example: %{
         "name" => "My Journel Entry",
         "content" => [%{insert: "Hello, world!"}],
+        "location" => "Somewhere in the Americas",
         "language" => "en",
         "wordCount" => 2,
         "tags" => ["journel", "me"]
@@ -121,6 +127,7 @@ defmodule Quantu.App.Web.Schema.Journel do
           items: %Schema{type: :object},
           description: "Journel content"
         },
+        location: %Schema{type: :string, description: "Journel location"},
         language: %Schema{type: :string, description: "Journel language"},
         wordCount: %Schema{type: :integer, description: "Journel word count"},
         tags: %Schema{type: :array, items: %Schema{type: :string}, description: "Journel tags"}
@@ -129,6 +136,7 @@ defmodule Quantu.App.Web.Schema.Journel do
       example: %{
         "name" => "Another Journel",
         "content" => [%{insert: "Hello, world!"}],
+        "location" => "Somewhere in the Americas",
         "language" => "en",
         "wordCount" => 1201,
         "tags" => ["journel", "me"]
