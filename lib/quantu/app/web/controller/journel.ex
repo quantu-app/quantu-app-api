@@ -131,9 +131,7 @@ defmodule Quantu.App.Web.Controller.Journel do
     with {:ok, command} <-
            Service.Journel.Delete.new(%{journel_id: params["id"], user_id: resource_user.id}),
          {:ok, _} <- Service.Journel.Delete.handle(command) do
-      conn
-      |> put_status(204)
-      |> json(%{})
+      send_resp(conn, :no_content, "")
     end
   end
 end

@@ -39,8 +39,7 @@ defmodule Quantu.App.Web.Controller.Auth do
        ]
   def delete(conn, _params) do
     with {:ok, _claims} <- Guardian.revoke(Guardian.Plug.current_token(conn)) do
-      conn
-      |> send_resp(204, "")
+      send_resp(conn, :no_content, "")
     end
   end
 end
