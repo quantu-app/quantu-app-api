@@ -73,8 +73,6 @@ defmodule Quantu.App.Web.Router do
 
       pipe_through(:auth_access)
 
-      resources "/journels", Journel, except: [:new, :edit]
-
       scope "/user" do
         scope "/email", User do
           post("/", Email, :create)
@@ -99,6 +97,8 @@ defmodule Quantu.App.Web.Router do
           delete("/", Deactivate, :deactivate)
         end
       end
+
+      resources "/journels", Journel, except: [:new, :edit]
     end
   end
 end

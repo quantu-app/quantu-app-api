@@ -33,11 +33,11 @@ ingress:
 
 resources:
   requests:
-    cpu: 50m
-    memory: 64M
+    cpu: 15m
+    memory: 110M
   limits:
-    cpu: 300m
-    memory: 256M
+    cpu: 768m
+    memory: 350M
 
 postgresql:
   persistence:
