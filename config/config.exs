@@ -32,6 +32,7 @@ config :quantu_app,
 
 config :quantu_app, Quantu.App.Web.Endpoint,
   url: [host: "localhost"],
+  http: [port: 4000],
   check_origin: false,
   secret_key_base: secret_key_base,
   render_errors: [view: Quantu.App.Web.View.Error, accepts: ~w(html json), layout: false],

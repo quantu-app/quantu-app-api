@@ -1,7 +1,5 @@
 use Mix.Config
 
-config :quantu_app, Quantu.App.Web.Endpoint, http: [port: 4000]
-
 config :peerage,
   via: Peerage.Via.Dns,
   dns_name: "app-quantu-app.api"

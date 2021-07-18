@@ -1,7 +1,6 @@
 use Mix.Config
 
 config :quantu_app, Quantu.App.Web.Endpoint,
-  http: [port: 4000],
   debug_errors: true,
   code_reloader: true
 
