@@ -16,7 +16,7 @@ RUN mix do deps.get, deps.compile
 COPY priv priv
 COPY lib lib
 
-RUN mix do compile, release
+RUN mix compile
 
 CMD ["sh", "-c", "mix ecto.setup ; mix phx.server"]
 
