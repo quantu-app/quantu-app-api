@@ -1,4 +1,4 @@
-defmodule Quantu.App.Service.Journel.Index do
+defmodule Quantu.App.Service.Journal.Index do
   use Aicacia.Handler
   import Ecto.Query
 
@@ -18,7 +18,7 @@ defmodule Quantu.App.Service.Journel.Index do
 
   def handle(%{} = command) do
     Repo.run(fn ->
-      from(b in Model.Journel,
+      from(b in Model.Journal,
         where:
           b.user_id ==
             ^command.user_id

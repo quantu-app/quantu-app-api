@@ -36,8 +36,8 @@ resources:
     cpu: 15m
     memory: 110M
   limits:
-    cpu: 768m
-    memory: 350M
+    cpu: 658m
+    memory: 308M
 
 postgresql:
   persistence:

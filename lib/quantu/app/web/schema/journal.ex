@@ -1,26 +1,26 @@
-defmodule Quantu.App.Web.Schema.Journel do
+defmodule Quantu.App.Web.Schema.Journal do
   alias OpenApiSpex.Schema
 
   defmodule Show do
     require OpenApiSpex
 
     OpenApiSpex.schema(%{
-      title: "Journel",
-      description: "journel show",
+      title: "Journal",
+      description: "journal show",
       type: :object,
       properties: %{
         id: %Schema{type: :string, description: "Id"},
         userId: %Schema{type: :string, description: "User Id"},
-        name: %Schema{type: :string, description: "Journel name"},
+        name: %Schema{type: :string, description: "Journal name"},
         content: %Schema{
           type: :array,
           items: %Schema{type: :object},
-          description: "Journel content"
+          description: "Journal content"
         },
-        location: %Schema{type: :string, description: "Journel location"},
-        language: %Schema{type: :string, description: "Journel language"},
-        wordCount: %Schema{type: :integer, description: "Journel word count"},
-        tags: %Schema{type: :array, items: %Schema{type: :string}, description: "Journel tags"},
+        location: %Schema{type: :string, description: "Journal location"},
+        language: %Schema{type: :string, description: "Journal language"},
+        wordCount: %Schema{type: :integer, description: "Journal word count"},
+        tags: %Schema{type: :array, items: %Schema{type: :string}, description: "Journal tags"},
         insertedAt: %Schema{
           type: :string,
           description: "Creation timestamp",
@@ -43,12 +43,12 @@ defmodule Quantu.App.Web.Schema.Journel do
       example: %{
         "id" => "1234",
         "userId" => "123",
-        "name" => "My Journel Entry",
+        "name" => "My Journal Entry",
         "content" => [%{insert: "Hello, world!"}],
         "location" => "Somewhere in the Americas",
         "language" => "en",
         "wordCount" => 2,
-        "tags" => ["journel", "me"],
+        "tags" => ["journal", "me"],
         "insertedAt" => "2017-09-12T12:34:55Z",
         "updatedAt" => "2017-09-13T10:11:12Z"
       }
@@ -59,20 +59,20 @@ defmodule Quantu.App.Web.Schema.Journel do
     require OpenApiSpex
 
     OpenApiSpex.schema(%{
-      title: "JournelList",
-      description: "journel list",
+      title: "JournalList",
+      description: "journal list",
       type: :array,
       items: Show,
       example: [
         %{
           "id" => "1234",
           "userId" => "123",
-          "name" => "My Journel Entry",
+          "name" => "My Journal Entry",
           "content" => [%{insert: "Hello, world!"}],
           "location" => "Somewhere in the Americas",
           "language" => "en",
           "wordCount" => 2,
-          "tags" => ["journel", "me"],
+          "tags" => ["journal", "me"],
           "insertedAt" => "2017-09-12T12:34:55Z",
           "updatedAt" => "2017-09-13T10:11:12Z"
         }
@@ -84,31 +84,31 @@ defmodule Quantu.App.Web.Schema.Journel do
     require OpenApiSpex
 
     OpenApiSpex.schema(%{
-      title: "JournelCreate",
-      description: "journel create",
+      title: "JournalCreate",
+      description: "journal create",
       type: :object,
       properties: %{
-        name: %Schema{type: :string, description: "Journel name"},
+        name: %Schema{type: :string, description: "Journal name"},
         content: %Schema{
           type: :array,
           items: %Schema{type: :object},
-          description: "Journel content"
+          description: "Journal content"
         },
-        location: %Schema{type: :string, description: "Journel location"},
-        language: %Schema{type: :string, description: "Journel language"},
-        wordCount: %Schema{type: :integer, description: "Journel word count"},
-        tags: %Schema{type: :array, items: %Schema{type: :string}, description: "Journel tags"}
+        location: %Schema{type: :string, description: "Journal location"},
+        language: %Schema{type: :string, description: "Journal language"},
+        wordCount: %Schema{type: :integer, description: "Journal word count"},
+        tags: %Schema{type: :array, items: %Schema{type: :string}, description: "Journal tags"}
       },
       required: [
         :name
       ],
       example: %{
-        "name" => "My Journel Entry",
+        "name" => "My Journal Entry",
         "content" => [%{insert: "Hello, world!"}],
         "location" => "Somewhere in the Americas",
         "language" => "en",
         "wordCount" => 2,
-        "tags" => ["journel", "me"]
+        "tags" => ["journal", "me"]
       }
     })
   end
@@ -117,29 +117,29 @@ defmodule Quantu.App.Web.Schema.Journel do
     require OpenApiSpex
 
     OpenApiSpex.schema(%{
-      title: "JournelUpdate",
-      description: "journel update",
+      title: "JournalUpdate",
+      description: "journal update",
       type: :object,
       properties: %{
-        name: %Schema{type: :string, description: "Journel name"},
+        name: %Schema{type: :string, description: "Journal name"},
         content: %Schema{
           type: :array,
           items: %Schema{type: :object},
-          description: "Journel content"
+          description: "Journal content"
         },
-        location: %Schema{type: :string, description: "Journel location"},
-        language: %Schema{type: :string, description: "Journel language"},
-        wordCount: %Schema{type: :integer, description: "Journel word count"},
-        tags: %Schema{type: :array, items: %Schema{type: :string}, description: "Journel tags"}
+        location: %Schema{type: :string, description: "Journal location"},
+        language: %Schema{type: :string, description: "Journal language"},
+        wordCount: %Schema{type: :integer, description: "Journal word count"},
+        tags: %Schema{type: :array, items: %Schema{type: :string}, description: "Journal tags"}
       },
       required: [],
       example: %{
-        "name" => "Another Journel",
+        "name" => "Another Journal",
         "content" => [%{insert: "Hello, world!"}],
         "location" => "Somewhere in the Americas",
         "language" => "en",
         "wordCount" => 1201,
-        "tags" => ["journel", "me"]
+        "tags" => ["journal", "me"]
       }
     })
   end

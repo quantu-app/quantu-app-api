@@ -1,8 +1,8 @@
-defmodule AicaciaId.Repo.Migrations.CreateJournels do
+defmodule AicaciaId.Repo.Migrations.CreateJournals do
   use Ecto.Migration
 
   def change do
-    create table(:journels, primary_key: false) do
+    create table(:journals, primary_key: false) do
       add(:id, :binary_id, primary_key: true)
 
       add(

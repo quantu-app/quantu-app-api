@@ -1,11 +1,11 @@
-defmodule Quantu.App.Model.Journel do
+defmodule Quantu.App.Model.Journal do
   use Ecto.Schema
 
   alias Quantu.App.Model
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
-  schema "journels" do
+  schema "journals" do
     belongs_to(:user, Model.User, type: :binary_id)
 
     field(:name, :string, null: false)

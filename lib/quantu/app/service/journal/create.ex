@@ -1,4 +1,4 @@
-defmodule Quantu.App.Service.Journel.Create do
+defmodule Quantu.App.Service.Journal.Create do
   use Aicacia.Handler
 
   alias Quantu.App.{Model, Repo}
@@ -26,7 +26,7 @@ defmodule Quantu.App.Service.Journel.Create do
 
   def handle(%{} = command) do
     Repo.run(fn ->
-      %Model.Journel{}
+      %Model.Journal{}
       |> cast(command, [:user_id, :name, :content, :location, :language, :word_count, :tags])
       |> validate_required([
         :user_id,
