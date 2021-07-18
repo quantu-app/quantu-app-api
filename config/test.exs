@@ -4,6 +4,8 @@ config :quantu_app, Quantu.App.Web.Endpoint,
   http: [port: 4002],
   server: false
 
+config :logger, level: :warn
+
 config :quantu_app, Quantu.App.Repo, pool: Ecto.Adapters.SQL.Sandbox
 
 config :bcrypt_elixir, log_rounds: 1

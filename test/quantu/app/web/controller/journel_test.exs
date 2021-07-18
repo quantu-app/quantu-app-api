@@ -120,7 +120,7 @@ defmodule Quantu.App.Web.Controller.JournelTest do
           Routes.journel_path(@endpoint, :delete, journel_id)
         )
 
-      json_response(delete_conn, 204)
+      response(delete_conn, 204)
 
       conn =
         get(
