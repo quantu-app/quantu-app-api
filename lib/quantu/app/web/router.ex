@@ -99,6 +99,10 @@ defmodule Quantu.App.Web.Router do
       end
 
       resources "/journals", Journal, except: [:new, :edit]
+
+      resources "/decks", Deck, except: [:new, :edit] do
+        resources "/cards", Card, except: [:new, :edit]
+      end
     end
   end
 end

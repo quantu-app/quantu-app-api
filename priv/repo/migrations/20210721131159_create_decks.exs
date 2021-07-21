@@ -1,8 +1,8 @@
-defmodule AicaciaId.Repo.Migrations.CreateJournals do
+defmodule AicaciaId.Repo.Migrations.CreateDecks do
   use Ecto.Migration
 
   def change do
-    create table(:journals, primary_key: false) do
+    create table(:decks, primary_key: false) do
       add(:id, :binary_id, primary_key: true)
 
       add(
@@ -12,15 +12,11 @@ defmodule AicaciaId.Repo.Migrations.CreateJournals do
       )
 
       add(:name, :string, null: false)
-      add(:content, {:array, :map}, null: false, default: [])
-      add(:location, :string, null: false, default: "")
-      add(:language, :string, null: false, default: "en")
-      add(:word_count, :integer, null: false, default: 0)
       add(:tags, {:array, :string}, null: false, default: [])
 
       timestamps(type: :utc_datetime)
     end
 
-    create(index(:journals, [:user_id]))
+    create(index(:decks, [:user_id]))
   end
 end
