@@ -19,7 +19,7 @@ defmodule Quantu.App.Web do
   def view do
     quote do
       use Phoenix.View,
-        root: "lib/quantu/id/web/templates",
+        root: "lib/quantu/app/web/template",
         namespace: Quantu.App.Web
 
       import Phoenix.Controller, only: [get_flash: 1, get_flash: 2, view_module: 1]

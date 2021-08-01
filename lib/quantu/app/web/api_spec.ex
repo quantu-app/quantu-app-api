@@ -7,7 +7,7 @@ defmodule Quantu.App.Web.ApiSpec do
       %OpenApiSpex.OpenApi{
         servers: [
           OpenApiSpex.Server.from_endpoint(Quantu.App.Web.Endpoint),
-          "https://api.id.quantu.com"
+          "https://api.app.quantu.com"
         ],
         info: %OpenApiSpex.Info{
           title: Application.spec(:quantu_app, :description) |> to_string(),

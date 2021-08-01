@@ -1,18 +1,14 @@
 defmodule Quantu.App.Web.Controller.User.EmailTest do
   use Quantu.App.Web.Case
 
-  alias Quantu.App.Service
-  alias Quantu.App.Repo
-  alias Quantu.App.Model
-  alias Quantu.App.Web.Guardian
+  alias Quantu.App.{Service, Repo, Model, Util}
+  alias Quantu.App.Web.{Guardian, Schema}
 
   setup %{conn: conn} do
     user =
-      Service.User.Create.new!(%{
-        username: "username",
-        password: "password",
-        password_confirmation: "password"
-      })
+      OpenApiSpex.Schema.example(Schema.SignUp.UsernamePassword.schema())
+      |> Util.underscore()
+      |> Service.User.Create.new!()
       |> Service.User.Create.handle!()
 
     conn = Guardian.Plug.sign_in(conn, user)
@@ -26,7 +22,7 @@ defmodule Quantu.App.Web.Controller.User.EmailTest do
 
   describe "create" do
     test "should create a new email", %{conn: conn, user: user} do
-      request_body = OpenApiSpex.Schema.example(Quantu.App.Web.Schema.User.EmailCreate.schema())
+      request_body = OpenApiSpex.Schema.example(Schema.User.EmailCreate.schema())
 
       conn =
         post(

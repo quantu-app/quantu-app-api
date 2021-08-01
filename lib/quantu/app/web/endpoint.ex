@@ -11,9 +11,10 @@ defmodule Quantu.App.Web.Endpoint do
     plug(Phoenix.CodeReloader)
   end
 
-  socket "/socket", Quantu.App.Web.Socket.User,
+  socket("/socket", Quantu.App.Web.Socket.User,
     websocket: true,
     longpoll: false
+  )
 
   socket("/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]])
 

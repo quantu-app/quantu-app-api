@@ -1,0 +1,49 @@
+replicas:
+  min: 1
+  max: 4
+  resource:
+    cpu:
+      utilization: 90
+
+image:
+  repository: docker.pkg.github.com/quantu-app/quantu-app-api/quantu-app-api
+  tag: 0.1.0
+  pullPolicy: Always
+  hash: sha256:13ba025b6c186da3fdce3db68f192721fef8300ae02f2ae76c953d771b7180e4
+
+env:
+  MIX_ENV: prod
+  SECRET_KEY_BASE: NjTFMpeV5LeRyS9HmBOsP6PmqdwrhE2Tuor8DyYlzo6lZod4wiG6jDlHzBvGD+Z7
+  GUARDIAN_TOKEN: 3QG51fPa72pi4PCeoDPVx8Q0Ocz+xz97y3gPCzyPRpon5XHdQtQ7QdckJS1fCfct
+  GOOGLE_CLIENT_ID: 356346743653476-98wh4f-8w9345gsijriosj4tu398js90irf].apps.googleusercontent.com
+  GOOGLE_CLIENT_SECRET: ADf984hn_ADFohnp4o8hFG
+
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/tls-acme: "true"
+    certmanager.k8s.io/cluster-issuer: letsencrypt
+    nginx.ingress.kubernetes.io/secure-backends: "true"
+  hosts:
+    - host: api.quantu.app
+      paths:
+        - /
+  tls:
+    - secretName: api-quantu-app-tls
+      hosts:
+        - api.quantu.app
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 64M
+  limits:
+    cpu: 658m
+    memory: 308M
+
+postgresql:
+  persistence:
+    enabled: true
+    storageClass: linode-block-storage-retain
+  postgresqlUsername: postgres
+  postgresqlPassword: postgres

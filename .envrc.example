@@ -1,2 +1,5 @@
 export SECRET_KEY_BASE="Secret key. You can use `mix phx.gen.secret` to get one"
 export GUARDIAN_TOKEN="Secret key. You can use `mix guardian.gen.secret` to get one"
+
+export GOOGLE_CLIENT_ID=""
+export GOOGLE_CLIENT_SECRET=""

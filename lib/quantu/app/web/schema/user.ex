@@ -82,7 +82,7 @@ defmodule Quantu.App.Web.Schema.User do
       },
       required: [:username],
       example: %{
-        "username" => "username"
+        "username" => "new_username"
       }
     })
   end

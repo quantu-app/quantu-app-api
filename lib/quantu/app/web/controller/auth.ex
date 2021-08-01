@@ -3,11 +3,11 @@ defmodule Quantu.App.Web.Controller.Auth do
 
   use Quantu.App.Web, :controller
   use OpenApiSpex.Controller
-  plug(Ueberauth)
 
   alias Quantu.App.Service
   alias Quantu.App.Web.{Guardian, Schema, View}
 
+  plug Ueberauth
   action_fallback(Controller.Fallback)
 
   @doc """
@@ -40,6 +40,28 @@ defmodule Quantu.App.Web.Controller.Auth do
   def delete(conn, _params) do
     with {:ok, _claims} <- Guardian.revoke(Guardian.Plug.current_token(conn)) do
       send_resp(conn, :no_content, "")
+    end
+  end
+
+  @doc """
+  Signs in the Current User
+
+  Returns the current user
+  """
+  @doc responses: [
+         ok: {"User Response", "application/json", Schema.User.Private}
+       ]
+  def callback(%{assigns: %{ueberauth_auth: auth}} = conn, _params) do
+    with {:ok, user} <- Service.User.FromUeberauth.from_ueberauth(auth) do
+      conn = Guardian.Plug.sign_in(conn, user)
+
+      conn
+      |> put_layout({View.Layout, "app.html"})
+      |> put_view(View.Auth)
+      |> render("callback.html",
+        user: user,
+        token: Guardian.Plug.current_token(conn)
+      )
     end
   end
 end

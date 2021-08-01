@@ -18,7 +18,7 @@ COPY lib lib
 
 RUN mix compile
 
-CMD ["sh", "-c", "mix ecto.setup ; mix phx.server"]
+CMD ["sh", "-c", "mix ecto.setup && mix phx.server"]
 
 # RUN mix do compile, release
 

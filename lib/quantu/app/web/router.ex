@@ -96,13 +96,11 @@ defmodule Quantu.App.Web.Router do
         scope "/deactivate", User do
           delete("/", Deactivate, :deactivate)
         end
+
+        resources "/organizations", Organization, except: [:new, :edit]
       end
 
-      resources "/journals", Journal, except: [:new, :edit]
-
-      resources "/decks", Deck, except: [:new, :edit] do
-        resources "/cards", Card, except: [:new, :edit]
-      end
+      get("/organizations/:url", Organization, :show_by_url)
     end
   end
 end

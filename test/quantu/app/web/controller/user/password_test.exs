@@ -1,16 +1,14 @@
 defmodule Quantu.App.Web.Controller.User.PasswordTest do
   use Quantu.App.Web.Case
 
-  alias Quantu.App.Service
-  alias Quantu.App.Web.Guardian
+  alias Quantu.App.{Service, Util}
+  alias Quantu.App.Web.{Guardian, Schema}
 
   setup %{conn: conn} do
     user =
-      Service.User.Create.new!(%{
-        username: "username",
-        password: "old_password",
-        password_confirmation: "old_password"
-      })
+      OpenApiSpex.Schema.example(Schema.SignUp.UsernamePassword.schema())
+      |> Util.underscore()
+      |> Service.User.Create.new!()
       |> Service.User.Create.handle!()
 
     conn = Guardian.Plug.sign_in(conn, user)
@@ -29,8 +27,8 @@ defmodule Quantu.App.Web.Controller.User.PasswordTest do
           conn,
           Routes.password_path(@endpoint, :reset),
           %{
-            "oldPassword" => "old_password",
-            "password" => "password"
+            "oldPassword" => "password",
+            "password" => "new_password"
           }
         )
 

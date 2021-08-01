@@ -1,16 +1,14 @@
 defmodule Quantu.App.Web.Controller.UserTest do
   use Quantu.App.Web.Case
 
-  alias Quantu.App.Service
-  alias Quantu.App.Web.Guardian
+  alias Quantu.App.{Service, Util}
+  alias Quantu.App.Web.{Guardian, Schema}
 
   setup %{conn: conn} do
     user =
-      Service.User.Create.new!(%{
-        username: "username",
-        password: "password",
-        password_confirmation: "password"
-      })
+      OpenApiSpex.Schema.example(Schema.SignUp.UsernamePassword.schema())
+      |> Util.underscore()
+      |> Service.User.Create.new!()
       |> Service.User.Create.handle!()
 
     {:ok,

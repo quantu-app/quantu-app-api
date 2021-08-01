@@ -55,18 +55,21 @@ defmodule Quantu.App.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:peerage, "~> 1.0"},
       {:bcrypt_elixir, "~> 2.3"},
-      {:ueberauth, "~> 0.7"},
       {:guardian, "~> 2.1"},
       {:guardian_db, "~> 2.1"},
       {:guardian_phoenix, "~> 2.0"},
+      {:ueberauth, "~> 0.6"},
+      {:ueberauth_google, "~> 0.10"},
       {:open_api_spex, "~> 3.10"},
       {:excoveralls, "~> 0.14", only: :test}
     ]
 
   defp namespace(), do: "api"
-  defp helm_dir(), do: "./helm/#{organization()}-#{name()}"
+  defp helm_dir(), do: "./helm/#{organization()}-#{name()}-api"
 
-  defp docker_repository(), do: "docker.pkg.github.com/quantu-app/quantu-app-api/quantu-app-api"
+  defp docker_repository(),
+    do: "docker.pkg.github.com/quantu-app/app-api/quantu-app-api"
+
   defp docker_tag(), do: "#{docker_repository()}:#{version()}"
 
   defp helm_overrides(),
@@ -75,10 +78,13 @@ defmodule Quantu.App.MixProject do
         " --set image.repository=#{docker_repository()}" <>
         " --set image.hash=$(mix docker.sha256)" <>
         " --set env.SECRET_KEY_BASE=#{System.get_env("SECRET_KEY_BASE")}" <>
-        " --set env.GUARDIAN_TOKEN=#{System.get_env("GUARDIAN_TOKEN")}"
+        " --set env.GUARDIAN_TOKEN=#{System.get_env("GUARDIAN_TOKEN")}" <>
+        " --set env.GOOGLE_CLIENT_ID=#{System.get_env("GOOGLE_CLIENT_ID")}" <>
+        " --set env.GOOGLE_CLIENT_SECRET=#{System.get_env("GOOGLE_CLIENT_SECRET")}"
 
   defp create_helm_upgrade(),
-    do: "helm upgrade #{name()} #{helm_dir()} -n=#{namespace()} --install #{helm_overrides()}"
+    do:
+      "helm upgrade #{organization()}-#{name()} #{helm_dir()} -n=#{namespace()} --install #{helm_overrides()}"
 
   defp aliases,
     do: [
@@ -116,7 +122,7 @@ defmodule Quantu.App.MixProject do
       "docker.stop": ["cmd docker rm -f #{organization()}-#{name()}"],
 
       # Helm
-      "helm.delete": ["cmd helm delete --namespace #{namespace()} #{name()}"],
+      "helm.delete": ["cmd helm delete --namespace #{namespace()} #{organization()}-#{name()}"],
       "helm.upgrade": ["cmd #{create_helm_upgrade()}"],
       helm: [
         "docker.build",

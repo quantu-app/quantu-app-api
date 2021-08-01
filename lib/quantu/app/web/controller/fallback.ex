@@ -20,4 +20,11 @@ defmodule Quantu.App.Web.Controller.Fallback do
     |> put_view(View.Error)
     |> render(:"404")
   end
+
+  def call(%{assigns: %{ueberauth_failure: _fails}} = conn, _params) do
+    conn
+    |> put_status(403)
+    |> put_view(View.Error)
+    |> render(:"403")
+  end
 end

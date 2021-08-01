@@ -1,31 +1,27 @@
 defmodule Quantu.App.Web.Controller.User.UsernameTest do
   use Quantu.App.Web.Case
 
-  alias Quantu.App.Service
-  alias Quantu.App.Web.Guardian
+  alias Quantu.App.{Service, Util}
+  alias Quantu.App.Web.{Guardian, Schema}
 
   setup %{conn: conn} do
     user =
-      Service.User.Create.new!(%{
-        username: "old_username",
-        password: "password",
-        password_confirmation: "password"
-      })
+      OpenApiSpex.Schema.example(Schema.SignUp.UsernamePassword.schema())
+      |> Util.underscore()
+      |> Service.User.Create.new!()
       |> Service.User.Create.handle!()
-
-    conn = Guardian.Plug.sign_in(conn, user)
 
     {:ok,
      user: user,
      conn:
        conn
+       |> Guardian.Plug.sign_in(user)
        |> put_req_header("accept", "application/json")}
   end
 
   describe "update username" do
     test "should update user's username", %{conn: conn, user: user} do
-      request_body =
-        OpenApiSpex.Schema.example(Quantu.App.Web.Schema.User.UsernameUpdate.schema())
+      request_body = OpenApiSpex.Schema.example(Schema.User.UsernameUpdate.schema())
 
       conn =
         patch(
@@ -34,23 +30,21 @@ defmodule Quantu.App.Web.Controller.User.UsernameTest do
           request_body
         )
 
-      assert user.username == "old_username"
+      assert user.username == "username"
 
       user = json_response(conn, 200)
 
-      assert user["username"] == "username"
+      assert user["username"] == "new_username"
     end
 
     test "should fail to update user's username if already in use", %{conn: conn} do
-      Service.User.Create.new!(%{
-        username: "username",
-        password: "password",
-        password_confirmation: "password"
-      })
+      OpenApiSpex.Schema.example(Schema.SignUp.UsernamePassword.schema())
+      |> Map.merge(OpenApiSpex.Schema.example(Schema.User.UsernameUpdate.schema()))
+      |> Util.underscore()
+      |> Service.User.Create.new!()
       |> Service.User.Create.handle!()
 
-      request_body =
-        OpenApiSpex.Schema.example(Quantu.App.Web.Schema.User.UsernameUpdate.schema())
+      request_body = OpenApiSpex.Schema.example(Schema.User.UsernameUpdate.schema())
 
       conn =
         patch(
