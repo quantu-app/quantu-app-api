@@ -5,7 +5,7 @@ defmodule Quantu.App.Service.Question.Delete do
 
   @primary_key false
   schema "" do
-    belongs_to(:question, Model.Question, type: :binary_id)
+    belongs_to(:question, Model.Question)
   end
 
   def changeset(%{} = attrs) do
@@ -17,7 +17,7 @@ defmodule Quantu.App.Service.Question.Delete do
 
   def handle(%{} = command) do
     Repo.run(fn ->
-      Repo.get_by!(Model.Question, id: command.question_id)
+      Repo.get!(Model.Question, command.question_id)
       |> Repo.delete!()
     end)
   end

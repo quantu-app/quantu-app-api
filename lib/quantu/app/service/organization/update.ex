@@ -24,13 +24,13 @@ defmodule Quantu.App.Service.Organization.Update do
     |> validate_required([:organization_id, :user_id])
     |> foreign_key_constraint(:organization_id)
     |> foreign_key_constraint(:user_id)
-    |> unique_constraint(:url)
   end
 
   def handle(%{} = command) do
     Repo.run(fn ->
       Repo.get_by!(Model.Organization, id: command.organization_id, user_id: command.user_id)
       |> cast(command, [:name, :url])
+      |> unique_constraint(:url)
       |> Repo.update!()
     end)
   end

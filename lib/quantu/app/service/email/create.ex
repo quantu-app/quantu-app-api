@@ -20,7 +20,6 @@ defmodule Quantu.App.Service.Email.Create do
     |> validate_required([:user_id, :email])
     |> validate_format(:email, @email_regex)
     |> foreign_key_constraint(:user_id)
-    |> unique_constraint(:email)
   end
 
   def handle(%{} = command) do
@@ -35,7 +34,6 @@ defmodule Quantu.App.Service.Email.Create do
           },
           [:user_id, :email, :primary]
         )
-        |> foreign_key_constraint(:user_id)
         |> unique_constraint(:email)
         |> Repo.insert!()
 

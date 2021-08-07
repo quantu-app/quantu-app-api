@@ -26,7 +26,7 @@ defmodule Quantu.App.Web.Controller.User.UsernameTest do
       conn =
         patch(
           conn,
-          Routes.username_path(@endpoint, :update),
+          Routes.user_username_path(@endpoint, :update),
           request_body
         )
 
@@ -49,7 +49,7 @@ defmodule Quantu.App.Web.Controller.User.UsernameTest do
       conn =
         patch(
           conn,
-          Routes.username_path(@endpoint, :update),
+          Routes.user_username_path(@endpoint, :update),
           request_body
         )
 

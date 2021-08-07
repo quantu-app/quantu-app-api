@@ -27,7 +27,6 @@ defmodule Quantu.App.Service.Organization.Create do
     ])
     |> validate_format(:url, @url_regex)
     |> foreign_key_constraint(:user_id)
-    |> unique_constraint(:url)
   end
 
   def handle(%{} = command) do
@@ -39,6 +38,7 @@ defmodule Quantu.App.Service.Organization.Create do
         :name,
         :url
       ])
+      |> unique_constraint(:url)
       |> Repo.insert!()
     end)
   end

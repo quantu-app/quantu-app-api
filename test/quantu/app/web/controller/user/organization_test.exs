@@ -1,4 +1,4 @@
-defmodule Quantu.App.Web.Controller.OrganizationTest do
+defmodule Quantu.App.Web.Controller.User.OrganizationTest do
   use Quantu.App.Web.Case
 
   alias Quantu.App.{Service, Util}
@@ -31,7 +31,7 @@ defmodule Quantu.App.Web.Controller.OrganizationTest do
       conn =
         get(
           conn,
-          Routes.organization_path(@endpoint, :index)
+          Routes.user_organization_path(@endpoint, :index)
         )
 
       organizations_json = json_response(conn, 200)
@@ -50,31 +50,83 @@ defmodule Quantu.App.Web.Controller.OrganizationTest do
       conn =
         get(
           conn,
-          Routes.organization_path(@endpoint, :show, organization_id)
+          Routes.user_organization_path(@endpoint, :show, organization_id)
         )
 
       organization_json = json_response(conn, 200)
 
       assert organization_json["id"] == organization_id
     end
+  end
 
-    test "should return a organization by url", %{conn: conn, user: user} do
-      %{url: url} =
+  describe "create organization" do
+    test "should return created organization", %{conn: conn, user: user} do
+      create_params =
+        OpenApiSpex.Schema.example(Schema.Organization.Create.schema())
+        |> Util.underscore()
+        |> Map.put("user_id", user.id)
+
+      conn =
+        post(
+          conn,
+          Routes.user_organization_path(@endpoint, :create),
+          create_params
+        )
+
+      organization_json = json_response(conn, 201)
+
+      assert organization_json["name"] == create_params["name"]
+    end
+  end
+
+  describe "update organization" do
+    test "should return updated organization", %{conn: conn, user: user} do
+      %{id: organization_id} =
         OpenApiSpex.Schema.example(Schema.Organization.Create.schema())
         |> Util.underscore()
         |> Map.put("user_id", user.id)
         |> Service.Organization.Create.new!()
         |> Service.Organization.Create.handle!()
 
+      update_params = OpenApiSpex.Schema.example(Schema.Organization.Update.schema())
+
       conn =
-        get(
+        put(
           conn,
-          Routes.organization_path(@endpoint, :show_by_url, url)
+          Routes.user_organization_path(@endpoint, :update, organization_id),
+          update_params
         )
 
       organization_json = json_response(conn, 200)
 
-      assert organization_json["url"] == url
+      assert organization_json["name"] == update_params["name"]
+    end
+  end
+
+  describe "delete organization" do
+    test "should delete organization", %{conn: conn, user: user} do
+      %{id: organization_id} =
+        OpenApiSpex.Schema.example(Schema.Organization.Create.schema())
+        |> Util.underscore()
+        |> Map.put("user_id", user.id)
+        |> Service.Organization.Create.new!()
+        |> Service.Organization.Create.handle!()
+
+      delete_conn =
+        delete(
+          conn,
+          Routes.user_organization_path(@endpoint, :delete, organization_id)
+        )
+
+      response(delete_conn, 204)
+
+      conn =
+        get(
+          conn,
+          Routes.user_organization_path(@endpoint, :show, organization_id)
+        )
+
+      json_response(conn, 404)
     end
   end
 end

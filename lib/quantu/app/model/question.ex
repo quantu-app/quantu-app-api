@@ -5,6 +5,7 @@ defmodule Quantu.App.Model.Question do
 
   schema "questions" do
     belongs_to(:organization, Model.Organization, type: :binary_id)
+    many_to_many(:quizzes, Model.Question, join_through: Model.QuizQuestionJoin)
 
     field(:type, :string, null: false)
     field(:prompt, :map, null: false)

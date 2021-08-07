@@ -1,5 +1,6 @@
-defmodule Quantu.App.Service.Organization.Show do
+defmodule Quantu.App.Service.Quiz.Index do
   use Aicacia.Handler
+  import Ecto.Query
 
   alias Quantu.App.{Model, Repo}
 
@@ -17,7 +18,10 @@ defmodule Quantu.App.Service.Organization.Show do
 
   def handle(%{} = command) do
     Repo.run(fn ->
-      Repo.get_by!(Model.Organization, id: command.organization_id)
+      from(q in Model.Quiz,
+        where: q.organization_id == ^command.organization_id,
+      )
+      |> Repo.all()
     end)
   end
 end

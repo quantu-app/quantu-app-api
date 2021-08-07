@@ -12,18 +12,21 @@ defmodule Quantu.App.Service.Organization.Index do
   def changeset(%{} = attrs) do
     %__MODULE__{}
     |> cast(attrs, [:user_id])
-    |> validate_required([:user_id])
     |> foreign_key_constraint(:user_id)
   end
 
   def handle(%{} = command) do
     Repo.run(fn ->
-      from(b in Model.Organization,
-        where:
-          b.user_id ==
-            ^command.user_id
-      )
-      |> Repo.all()
+      if Map.get(command, :user_id) == nil do
+        Repo.all(Model.Organization)
+      else
+        from(b in Model.Organization,
+          where:
+            b.user_id ==
+              ^command.user_id
+        )
+        |> Repo.all()
+      end
     end)
   end
 end

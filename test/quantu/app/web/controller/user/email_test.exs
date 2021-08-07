@@ -27,7 +27,7 @@ defmodule Quantu.App.Web.Controller.User.EmailTest do
       conn =
         post(
           conn,
-          Routes.email_path(@endpoint, :create),
+          Routes.user_email_path(@endpoint, :create),
           request_body
         )
 
@@ -43,7 +43,7 @@ defmodule Quantu.App.Web.Controller.User.EmailTest do
       conn =
         post(
           conn,
-          Routes.email_path(@endpoint, :create),
+          Routes.user_email_path(@endpoint, :create),
           %{
             "email" => "email@domain.com"
           }
@@ -70,7 +70,7 @@ defmodule Quantu.App.Web.Controller.User.EmailTest do
       conn =
         put(
           conn,
-          Routes.email_path(@endpoint, :confirm),
+          Routes.user_email_path(@endpoint, :confirm),
           %{
             "confirmation_token" => confirmation_token.confirmation_token
           }
@@ -100,7 +100,7 @@ defmodule Quantu.App.Web.Controller.User.EmailTest do
       conn =
         put(
           conn,
-          Routes.email_path(@endpoint, :set_primary, email.id)
+          Routes.user_email_path(@endpoint, :set_primary, email.id)
         )
 
       email = json_response(conn, 200)
@@ -121,7 +121,7 @@ defmodule Quantu.App.Web.Controller.User.EmailTest do
       conn =
         delete(
           conn,
-          Routes.email_path(@endpoint, :delete, email.id)
+          Routes.user_email_path(@endpoint, :delete, email.id)
         )
 
       json_response(conn, 200)
@@ -138,7 +138,7 @@ defmodule Quantu.App.Web.Controller.User.EmailTest do
       conn =
         delete(
           conn,
-          Routes.email_path(@endpoint, :delete, email.id)
+          Routes.user_email_path(@endpoint, :delete, email.id)
         )
 
       json_response(conn, 404)

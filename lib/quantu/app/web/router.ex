@@ -73,8 +73,8 @@ defmodule Quantu.App.Web.Router do
 
       pipe_through(:auth_access)
 
-      scope "/user" do
-        scope "/email", User do
+      scope "/user", User, as: :user do
+        scope "/email" do
           post("/", Email, :create)
           put("/confirm", Email, :confirm)
           patch("/confirm", Email, :confirm)
@@ -83,24 +83,32 @@ defmodule Quantu.App.Web.Router do
           delete("/:id", Email, :delete)
         end
 
-        scope "/username", User do
+        scope "/username" do
           put("/", Username, :update)
           patch("/", Username, :update)
         end
 
-        scope "/password", User do
+        scope "/password" do
           put("/reset", Password, :reset)
           patch("/reset", Password, :reset)
         end
 
-        scope "/deactivate", User do
+        scope "/deactivate" do
           delete("/", Deactivate, :deactivate)
         end
 
-        resources "/organizations", Organization, except: [:new, :edit]
+        resources "/organizations", Organization, except: [:new, :edit] do
+          resources "/questions", Question, except: [:new, :edit]
+          resources "/quizzes", Quiz, except: [:new, :edit]
+        end
       end
 
-      get("/organizations/:url", Organization, :show_by_url)
+      resources "/organizations", Organization, only: [:index, :show] do
+        resources "/questions", Question, only: [:index, :show]
+        resources "/quizzes", Quiz, only: [:index, :show]
+      end
+
+      get("/organization/:url", Organization, :show_by_url)
     end
   end
 end

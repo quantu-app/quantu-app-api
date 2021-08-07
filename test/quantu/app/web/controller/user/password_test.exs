@@ -25,7 +25,7 @@ defmodule Quantu.App.Web.Controller.User.PasswordTest do
       conn =
         put(
           conn,
-          Routes.password_path(@endpoint, :reset),
+          Routes.user_password_path(@endpoint, :reset),
           %{
             "oldPassword" => "password",
             "password" => "new_password"
@@ -39,7 +39,7 @@ defmodule Quantu.App.Web.Controller.User.PasswordTest do
       conn =
         put(
           conn,
-          Routes.password_path(@endpoint, :reset),
+          Routes.user_password_path(@endpoint, :reset),
           %{
             "oldPassword" => "invalid_old_password",
             "password" => "password"

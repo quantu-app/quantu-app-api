@@ -31,7 +31,7 @@ defmodule Quantu.App.Web.Schema.Organization do
       example: %{
         "id" => "1234",
         "userId" => "123",
-        "name" => "My Organization Entry",
+        "name" => "My Organization",
         "url" => "my-organization-entry",
         "insertedAt" => "2017-09-12T12:34:55Z",
         "updatedAt" => "2017-09-13T10:11:12Z"
@@ -51,7 +51,7 @@ defmodule Quantu.App.Web.Schema.Organization do
         %{
           "id" => "1234",
           "userId" => "123",
-          "name" => "My Organization Entry",
+          "name" => "My Organization",
           "url" => "my-organization-entry",
           "insertedAt" => "2017-09-12T12:34:55Z",
           "updatedAt" => "2017-09-13T10:11:12Z"
@@ -76,7 +76,7 @@ defmodule Quantu.App.Web.Schema.Organization do
         :url
       ],
       example: %{
-        "name" => "My Organization Entry",
+        "name" => "My Organization",
         "url" => "my-organization-entry",
       }
     })
