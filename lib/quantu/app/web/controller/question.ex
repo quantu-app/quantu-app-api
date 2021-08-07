@@ -18,13 +18,13 @@ defmodule Quantu.App.Web.Controller.Question do
          ok: {"Organization/Quiz Questions", "application/json", Schema.Question.List}
        ],
        parameters: [
-         organization_id: [
-           in: :path,
+         organizationId: [
+           in: :query,
            description: "Organization Id",
            type: :string,
            example: "1001"
          ],
-         quiz_id: [
+         quizId: [
            in: :query,
            description: "Quiz Id",
            type: :string,
@@ -34,8 +34,8 @@ defmodule Quantu.App.Web.Controller.Question do
   def index(conn, params) do
     with {:ok, command} <-
            Service.Question.Index.new(%{
-             organization_id: Map.get(params, "organization_id"),
-             quiz_id: Map.get(params, "quiz_id")
+             organization_id: Map.get(params, "organizationId"),
+             quiz_id: Map.get(params, "quizId")
            }),
          {:ok, questions} <- Service.Question.Index.handle(command) do
       conn

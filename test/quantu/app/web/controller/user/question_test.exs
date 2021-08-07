@@ -140,8 +140,7 @@ defmodule Quantu.App.Web.Controller.User.QuestionTest do
       conn =
         post(
           conn,
-          Routes.user_organization_question_path(@endpoint, :create, organization.id),
-          create_params
+          Routes.user_organization_question_path(@endpoint, :create, organization.id, create_params)
         )
 
       question_json = json_response(conn, 201)

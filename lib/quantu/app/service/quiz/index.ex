@@ -12,16 +12,20 @@ defmodule Quantu.App.Service.Quiz.Index do
   def changeset(%{} = attrs) do
     %__MODULE__{}
     |> cast(attrs, [:organization_id])
-    |> validate_required([:organization_id])
     |> foreign_key_constraint(:organization_id)
   end
 
   def handle(%{} = command) do
     Repo.run(fn ->
-      from(q in Model.Quiz,
-        where: q.organization_id == ^command.organization_id,
-      )
-      |> Repo.all()
+      if Map.get(command, :organization_id) == nil do
+        from(q in Model.Quiz)
+        |> Repo.all()
+      else
+        from(q in Model.Quiz,
+          where: q.organization_id == ^command.organization_id,
+        )
+        |> Repo.all()
+      end
     end)
   end
 end

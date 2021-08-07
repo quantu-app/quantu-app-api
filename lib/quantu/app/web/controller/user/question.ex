@@ -18,13 +18,13 @@ defmodule Quantu.App.Web.Controller.User.Question do
          ok: {"Organization/Quiz Questions", "application/json", Schema.Question.List}
        ],
        parameters: [
-         organization_id: [
+         organizationId: [
            in: :path,
            description: "Organization Id",
            type: :string,
            example: "1001"
          ],
-         quiz_id: [
+         quizId: [
            in: :query,
            description: "Quiz Id",
            type: :string,
@@ -35,7 +35,7 @@ defmodule Quantu.App.Web.Controller.User.Question do
     with {:ok, command} <-
            Service.Question.Index.new(%{
              organization_id: Map.get(params, "organization_id"),
-             quiz_id: Map.get(params, "quiz_id")
+             quiz_id: Map.get(params, "quizId")
            }),
          {:ok, questions} <- Service.Question.Index.handle(command) do
       conn
@@ -54,7 +54,13 @@ defmodule Quantu.App.Web.Controller.User.Question do
          ok: {"Organization/Quiz Question", "application/json", Schema.Question.Show}
        ],
        parameters: [
-         id: [in: :path, description: "Question Id", type: :string, example: "1001"]
+         id: [in: :path, description: "Question Id", type: :string, example: "1001"],
+         organizationId: [
+           in: :path,
+           description: "Organization Id",
+           type: :string,
+           example: "1001"
+         ]
        ]
   def show(conn, params) do
     with {:ok, command} <- Service.Question.Show.new(%{question_id: Map.get(params, "id")}),
@@ -78,7 +84,7 @@ defmodule Quantu.App.Web.Controller.User.Question do
          ok: {"Organization/Quiz Question", "application/json", Schema.Question.Show}
        ],
        parameters: [
-         organization_id: [
+         organizationId: [
            in: :path,
            description: "Organization Id",
            type: :string,
@@ -87,11 +93,7 @@ defmodule Quantu.App.Web.Controller.User.Question do
        ]
   def create(conn, params) do
     with {:ok, command} <-
-           Service.Question.Create.new(
-             Map.merge(Util.underscore(params), %{
-               "organization_id" => Map.get(params, "organization_id")
-             })
-           ),
+           Service.Question.Create.new(Util.underscore(params)),
          {:ok, question} <- Service.Question.Create.handle(command) do
       conn
       |> put_status(201)
@@ -113,7 +115,7 @@ defmodule Quantu.App.Web.Controller.User.Question do
        ],
        parameters: [
          id: [in: :path, description: "Question Id", type: :string, example: "1001"],
-         organization_id: [
+         organizationId: [
            in: :path,
            description: "Organization Id",
            type: :string,
@@ -124,8 +126,7 @@ defmodule Quantu.App.Web.Controller.User.Question do
     with {:ok, command} <-
            Service.Question.Update.new(
              Map.merge(Util.underscore(params), %{
-               "question_id" => Map.get(params, "id"),
-               "organization_id" => Map.get(params, "organization_id")
+               "question_id" => Map.get(params, "id")
              })
            ),
          {:ok, question} <- Service.Question.Update.handle(command) do
@@ -145,7 +146,13 @@ defmodule Quantu.App.Web.Controller.User.Question do
          no_content: "Empty response"
        ],
        parameters: [
-         id: [in: :path, description: "Question Id", type: :string, example: "1001"]
+         id: [in: :path, description: "Question Id", type: :string, example: "1001"],
+         organizationId: [
+           in: :path,
+           description: "Organization Id",
+           type: :string,
+           example: "1001"
+         ]
        ]
   def delete(conn, params) do
     with {:ok, command} <-

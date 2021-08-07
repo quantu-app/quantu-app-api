@@ -103,10 +103,9 @@ defmodule Quantu.App.Web.Router do
         end
       end
 
-      resources "/organizations", Organization, only: [:index, :show] do
-        resources "/questions", Question, only: [:index, :show]
-        resources "/quizzes", Quiz, only: [:index, :show]
-      end
+      resources "/organizations", Organization, only: [:index, :show]
+      resources "/questions", Question, only: [:index, :show]
+      resources "/quizzes", Quiz, only: [:index, :show]
 
       get("/organization/:url", Organization, :show_by_url)
     end

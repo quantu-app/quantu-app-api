@@ -72,12 +72,11 @@ defmodule Quantu.App.Web.Schema.Organization do
         url: %Schema{type: :string, description: "Organization url"}
       },
       required: [
-        :name,
-        :url
+        :name
       ],
       example: %{
         "name" => "My Organization",
-        "url" => "my-organization-entry",
+        "url" => "my-organization-entry"
       }
     })
   end

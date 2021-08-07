@@ -39,7 +39,7 @@ defmodule Quantu.App.Web.Controller.QuizTest do
       conn =
         get(
           conn,
-          Routes.organization_quiz_path(@endpoint, :index, organization.id)
+          Routes.quiz_path(@endpoint, :index)
         )
 
       quizzes_json = json_response(conn, 200)
@@ -58,7 +58,7 @@ defmodule Quantu.App.Web.Controller.QuizTest do
       conn =
         get(
           conn,
-          Routes.organization_quiz_path(@endpoint, :show, organization.id, quiz_id)
+          Routes.quiz_path(@endpoint, :show, quiz_id)
         )
 
       quiz_json = json_response(conn, 200)
