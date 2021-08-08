@@ -73,8 +73,8 @@ defmodule Quantu.App.Web.Schema.Quiz do
       type: :object,
       properties: %{
         name: %Schema{type: :string, description: "Quiz name"},
-        description: %Schema{type: :string, description: "Quiz description"},
-        tags: %Schema{type: :array, items: %Schema{type: :string}, description: "Quiz tags"},
+        description: %Schema{type: :string, nullable: true, description: "Quiz description"},
+        tags: %Schema{type: :array, items: %Schema{type: :string}, nullable: true, description: "Quiz tags"},
       },
       required: [
         :name
@@ -95,9 +95,9 @@ defmodule Quantu.App.Web.Schema.Quiz do
       description: "quiz update",
       type: :object,
       properties: %{
-        name: %Schema{type: :string, description: "Quiz name"},
-        description: %Schema{type: :string, description: "Quiz description"},
-        tags: %Schema{type: :array, items: %Schema{type: :string}, description: "Quiz tags"},
+        name: %Schema{type: :string, nullable: true, description: "Quiz name"},
+        description: %Schema{type: :string, nullable: true, description: "Quiz description"},
+        tags: %Schema{type: :array, items: %Schema{type: :string}, nullable: true, description: "Quiz tags"},
       },
       required: [],
       example: %{

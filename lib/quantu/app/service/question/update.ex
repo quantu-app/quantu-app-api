@@ -8,6 +8,7 @@ defmodule Quantu.App.Service.Question.Update do
   schema "" do
     belongs_to(:quiz, Model.Quiz)
     belongs_to(:question, Model.Question)
+    field(:name, :string)
     field(:type, :string, null: false)
     field(:prompt, :map, null: false)
     field(:index, :integer)
@@ -19,6 +20,7 @@ defmodule Quantu.App.Service.Question.Update do
     |> cast(attrs, [
       :quiz_id,
       :question_id,
+      :name,
       :type,
       :prompt,
       :index,
@@ -38,7 +40,7 @@ defmodule Quantu.App.Service.Question.Update do
     Repo.run(fn ->
       question =
         Repo.get_by!(Model.Question, id: command.question_id)
-        |> cast(command, [:type, :prompt, :tags])
+        |> cast(command, [:name, :type, :prompt, :tags])
         |> Repo.update!()
 
       if Map.get(command, :quiz_id) == nil do

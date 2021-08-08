@@ -15,6 +15,7 @@ defmodule Quantu.App.Web.View.Question do
       organizationId: question.organization_id,
       quizId: Map.get(question, :quiz_id),
       index: Map.get(question, :index),
+      name: question.name,
       type: question.type,
       prompt: render_prompt(question.prompt),
       tags: question.tags,

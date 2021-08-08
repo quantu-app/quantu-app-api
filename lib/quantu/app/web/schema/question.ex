@@ -97,6 +97,7 @@ defmodule Quantu.App.Web.Schema.Question do
         id: %Schema{type: :integer, description: "Id"},
         organizationId: %Schema{type: :integer, description: "Organization Id"},
         quizId: %Schema{type: :integer, nullable: true, description: "Quiz Id"},
+        name: %Schema{type: :string, nullable: true, description: "Question name"},
         type: %Schema{type: :string, description: "Question type"},
         prompt: Prompt,
         tags: %Schema{type: :array, items: %Schema{type: :string}, description: "Question tags"},
@@ -110,6 +111,7 @@ defmodule Quantu.App.Web.Schema.Question do
       required: [
         :id,
         :organizationId,
+        :name,
         :type,
         :prompt,
         :tags,
@@ -119,6 +121,7 @@ defmodule Quantu.App.Web.Schema.Question do
       example: %{
         "id" => 1234,
         "organizationId" => "6b934301-847a-4ce9-85fb-82e8eb7c9ab6",
+        "name" => "Question",
         "type" => "flash_card",
         "prompt" => %{
           "front" => [%{"insert" => "Front"}],
@@ -143,6 +146,7 @@ defmodule Quantu.App.Web.Schema.Question do
         %{
           "id" => 1234,
           "organizationId" => "6b934301-847a-4ce9-85fb-82e8eb7c9ab6",
+          "name" => "Question",
           "type" => "flash_card",
           "prompt" => %{
             "front" => [%{"insert" => "Front"}],
@@ -164,11 +168,12 @@ defmodule Quantu.App.Web.Schema.Question do
       description: "question create",
       type: :object,
       properties: %{
-        quizId: %Schema{type: :integer, description: "Quiz Id"},
+        quizId: %Schema{type: :integer, nullable: true, description: "Quiz Id"},
+        name: %Schema{type: :string, nullable: true, description: "Question name"},
         type: %Schema{type: :string, description: "Question type"},
         prompt: Prompt,
         tags: %Schema{type: :array, items: %Schema{type: :string}, description: "Question tags"},
-        index: %Schema{type: :integer, description: "Quiz Index"},
+        index: %Schema{type: :integer, nullable: true, description: "Quiz Index"},
       },
       required: [
         :type,
@@ -176,6 +181,7 @@ defmodule Quantu.App.Web.Schema.Question do
         :tags
       ],
       example: %{
+        "name" => "Question",
         "type" => "flash_card",
         "prompt" => %{
           "front" => [%{"insert" => "Front"}],
@@ -194,14 +200,16 @@ defmodule Quantu.App.Web.Schema.Question do
       description: "question update",
       type: :object,
       properties: %{
-        quizId: %Schema{type: :integer, description: "Quiz Id"},
+        quizId: %Schema{type: :integer, nullable: true, description: "Quiz Id"},
+        name: %Schema{type: :string, nullable: true, description: "Question name"},
         type: %Schema{type: :string, description: "Question type"},
         prompt: Prompt,
         tags: %Schema{type: :array, items: %Schema{type: :string}, description: "Question tags"},
-        index: %Schema{type: :integer, description: "Quiz Index"},
+        index: %Schema{type: :integer, nullable: true, description: "Quiz Index"},
       },
       required: [],
       example: %{
+        "name" => "Question",
         "type" => "multiple_choice",
         "prompt" => %{
           "question" => [%{"insert" => "Which is the lowest Number?"}],

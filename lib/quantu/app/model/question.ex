@@ -7,6 +7,7 @@ defmodule Quantu.App.Model.Question do
     belongs_to(:organization, Model.Organization)
     many_to_many(:quizzes, Model.Question, join_through: Model.QuizQuestionJoin)
 
+    field(:name, :string)
     field(:type, :string, null: false)
     field(:prompt, :map, null: false)
     field(:tags, {:array, :string}, null: false, default: [])
