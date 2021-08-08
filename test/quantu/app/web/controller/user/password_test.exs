@@ -1,5 +1,6 @@
 defmodule Quantu.App.Web.Controller.User.PasswordTest do
   use Quantu.App.Web.Case
+  import OpenApiSpex.TestAssertions
 
   alias Quantu.App.{Service, Util}
   alias Quantu.App.Web.{Guardian, Schema}
@@ -32,7 +33,9 @@ defmodule Quantu.App.Web.Controller.User.PasswordTest do
           }
         )
 
-      json_response(conn, 201)
+      user_json = json_response(conn, 201)
+
+      assert_schema user_json, "User", Quantu.App.Web.ApiSpec.spec()
     end
 
     test "should fail to reset password if old password is invalid", %{conn: conn} do

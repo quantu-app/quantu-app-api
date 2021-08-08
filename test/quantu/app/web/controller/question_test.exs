@@ -1,5 +1,6 @@
 defmodule Quantu.App.Web.Controller.QuestionTest do
   use Quantu.App.Web.Case
+  import OpenApiSpex.TestAssertions
 
   alias Quantu.App.{Service, Util}
   alias Quantu.App.Web.{Guardian, Schema}
@@ -44,6 +45,7 @@ defmodule Quantu.App.Web.Controller.QuestionTest do
 
       questions_json = json_response(conn, 200)
 
+      assert_schema questions_json, "QuestionList", Quantu.App.Web.ApiSpec.spec()
       assert Enum.at(questions_json, 0)["id"] == question_id
     end
 
@@ -71,6 +73,7 @@ defmodule Quantu.App.Web.Controller.QuestionTest do
 
       questions_json = json_response(conn, 200)
 
+      assert_schema questions_json, "QuestionList", Quantu.App.Web.ApiSpec.spec()
       assert Enum.at(questions_json, 0)["id"] == question_id
     end
 
@@ -90,6 +93,7 @@ defmodule Quantu.App.Web.Controller.QuestionTest do
 
       question_json = json_response(conn, 200)
 
+      assert_schema question_json, "Question", Quantu.App.Web.ApiSpec.spec()
       assert question_json["id"] == question_id
     end
   end

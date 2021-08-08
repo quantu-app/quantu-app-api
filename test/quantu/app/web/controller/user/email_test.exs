@@ -1,5 +1,6 @@
 defmodule Quantu.App.Web.Controller.User.EmailTest do
   use Quantu.App.Web.Case
+  import OpenApiSpex.TestAssertions
 
   alias Quantu.App.{Service, Repo, Model, Util}
   alias Quantu.App.Web.{Guardian, Schema}
@@ -31,10 +32,11 @@ defmodule Quantu.App.Web.Controller.User.EmailTest do
           request_body
         )
 
-      email = json_response(conn, 201)
+      email_json = json_response(conn, 201)
 
-      assert email["email"] == "example@domain.com"
-      assert email["userId"] == user.id
+      assert_schema email_json, "Email", Quantu.App.Web.ApiSpec.spec()
+      assert email_json["email"] == "example@domain.com"
+      assert email_json["userId"] == user.id
     end
 
     test "should fail to create a new email if already in use", %{conn: conn, user: user} do
@@ -49,9 +51,9 @@ defmodule Quantu.App.Web.Controller.User.EmailTest do
           }
         )
 
-      email = json_response(conn, 422)
+        email_json = json_response(conn, 422)
 
-      assert email["errors"]["email"] == ["has already been taken"]
+      assert email_json["errors"]["email"] == ["has already been taken"]
     end
   end
 
@@ -73,9 +75,10 @@ defmodule Quantu.App.Web.Controller.User.EmailTest do
           Routes.user_email_path(@endpoint, :confirm, confirmationToken: confirmation_token.confirmation_token)
         )
 
-      user = json_response(conn, 200)
+      user_json = json_response(conn, 200)
 
-      assert user["email"]["confirmed"] == true
+      assert_schema user_json, "User", Quantu.App.Web.ApiSpec.spec()
+      assert user_json["email"]["confirmed"] == true
     end
   end
 
@@ -100,9 +103,10 @@ defmodule Quantu.App.Web.Controller.User.EmailTest do
           Routes.user_email_path(@endpoint, :set_primary, email.id)
         )
 
-      email = json_response(conn, 200)
+      email_json = json_response(conn, 200)
 
-      assert email["primary"] == true
+      assert_schema email_json, "Email", Quantu.App.Web.ApiSpec.spec()
+      assert email_json["primary"] == true
       assert Repo.get!(Model.Email, old_email.id).primary == false
     end
   end
@@ -121,7 +125,7 @@ defmodule Quantu.App.Web.Controller.User.EmailTest do
           Routes.user_email_path(@endpoint, :delete, email.id)
         )
 
-      json_response(conn, 200)
+      response(conn, 204)
     end
 
     test "should fail to delete email if primary", %{conn: conn, user: user} do

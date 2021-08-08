@@ -96,7 +96,7 @@ defmodule Quantu.App.Web.Schema.Question do
       properties: %{
         id: %Schema{type: :integer, description: "Id"},
         organizationId: %Schema{type: :integer, description: "Organization Id"},
-        quizId: %Schema{type: :integer, description: "Quiz Id"},
+        quizId: %Schema{type: :integer, nullable: true, description: "Quiz Id"},
         type: %Schema{type: :string, description: "Question type"},
         prompt: Prompt,
         tags: %Schema{type: :array, items: %Schema{type: :string}, description: "Question tags"},

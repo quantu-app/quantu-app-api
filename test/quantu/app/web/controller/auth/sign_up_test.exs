@@ -1,5 +1,6 @@
 defmodule Quantu.App.Web.Controller.Auth.SignUpTest do
   use Quantu.App.Web.Case
+  import OpenApiSpex.TestAssertions
 
   setup %{conn: conn} do
     {:ok,
@@ -21,7 +22,9 @@ defmodule Quantu.App.Web.Controller.Auth.SignUpTest do
           }
         )
 
-      json_response(conn, 201)
+      user_json = json_response(conn, 201)
+
+      assert_schema user_json, "User", Quantu.App.Web.ApiSpec.spec()
     end
   end
 end

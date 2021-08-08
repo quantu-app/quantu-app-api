@@ -101,7 +101,7 @@ defmodule Quantu.App.Web.Controller.User.Email do
     summary: "Delete an Email",
     description: "Delete a non-primary Email",
     responses: [
-      ok: {"Delete non-primary Email Response", "application/json", Schema.User.Email}
+      no_content: "Empty response"
     ],
     parameters: [
       id: [in: :path, description: "Email Id", type: :integer, example: 113]
@@ -113,11 +113,8 @@ defmodule Quantu.App.Web.Controller.User.Email do
 
     with {:ok, command} <-
            Service.Email.Delete.new(%{user_id: resource_user.id, email_id: id}),
-         {:ok, email} <- Service.Email.Delete.handle(command) do
-      conn
-      |> put_status(200)
-      |> put_view(View.Email)
-      |> render("show.json", email: email)
+         {:ok, _email} <- Service.Email.Delete.handle(command) do
+      send_resp(conn, :no_content, "")
     end
   end
 end

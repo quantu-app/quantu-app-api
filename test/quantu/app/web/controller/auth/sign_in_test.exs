@@ -1,5 +1,6 @@
 defmodule Quantu.App.Web.Controller.Auth.SignInTest do
   use Quantu.App.Web.Case
+  import OpenApiSpex.TestAssertions
 
   alias Quantu.App.Service
 
@@ -26,6 +27,7 @@ defmodule Quantu.App.Web.Controller.Auth.SignInTest do
 
       user_json = json_response(conn, 200)
 
+      assert_schema user_json, "User", Quantu.App.Web.ApiSpec.spec()
       assert user_json["id"] == user.id
     end
 
@@ -44,6 +46,7 @@ defmodule Quantu.App.Web.Controller.Auth.SignInTest do
 
       user_json = json_response(conn, 200)
 
+      assert_schema user_json, "User", Quantu.App.Web.ApiSpec.spec()
       assert user_json["id"] == user.id
     end
 

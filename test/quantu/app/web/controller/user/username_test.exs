@@ -1,5 +1,6 @@
 defmodule Quantu.App.Web.Controller.User.UsernameTest do
   use Quantu.App.Web.Case
+  import OpenApiSpex.TestAssertions
 
   alias Quantu.App.{Service, Util}
   alias Quantu.App.Web.{Guardian, Schema}
@@ -32,9 +33,10 @@ defmodule Quantu.App.Web.Controller.User.UsernameTest do
 
       assert user.username == "username"
 
-      user = json_response(conn, 200)
+      user_json = json_response(conn, 200)
 
-      assert user["username"] == "new_username"
+      assert_schema user_json, "User", Quantu.App.Web.ApiSpec.spec()
+      assert user_json["username"] == "new_username"
     end
 
     test "should fail to update user's username if already in use", %{conn: conn} do

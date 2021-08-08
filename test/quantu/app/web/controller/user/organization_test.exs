@@ -1,5 +1,6 @@
 defmodule Quantu.App.Web.Controller.User.OrganizationTest do
   use Quantu.App.Web.Case
+  import OpenApiSpex.TestAssertions
 
   alias Quantu.App.{Service, Util}
   alias Quantu.App.Web.{Guardian, Schema}
@@ -36,6 +37,7 @@ defmodule Quantu.App.Web.Controller.User.OrganizationTest do
 
       organizations_json = json_response(conn, 200)
 
+      assert_schema organizations_json, "OrganizationList", Quantu.App.Web.ApiSpec.spec()
       assert Enum.at(organizations_json, 0)["id"] == organization_id
     end
 
@@ -55,6 +57,7 @@ defmodule Quantu.App.Web.Controller.User.OrganizationTest do
 
       organization_json = json_response(conn, 200)
 
+      assert_schema organization_json, "Organization", Quantu.App.Web.ApiSpec.spec()
       assert organization_json["id"] == organization_id
     end
   end
@@ -75,6 +78,7 @@ defmodule Quantu.App.Web.Controller.User.OrganizationTest do
 
       organization_json = json_response(conn, 201)
 
+      assert_schema organization_json, "Organization", Quantu.App.Web.ApiSpec.spec()
       assert organization_json["name"] == create_params["name"]
     end
   end
@@ -99,6 +103,7 @@ defmodule Quantu.App.Web.Controller.User.OrganizationTest do
 
       organization_json = json_response(conn, 200)
 
+      assert_schema organization_json, "Organization", Quantu.App.Web.ApiSpec.spec()
       assert organization_json["name"] == update_params["name"]
     end
   end

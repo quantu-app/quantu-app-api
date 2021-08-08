@@ -21,6 +21,7 @@ defmodule Quantu.App.Web.Schema.User do
         },
         updatedAt: %Schema{type: :string, description: "Update timestamp", format: :"date-time"}
       },
+      nullable: true,
       required: [:id, :userId, :email, :confirmed, :primary, :insertedAt, :updatedAt],
       example: %{
         "id" => 1234,

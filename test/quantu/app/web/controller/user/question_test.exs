@@ -1,5 +1,6 @@
 defmodule Quantu.App.Web.Controller.User.QuestionTest do
   use Quantu.App.Web.Case
+  import OpenApiSpex.TestAssertions
 
   alias Quantu.App.{Service, Util}
   alias Quantu.App.Web.{Guardian, Schema}
@@ -44,6 +45,7 @@ defmodule Quantu.App.Web.Controller.User.QuestionTest do
 
       questions_json = json_response(conn, 200)
 
+      assert_schema questions_json, "QuestionList", Quantu.App.Web.ApiSpec.spec()
       assert Enum.at(questions_json, 0)["id"] == question_id
     end
 
@@ -73,6 +75,7 @@ defmodule Quantu.App.Web.Controller.User.QuestionTest do
 
       questions_json = json_response(conn, 200)
 
+      assert_schema questions_json, "QuestionList", Quantu.App.Web.ApiSpec.spec()
       assert Enum.at(questions_json, 0)["id"] == question_id
     end
 
@@ -92,6 +95,7 @@ defmodule Quantu.App.Web.Controller.User.QuestionTest do
 
       question_json = json_response(conn, 200)
 
+      assert_schema question_json, "Question", Quantu.App.Web.ApiSpec.spec()
       assert question_json["id"] == question_id
     end
   end
@@ -112,6 +116,7 @@ defmodule Quantu.App.Web.Controller.User.QuestionTest do
 
       question_json = json_response(conn, 201)
 
+      assert_schema question_json, "Question", Quantu.App.Web.ApiSpec.spec()
       assert question_json["type"] == create_params["type"]
     end
 
@@ -167,6 +172,7 @@ defmodule Quantu.App.Web.Controller.User.QuestionTest do
 
       question_json = json_response(conn, 201)
 
+      assert_schema question_json, "Question", Quantu.App.Web.ApiSpec.spec()
       assert question_json["type"] == create_params["type"]
       assert question_json["index"] == 1
     end
@@ -197,6 +203,7 @@ defmodule Quantu.App.Web.Controller.User.QuestionTest do
 
       question_json = json_response(conn, 200)
 
+      assert_schema question_json, "Question", Quantu.App.Web.ApiSpec.spec()
       assert question_json["type"] == update_params["type"]
     end
 
@@ -246,6 +253,7 @@ defmodule Quantu.App.Web.Controller.User.QuestionTest do
 
       question_json = json_response(conn, 200)
 
+      assert_schema question_json, "Question", Quantu.App.Web.ApiSpec.spec()
       assert question_json["type"] == update_params["type"]
       assert question_json["index"] == 0
 
