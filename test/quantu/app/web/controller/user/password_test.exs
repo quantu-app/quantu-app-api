@@ -17,7 +17,7 @@ defmodule Quantu.App.Web.Controller.User.PasswordTest do
      user: user,
      conn:
        conn
-       |> put_req_header("accept", "application/json")}
+       |> put_req_header("content-type", "application/json")}
   end
 
   describe "password reset" do

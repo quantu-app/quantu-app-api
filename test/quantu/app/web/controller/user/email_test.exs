@@ -17,7 +17,7 @@ defmodule Quantu.App.Web.Controller.User.EmailTest do
      user: user,
      conn:
        conn
-       |> put_req_header("accept", "application/json")}
+       |> put_req_header("content-type", "application/json")}
   end
 
   describe "create" do
@@ -70,10 +70,7 @@ defmodule Quantu.App.Web.Controller.User.EmailTest do
       conn =
         put(
           conn,
-          Routes.user_email_path(@endpoint, :confirm),
-          %{
-            "confirmation_token" => confirmation_token.confirmation_token
-          }
+          Routes.user_email_path(@endpoint, :confirm, confirmationToken: confirmation_token.confirmation_token)
         )
 
       user = json_response(conn, 200)

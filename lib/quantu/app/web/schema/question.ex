@@ -71,6 +71,21 @@ defmodule Quantu.App.Web.Schema.Question do
     })
   end
 
+  defmodule Prompt do
+    require OpenApiSpex
+
+    OpenApiSpex.schema(%{
+      title: "QuestionPrompt",
+      description: "Question prompt",
+      type: :object,
+      oneOf: [MultipleChoice, FlashCard],
+      example: %{
+        "front" => [%{"insert" => "Front"}],
+        "back" => [%{"insert" => "Back"}]
+      }
+    })
+  end
+
   defmodule Show do
     require OpenApiSpex
 
@@ -83,7 +98,7 @@ defmodule Quantu.App.Web.Schema.Question do
         organizationId: %Schema{type: :integer, description: "Organization Id"},
         quizId: %Schema{type: :integer, description: "Quiz Id"},
         type: %Schema{type: :string, description: "Question type"},
-        prompt: %Schema{type: :object, oneOf: [FlashCard, MultipleChoice], description: "Question prompt"},
+        prompt: Prompt,
         tags: %Schema{type: :array, items: %Schema{type: :string}, description: "Question tags"},
         insertedAt: %Schema{
           type: :string,
@@ -151,7 +166,7 @@ defmodule Quantu.App.Web.Schema.Question do
       properties: %{
         quizId: %Schema{type: :integer, description: "Quiz Id"},
         type: %Schema{type: :string, description: "Question type"},
-        prompt: %Schema{type: :object, oneOf: [FlashCard, MultipleChoice], description: "Question prompt"},
+        prompt: Prompt,
         tags: %Schema{type: :array, items: %Schema{type: :string}, description: "Question tags"},
         index: %Schema{type: :integer, description: "Quiz Index"},
       },
@@ -181,7 +196,7 @@ defmodule Quantu.App.Web.Schema.Question do
       properties: %{
         quizId: %Schema{type: :integer, description: "Quiz Id"},
         type: %Schema{type: :string, description: "Question type"},
-        prompt: %Schema{type: :object, oneOf: [FlashCard, MultipleChoice], description: "Question prompt"},
+        prompt: Prompt,
         tags: %Schema{type: :array, items: %Schema{type: :string}, description: "Question tags"},
         index: %Schema{type: :integer, description: "Quiz Index"},
       },

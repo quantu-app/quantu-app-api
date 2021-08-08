@@ -5,7 +5,7 @@ defmodule Quantu.App.Web.Controller.Auth.SignUpTest do
     {:ok,
      conn:
        conn
-       |> put_req_header("accept", "application/json")}
+       |> put_req_header("content-type", "application/json")}
   end
 
   describe "username_and_password" do

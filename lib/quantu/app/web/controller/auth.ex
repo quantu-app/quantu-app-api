@@ -1,23 +1,24 @@
 defmodule Quantu.App.Web.Controller.Auth do
-  @moduledoc tags: ["Auth"]
-
   use Quantu.App.Web, :controller
-  use OpenApiSpex.Controller
+  use OpenApiSpex.ControllerSpecs
 
   alias Quantu.App.Service
   alias Quantu.App.Web.{Guardian, Schema, View}
 
   plug Ueberauth
+  plug(OpenApiSpex.Plug.CastAndValidate, json_render_error_v2: true)
   action_fallback(Controller.Fallback)
 
-  @doc """
-  Gets the Current User
+  tags ["Auth"]
 
-  Returns the current user based on the bearer token
-  """
-  @doc responses: [
-         ok: {"Current User Response", "application/json", Schema.User.Private}
-       ]
+  operation :current,
+    summary: "Gets the Current User",
+    description: "Returns the current user based on the bearer token",
+    responses: [
+      ok: {"Current User Response", "application/json", Schema.User.Private}
+    ],
+    security: [%{"authorization" => []}]
+
   def current(conn, _params) do
     resource_user = Guardian.Plug.current_resource(conn)
 
@@ -29,28 +30,30 @@ defmodule Quantu.App.Web.Controller.Auth do
     )
   end
 
-  @doc """
-  Sign current User out
+  operation :delete,
+    summary: "Sign current User out",
+    description: "Signs out the current User based on the bearer token",
+    responses: [
+      no_content: "Empty response"
+    ],
+    security: [%{"authorization" => []}]
 
-  Signs out the current User based on the bearer token
-  """
-  @doc responses: [
-         no_content: "Empty response"
-       ]
   def delete(conn, _params) do
     with {:ok, _claims} <- Guardian.revoke(Guardian.Plug.current_token(conn)) do
       send_resp(conn, :no_content, "")
     end
   end
 
-  @doc """
-  Signs in the Current User
+  operation :callback,
+    summary: "Signs in the Current User",
+    description: "Returns the current user",
+    responses: [
+      ok: {"User Response", "application/json", Schema.User.Private}
+    ],
+    parameters: [
+      provider: [in: :path, description: "Auth Provider", type: :string, example: "google"]
+    ]
 
-  Returns the current user
-  """
-  @doc responses: [
-         ok: {"User Response", "application/json", Schema.User.Private}
-       ]
   def callback(%{assigns: %{ueberauth_auth: auth}} = conn, _params) do
     with {:ok, user} <- Service.User.FromUeberauth.from_ueberauth(auth) do
       conn = Guardian.Plug.sign_in(conn, user)
@@ -64,4 +67,11 @@ defmodule Quantu.App.Web.Controller.Auth do
       )
     end
   end
+
+  operation :request,
+    summary: "Requests the providers context",
+    description: "Returns the providers context",
+    parameters: [
+      provider: [in: :path, description: "Auth Provider", type: :string, example: "google"]
+    ]
 end

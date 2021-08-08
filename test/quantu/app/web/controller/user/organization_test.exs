@@ -16,7 +16,7 @@ defmodule Quantu.App.Web.Controller.User.OrganizationTest do
      conn:
        conn
        |> Guardian.Plug.sign_in(user)
-       |> put_req_header("accept", "application/json")}
+       |> put_req_header("content-type", "application/json")}
   end
 
   describe "get index/show" do

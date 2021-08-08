@@ -1,36 +1,37 @@
 defmodule Quantu.App.Web.Controller.Question do
-  @moduledoc tags: ["Question"]
-
   use Quantu.App.Web, :controller
-  use OpenApiSpex.Controller
+  use OpenApiSpex.ControllerSpecs
 
   alias Quantu.App.Service
   alias Quantu.App.Web.{Schema, View}
 
+  plug(OpenApiSpex.Plug.CastAndValidate, json_render_error_v2: true)
   action_fallback(Quantu.App.Web.Controller.Fallback)
 
-  @doc """
-  List Questions
+  tags ["Question"]
 
-  Returns organization's questions
-  """
-  @doc responses: [
-         ok: {"Organization/Quiz Questions", "application/json", Schema.Question.List}
-       ],
-       parameters: [
-         organizationId: [
-           in: :query,
-           description: "Organization Id",
-           type: :integer,
-           example: 1001
-         ],
-         quizId: [
-           in: :query,
-           description: "Quiz Id",
-           type: :integer,
-           example: 123
-         ]
-       ]
+  operation :index,
+    summary: "List Questions",
+    description: "Returns organization's questions",
+    responses: [
+      ok: {"Organization/Quiz Questions", "application/json", Schema.Question.List}
+    ],
+    parameters: [
+      organizationId: [
+        in: :query,
+        description: "Organization Id",
+        type: :integer,
+        example: 1001
+      ],
+      quizId: [
+        in: :query,
+        description: "Quiz Id",
+        type: :integer,
+        example: 123
+      ]
+    ],
+    security: [%{"authorization" => []}]
+
   def index(conn, params) do
     with {:ok, command} <-
            Service.Question.Index.new(%{
@@ -45,19 +46,19 @@ defmodule Quantu.App.Web.Controller.Question do
     end
   end
 
-  @doc """
-  Get a Question
+  operation :show,
+    summary: "Get a Question",
+    description: "Returns organization's question",
+    responses: [
+      ok: {"Organization/Quiz Question", "application/json", Schema.Question.Show}
+    ],
+    parameters: [
+      id: [in: :path, description: "Question Id", type: :integer, example: 1001]
+    ],
+    security: [%{"authorization" => []}]
 
-  Returns organization's question
-  """
-  @doc responses: [
-         ok: {"Organization/Quiz Question", "application/json", Schema.Question.Show}
-       ],
-       parameters: [
-         id: [in: :path, description: "Question Id", type: :integer, example: 1001]
-       ]
-  def show(conn, params) do
-    with {:ok, command} <- Service.Question.Show.new(%{question_id: Map.get(params, "id")}),
+  def show(conn, %{id: id}) do
+    with {:ok, command} <- Service.Question.Show.new(%{question_id: id}),
          {:ok, question} <- Service.Question.Show.handle(command) do
       conn
       |> put_status(200)

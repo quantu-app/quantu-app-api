@@ -24,7 +24,7 @@ defmodule Quantu.App.Web.Controller.User.QuestionTest do
      conn:
        conn
        |> Guardian.Plug.sign_in(user)
-       |> put_req_header("accept", "application/json")}
+       |> put_req_header("content-type", "application/json")}
   end
 
   describe "get index/show" do
@@ -66,7 +66,9 @@ defmodule Quantu.App.Web.Controller.User.QuestionTest do
       conn =
         get(
           conn,
-          Routes.user_organization_question_path(@endpoint, :index, organization.id, quiz_id: quiz_id)
+          Routes.user_organization_question_path(@endpoint, :index, organization.id,
+            quizId: quiz_id
+          )
         )
 
       questions_json = json_response(conn, 200)
@@ -113,6 +115,23 @@ defmodule Quantu.App.Web.Controller.User.QuestionTest do
       assert question_json["type"] == create_params["type"]
     end
 
+    test "should fail to create question", %{conn: conn, organization: organization} do
+      create_params =
+        OpenApiSpex.Schema.example(Schema.Question.Create.schema())
+        |> Util.underscore()
+        |> Map.put("organization_id", organization.id)
+        |> Map.put("prompt", %{})
+
+      conn =
+        post(
+          conn,
+          Routes.user_organization_question_path(@endpoint, :create, organization.id),
+          create_params
+        )
+
+      json_response(conn, 422)
+    end
+
     test "should created question with new index for quiz", %{
       conn: conn,
       organization: organization
@@ -133,14 +152,17 @@ defmodule Quantu.App.Web.Controller.User.QuestionTest do
 
       create_params =
         OpenApiSpex.Schema.example(Schema.Question.Create.schema())
-        |> Util.underscore()
-        |> Map.put("organization_id", organization.id)
-        |> Map.put("quiz_id", quiz_id)
+        |> Map.put("quizId", quiz_id)
 
       conn =
         post(
           conn,
-          Routes.user_organization_question_path(@endpoint, :create, organization.id, create_params)
+          Routes.user_organization_question_path(
+            @endpoint,
+            :create,
+            organization.id
+          ),
+          create_params
         )
 
       question_json = json_response(conn, 201)
@@ -164,7 +186,12 @@ defmodule Quantu.App.Web.Controller.User.QuestionTest do
       conn =
         put(
           conn,
-          Routes.user_organization_question_path(@endpoint, :update, organization.id, question_id),
+          Routes.user_organization_question_path(
+            @endpoint,
+            :update,
+            organization.id,
+            question_id
+          ),
           update_params
         )
 
@@ -208,7 +235,12 @@ defmodule Quantu.App.Web.Controller.User.QuestionTest do
       conn =
         put(
           conn,
-          Routes.user_organization_question_path(@endpoint, :update, organization.id, question_id),
+          Routes.user_organization_question_path(
+            @endpoint,
+            :update,
+            organization.id,
+            question_id
+          ),
           update_params
         )
 

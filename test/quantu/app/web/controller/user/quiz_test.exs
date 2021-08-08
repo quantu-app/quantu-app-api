@@ -24,7 +24,7 @@ defmodule Quantu.App.Web.Controller.User.QuizTest do
      conn:
        conn
        |> Guardian.Plug.sign_in(user)
-       |> put_req_header("accept", "application/json")}
+       |> put_req_header("content-type", "application/json")}
   end
 
   describe "get index/show" do

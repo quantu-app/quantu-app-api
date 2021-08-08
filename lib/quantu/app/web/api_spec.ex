@@ -7,7 +7,9 @@ defmodule Quantu.App.Web.ApiSpec do
       %OpenApiSpex.OpenApi{
         servers: [
           OpenApiSpex.Server.from_endpoint(Quantu.App.Web.Endpoint),
-          "https://api.quantu.app"
+          %OpenApiSpex.Server{
+            url: "https://api.quantu.app"
+          }
         ],
         info: %OpenApiSpex.Info{
           title: Application.spec(:quantu_app, :description) |> to_string(),
@@ -16,7 +18,12 @@ defmodule Quantu.App.Web.ApiSpec do
         paths: OpenApiSpex.Paths.from_router(Quantu.App.Web.Router),
         components: %OpenApiSpex.Components{
           securitySchemes: %{
-            "authorization" => %OpenApiSpex.SecurityScheme{type: "http", scheme: "bearer"}
+            "authorization" => %OpenApiSpex.SecurityScheme{
+              type: "http",
+              scheme: "bearer",
+              bearerFormat: "JWT",
+              in: "header"
+            }
           }
         }
       }

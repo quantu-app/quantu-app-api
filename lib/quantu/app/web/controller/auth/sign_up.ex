@@ -1,27 +1,31 @@
 defmodule Quantu.App.Web.Controller.Auth.SignUp do
-  @moduledoc tags: ["Auth"]
-
   use Quantu.App.Web, :controller
-  use OpenApiSpex.Controller
+  use OpenApiSpex.ControllerSpecs
 
-  alias Quantu.App.{Service, Util}
+  alias Quantu.App.Service
   alias Quantu.App.Web.{Schema, View, Guardian}
 
+  plug(OpenApiSpex.Plug.CastAndValidate, json_render_error_v2: true)
   action_fallback(Quantu.App.Web.Controller.Fallback)
 
-  @doc """
-  Sign up
+  tags ["Auth"]
 
-  Signs up a user and returns the User with the Bearer Token
-  """
-  @doc request_body:
-         {"Request body to sign up", "application/json", Schema.SignUp.UsernamePassword,
-          required: true},
-       responses: [
-         ok: {"Sign up User Response", "application/json", Schema.User.Private}
-       ]
-  def sign_up(conn, params) do
-    with {:ok, command} <- Service.User.Create.new(Util.underscore(params)),
+  operation :sign_up,
+    summary: "Signs up a user and returns the User with the Bearer Token",
+    request_body:
+      {"Request body to sign up", "application/json", Schema.SignUp.UsernamePassword,
+       required: true},
+    responses: [
+      ok: {"Sign up User Response", "application/json", Schema.User.Private}
+    ]
+
+  def sign_up(conn = %{body_params: body_params}, _params) do
+    with {:ok, command} <-
+           Service.User.Create.new(%{
+             username: body_params.username,
+             password: body_params.password,
+             password_confirmation: body_params.passwordConfirmation
+           }),
          {:ok, user} <- Service.User.Create.handle(command) do
       conn = Guardian.Plug.sign_in(conn, user)
 

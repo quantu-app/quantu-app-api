@@ -1,22 +1,23 @@
 defmodule Quantu.App.Web.Controller.Organization do
-  @moduledoc tags: ["Organization"]
-
   use Quantu.App.Web, :controller
-  use OpenApiSpex.Controller
+  use OpenApiSpex.ControllerSpecs
 
   alias Quantu.App.Service
   alias Quantu.App.Web.{Schema, View}
 
+  plug(OpenApiSpex.Plug.CastAndValidate, json_render_error_v2: true)
   action_fallback(Quantu.App.Web.Controller.Fallback)
 
-  @doc """
-  List Organizations
+  tags ["Organization"]
 
-  Returns all organizations
-  """
-  @doc responses: [
-         ok: {"User Organizations", "application/json", Schema.Organization.List}
-       ]
+  operation :index,
+    summary: "List Organizations",
+    description: "Returns all organizations",
+    responses: [
+      ok: {"User Organizations", "application/json", Schema.Organization.List}
+    ],
+    security: [%{"authorization" => []}]
+
   def index(conn, _params) do
     with {:ok, command} <- Service.Organization.Index.new(%{}),
          {:ok, organizations} <- Service.Organization.Index.handle(command) do
@@ -27,21 +28,21 @@ defmodule Quantu.App.Web.Controller.Organization do
     end
   end
 
-  @doc """
-  Get a Organization
+  operation :show,
+    summary: "Get a Organization",
+    description: "Returns an organization",
+    responses: [
+      ok: {"User Organization", "application/json", Schema.Organization.Show}
+    ],
+    parameters: [
+      id: [in: :path, description: "Organization Id", type: :integer, example: 1001]
+    ],
+    security: [%{"authorization" => []}]
 
-  Returns an organization
-  """
-  @doc responses: [
-         ok: {"User Organization", "application/json", Schema.Organization.Show}
-       ],
-       parameters: [
-         id: [in: :path, description: "Organization Id", type: :integer, example: 1001]
-       ]
-  def show(conn, params) do
+  def show(conn, %{id: id}) do
     with {:ok, command} <-
            Service.Organization.Show.new(%{
-             organization_id: Map.get(params, "id")
+             organization_id: id
            }),
          {:ok, organization} <- Service.Organization.Show.handle(command) do
       conn
@@ -51,25 +52,25 @@ defmodule Quantu.App.Web.Controller.Organization do
     end
   end
 
-  @doc """
-  Get a Organization by url
+  operation :show_by_url,
+    summary: "Get a Organization by url",
+    description: "Returns an organization by url",
+    responses: [
+      ok: {"User Organization", "application/json", Schema.Organization.Show}
+    ],
+    parameters: [
+      url: [
+        in: :path,
+        description: "Organization's url",
+        type: :string,
+        example: "my-organization"
+      ]
+    ],
+    security: [%{"authorization" => []}]
 
-  Returns an organization by url
-  """
-  @doc responses: [
-         ok: {"User Organization", "application/json", Schema.Organization.Show}
-       ],
-       parameters: [
-         url: [
-           in: :path,
-           description: "Organization's url",
-           type: :string,
-           example: "my-organization"
-         ]
-       ]
-  def show_by_url(conn, params) do
+  def show_by_url(conn, %{url: url}) do
     with {:ok, command} <-
-           Service.Organization.ShowByUrl.new(params),
+           Service.Organization.ShowByUrl.new(%{url: url}),
          {:ok, organization} <- Service.Organization.ShowByUrl.handle(command) do
       conn
       |> put_status(200)
