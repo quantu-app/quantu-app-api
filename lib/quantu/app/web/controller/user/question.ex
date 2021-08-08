@@ -100,6 +100,7 @@ defmodule Quantu.App.Web.Controller.User.Question do
            Service.Question.Create.new(%{
              organization_id: organization_id,
              quiz_id: Map.get(body_params, :quizId),
+             name: body_params.name,
              type: body_params.type,
              prompt: body_params.prompt,
              tags: body_params.tags,
@@ -137,6 +138,7 @@ defmodule Quantu.App.Web.Controller.User.Question do
     with {:ok, command} <-
            Service.Question.Update.new(%{
              quiz_id: Map.get(body_params, :quizId),
+             name: Map.get(body_params, :name),
              type: Map.get(body_params, :type),
              prompt: Map.get(body_params, :prompt),
              tags: Map.get(body_params, :tags),
