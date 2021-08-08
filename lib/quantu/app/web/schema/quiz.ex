@@ -9,8 +9,8 @@ defmodule Quantu.App.Web.Schema.Quiz do
       description: "quiz show",
       type: :object,
       properties: %{
-        id: %Schema{type: :string, description: "Id"},
-        organizationId: %Schema{type: :string, description: "Organization Id"},
+        id: %Schema{type: :integer, description: "Id"},
+        organizationId: %Schema{type: :integer, description: "Organization Id"},
         name: %Schema{type: :string, description: "Quiz name"},
         description: %Schema{type: :string, description: "Quiz description"},
         tags: %Schema{type: :array, items: %Schema{type: :string}, description: "Quiz tags"},
@@ -32,7 +32,7 @@ defmodule Quantu.App.Web.Schema.Quiz do
       ],
       example: %{
         "id" => 1234,
-        "organizationId" => "123",
+        "organizationId" => "6b934301-847a-4ce9-85fb-82e8eb7c9ab6",
         "name" => "My Quiz",
         "description" => "My Quiz Description",
         "tags" => ["math"],
@@ -53,7 +53,7 @@ defmodule Quantu.App.Web.Schema.Quiz do
       example: [
         %{
           "id" => 1234,
-          "organizationId" => "123",
+          "organizationId" => "6b934301-847a-4ce9-85fb-82e8eb7c9ab6",
           "name" => "My Quiz",
           "description" => "My Quiz Description",
           "tags" => ["math"],

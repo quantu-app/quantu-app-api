@@ -1,7 +1,6 @@
 defmodule Quantu.App.Web.View.Question do
   use Quantu.App.Web, :view
 
-  alias Quantu.App.Util
   alias Quantu.App.Web.View.Question
 
   def render("index.json", %{questions: questions}),
@@ -17,9 +16,28 @@ defmodule Quantu.App.Web.View.Question do
       quizId: Map.get(question, :quiz_id),
       index: Map.get(question, :index),
       type: question.type,
-      prompt: Util.camelize(question.prompt),
+      prompt: render_prompt(question.prompt),
       tags: question.tags,
       insertedAt: question.inserted_at,
       updatedAt: question.updated_at
     }
+
+  def render_prompt(%{front: front, back: back}),
+    do: %{
+      front: front,
+      back: back
+    }
+
+  def render_prompt(%{question: question, choices: choices}),
+    do: %{
+      question: question,
+      choices:
+        choices
+        |> Enum.map(fn choice ->
+          choice |> Map.delete(:correct)
+        end)
+        |> Enum.to_list()
+    }
+
+    def render_prompt(prompt), do: prompt
 end

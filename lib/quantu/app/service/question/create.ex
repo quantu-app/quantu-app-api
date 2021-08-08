@@ -6,7 +6,7 @@ defmodule Quantu.App.Service.Question.Create do
 
   @primary_key false
   schema "" do
-    belongs_to(:organization, Model.Organization, type: :binary_id)
+    belongs_to(:organization, Model.Organization)
     belongs_to(:quiz, Model.Quiz)
     field(:type, :string, null: false)
     field(:prompt, :map, null: false)

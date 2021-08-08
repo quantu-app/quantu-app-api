@@ -36,7 +36,7 @@ defmodule Quantu.App.Web.Controller.Organization do
          ok: {"User Organization", "application/json", Schema.Organization.Show}
        ],
        parameters: [
-         id: [in: :path, description: "Organization Id", type: :string, example: "1001"]
+         id: [in: :path, description: "Organization Id", type: :integer, example: 1001]
        ]
   def show(conn, params) do
     with {:ok, command} <-

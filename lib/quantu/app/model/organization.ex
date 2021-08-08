@@ -3,8 +3,6 @@ defmodule Quantu.App.Model.Organization do
 
   alias Quantu.App.Model
 
-  @primary_key {:id, :binary_id, autogenerate: true}
-  @foreign_key_type :binary_id
   schema "organizations" do
     belongs_to(:user, Model.User, type: :binary_id)
     has_many(:questions, Model.Question)

@@ -5,7 +5,7 @@ defmodule Quantu.App.Service.Organization.Update do
 
   @primary_key false
   schema "" do
-    belongs_to(:organization, Model.Organization, type: :binary_id)
+    belongs_to(:organization, Model.Organization)
     belongs_to(:user, Model.User, type: :binary_id)
     field(:name, :string)
     field(:url, :string)

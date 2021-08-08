@@ -38,7 +38,7 @@ defmodule Quantu.App.Web.Controller.User.Organization do
          ok: {"User Organization", "application/json", Schema.Organization.Show}
        ],
        parameters: [
-         id: [in: :path, description: "Organization Id", type: :string, example: "1001"]
+         id: [in: :path, description: "Organization Id", type: :integer, example: 1001]
        ]
   def show(conn, params) do
     resource_user = Guardian.Plug.current_resource(conn)
@@ -94,7 +94,7 @@ defmodule Quantu.App.Web.Controller.User.Organization do
          ok: {"User Organization", "application/json", Schema.Organization.Show}
        ],
        parameters: [
-         id: [in: :path, description: "Organization Id", type: :string, example: "1001"]
+         id: [in: :path, description: "Organization Id", type: :integer, example: 1001]
        ]
   def update(conn, params) do
     resource_user = Guardian.Plug.current_resource(conn)
@@ -123,7 +123,7 @@ defmodule Quantu.App.Web.Controller.User.Organization do
          no_content: "Empty response"
        ],
        parameters: [
-         id: [in: :path, description: "Organization Id", type: :string, example: "1001"]
+         id: [in: :path, description: "Organization Id", type: :integer, example: 1001]
        ]
   def delete(conn, params) do
     resource_user = Guardian.Plug.current_resource(conn)

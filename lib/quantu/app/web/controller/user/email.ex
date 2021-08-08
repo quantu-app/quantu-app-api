@@ -22,7 +22,7 @@ defmodule Quantu.App.Web.Controller.User.Email do
            in: :query,
            description: "Confirmation Token",
            type: :string,
-           example: "a98h43a98jp9ajwija43d"
+           example: "qID3Z0xsVeDouJNjnKk5OxM9HsCtyY0gDJyU5bF2SjaBPjpkfqKBiim2W9v6nK"
          ]
        ]
   def confirm(conn, params) do

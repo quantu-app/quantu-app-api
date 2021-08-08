@@ -21,8 +21,8 @@ defmodule Quantu.App.Web.Controller.User.Quiz do
          organizationId: [
            in: :path,
            description: "Organization Id",
-           type: :string,
-           example: "1001"
+           type: :integer,
+           example: 1001
          ]
        ]
   def index(conn, params) do
@@ -44,12 +44,12 @@ defmodule Quantu.App.Web.Controller.User.Quiz do
          ok: {"Organization Quiz", "application/json", Schema.Quiz.Show}
        ],
        parameters: [
-         id: [in: :path, description: "Quiz Id", type: :string, example: "1001"],
+         id: [in: :path, description: "Quiz Id", type: :integer, example: 1001],
          organizationId: [
            in: :path,
            description: "Organization Id",
-           type: :string,
-           example: "1001"
+           type: :integer,
+           example: 1001
          ]
        ]
   def show(conn, params) do
@@ -80,8 +80,8 @@ defmodule Quantu.App.Web.Controller.User.Quiz do
          organizationId: [
            in: :path,
            description: "Organization Id",
-           type: :string,
-           example: "1001"
+           type: :integer,
+           example: 1001
          ]
        ]
   def create(conn, params) do
@@ -106,12 +106,12 @@ defmodule Quantu.App.Web.Controller.User.Quiz do
          ok: {"Organization Quiz", "application/json", Schema.Quiz.Show}
        ],
        parameters: [
-         id: [in: :path, description: "Quiz Id", type: :string, example: "1001"],
+         id: [in: :path, description: "Quiz Id", type: :integer, example: 1001],
          organizationId: [
            in: :path,
            description: "Organization Id",
-           type: :string,
-           example: "1001"
+           type: :integer,
+           example: 1001
          ]
        ]
   def update(conn, params) do
@@ -138,12 +138,12 @@ defmodule Quantu.App.Web.Controller.User.Quiz do
          no_content: "Empty response"
        ],
        parameters: [
-         id: [in: :path, description: "Quiz Id", type: :string, example: "1001"],
+         id: [in: :path, description: "Quiz Id", type: :integer, example: 1001],
          organizationId: [
            in: :path,
            description: "Organization Id",
-           type: :string,
-           example: "1001"
+           type: :integer,
+           example: 1001
          ]
        ]
   def delete(conn, params) do

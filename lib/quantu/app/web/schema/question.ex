@@ -37,14 +37,16 @@ defmodule Quantu.App.Web.Schema.Question do
           items: %Schema{
             type: :object,
             properties: %{
-              content: %Schema{type: :object, description: "choice text"},
+              key: %Schema{type: :string, description: "choice key"},
+              content: %Schema{type: :array, items: %Schema{type: :object}, description: "choice content"},
               correct: %Schema{type: :boolean, description: "is this choice correct?"}
             },
             required: [
+              :key,
               :content
             ]
           },
-          description: "back content"
+          description: "answer choices"
         }
       },
       required: [
@@ -55,10 +57,12 @@ defmodule Quantu.App.Web.Schema.Question do
         "question" => [%{"insert" => "Which is the lowest Number?"}],
         "choices" => [
           %{
+            "key" => "1",
             "content" => [%{"insert" => "0"}],
             "correct" => true
           },
           %{
+            "key" => "2",
             "content" => [%{"insert" => "1"}],
             "correct" => false
           },
@@ -75,8 +79,8 @@ defmodule Quantu.App.Web.Schema.Question do
       description: "question show",
       type: :object,
       properties: %{
-        id: %Schema{type: :string, description: "Id"},
-        organizationId: %Schema{type: :string, description: "Organization Id"},
+        id: %Schema{type: :integer, description: "Id"},
+        organizationId: %Schema{type: :integer, description: "Organization Id"},
         quizId: %Schema{type: :integer, description: "Quiz Id"},
         type: %Schema{type: :string, description: "Question type"},
         prompt: %Schema{type: :object, oneOf: [FlashCard, MultipleChoice], description: "Question prompt"},
@@ -99,7 +103,7 @@ defmodule Quantu.App.Web.Schema.Question do
       ],
       example: %{
         "id" => 1234,
-        "organizationId" => "123",
+        "organizationId" => "6b934301-847a-4ce9-85fb-82e8eb7c9ab6",
         "type" => "flash_card",
         "prompt" => %{
           "front" => [%{"insert" => "Front"}],
@@ -123,7 +127,7 @@ defmodule Quantu.App.Web.Schema.Question do
       example: [
         %{
           "id" => 1234,
-          "organizationId" => "123",
+          "organizationId" => "6b934301-847a-4ce9-85fb-82e8eb7c9ab6",
           "type" => "flash_card",
           "prompt" => %{
             "front" => [%{"insert" => "Front"}],
@@ -188,10 +192,12 @@ defmodule Quantu.App.Web.Schema.Question do
           "question" => [%{"insert" => "Which is the lowest Number?"}],
           "choices" => [
             %{
+              "key" => "1",
               "content" => [%{"insert" => "0"}],
               "correct" => true
             },
             %{
+              "key" => "2",
               "content" => [%{"insert" => "1"}],
               "correct" => false
             },

@@ -21,8 +21,8 @@ defmodule Quantu.App.Web.Controller.Quiz do
          organizationId: [
            in: :query,
            description: "Organization Id",
-           type: :string,
-           example: "1001"
+           type: :integer,
+           example: 1001
          ]
        ]
   def index(conn, params) do
@@ -47,7 +47,7 @@ defmodule Quantu.App.Web.Controller.Quiz do
          ok: {"Organization Quiz", "application/json", Schema.Quiz.Show}
        ],
        parameters: [
-         id: [in: :path, description: "Quiz Id", type: :string, example: "1001"]
+         id: [in: :path, description: "Quiz Id", type: :integer, example: 1001]
        ]
   def show(conn, params) do
     with {:ok, command} <- Service.Quiz.Show.new(%{quiz_id: Map.get(params, "id")}),

@@ -6,7 +6,7 @@ defmodule Quantu.App.Service.Quiz.Index do
 
   @primary_key false
   schema "" do
-    belongs_to(:organization, Model.Organization, type: :binary_id)
+    belongs_to(:organization, Model.Organization)
   end
 
   def changeset(%{} = attrs) do

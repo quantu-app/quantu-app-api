@@ -109,12 +109,12 @@ defmodule Quantu.App.Web.Schema.User do
       },
       required: [:id, :token, :username, :emails, :insertedAt, :updatedAt],
       example: %{
-        "id" => "123e4567-e89b-12d3-a456-426614174000",
-        "token" => "a9psd8fhaowntw4iojha3084tjhap4jtq34tojapsjgaaaat5j955357f",
+        "id" => "ebf5b33a-7a68-41b7-8d0b-9b3a32caff02",
+        "token" => "DwBg/rBlmXjTnQ3Xw9Hhr0A5hY1+FNHk1GlWnGPhbfX1ctqyqdlbiDXMX2Nzbxfu",
         "username" => "example",
         "email" => %{
           "id" => 1234,
-          "userId" => "2045jsadofiw354ifergh53g435gh",
+          "userId" => "ebf5b33a-7a68-41b7-8d0b-9b3a32caff02",
           "email" => "example@domain.com",
           "confirmed" => true,
           "primary" => true,

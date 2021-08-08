@@ -9,7 +9,7 @@ defmodule Quantu.App.Web.Schema.Organization do
       description: "organization show",
       type: :object,
       properties: %{
-        id: %Schema{type: :string, description: "Id"},
+        id: %Schema{type: :integer, description: "Id"},
         userId: %Schema{type: :string, description: "User Id"},
         name: %Schema{type: :string, description: "Organization name"},
         url: %Schema{type: :string, description: "Organization url"},
@@ -29,8 +29,8 @@ defmodule Quantu.App.Web.Schema.Organization do
         :updatedAt
       ],
       example: %{
-        "id" => "1234",
-        "userId" => "123",
+        "id" => 1234,
+        "userId" => "6b934301-847a-4ce9-85fb-82e8eb7c9ab6",
         "name" => "My Organization",
         "url" => "my-organization-entry",
         "insertedAt" => "2017-09-12T12:34:55Z",
@@ -50,7 +50,7 @@ defmodule Quantu.App.Web.Schema.Organization do
       example: [
         %{
           "id" => "1234",
-          "userId" => "123",
+          "userId" => "6b934301-847a-4ce9-85fb-82e8eb7c9ab6",
           "name" => "My Organization",
           "url" => "my-organization-entry",
           "insertedAt" => "2017-09-12T12:34:55Z",

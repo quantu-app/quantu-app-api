@@ -4,7 +4,7 @@ defmodule Quantu.App.Model.Quiz do
   alias Quantu.App.Model
 
   schema "quizzes" do
-    belongs_to(:organization, Model.Organization, type: :binary_id)
+    belongs_to(:organization, Model.Organization)
     many_to_many(:questions, Model.Question, join_through: Model.QuizQuestionJoin)
 
     field(:name, :string, null: false)

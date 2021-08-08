@@ -5,7 +5,7 @@ defmodule Quantu.App.Service.Organization.Delete do
 
   @primary_key false
   schema "" do
-    belongs_to(:organization, Model.Organization, type: :binary_id)
+    belongs_to(:organization, Model.Organization)
     belongs_to(:user, Model.User, type: :binary_id)
   end
 

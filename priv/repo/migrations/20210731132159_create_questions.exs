@@ -3,11 +3,7 @@ defmodule AicaciaId.Repo.Migrations.CreateQuestions do
 
   def change do
     create table(:questions) do
-      add(
-        :organization_id,
-        references(:organizations, type: :binary_id, on_delete: :delete_all, on_update: :nothing),
-        null: false
-      )
+      add(:organization_id, references(:organizations, on_delete: :delete_all, on_update: :nothing), null: false)
 
       add(:type, :string, null: false)
       add(:prompt, :map, null: false)
