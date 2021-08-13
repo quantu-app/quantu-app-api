@@ -376,7 +376,6 @@ defmodule Quantu.App.Web.Schema.Question do
         tags: %Schema{type: :array, items: %Schema{type: :string}, description: "Question tags"},
         index: %Schema{type: :integer, nullable: true, description: "Quiz Index"}
       },
-      additionalProperties: false,
       required: [
         :type,
         :prompt,
@@ -414,7 +413,6 @@ defmodule Quantu.App.Web.Schema.Question do
         },
         index: %Schema{type: :integer, nullable: true, description: "Quiz Index"}
       },
-      additionalProperties: false,
       required: [],
       example: %{
         "name" => "Question",

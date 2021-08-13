@@ -72,7 +72,6 @@ defmodule Quantu.App.Web.Schema.Organization do
         name: %Schema{type: :string, description: "Organization name"},
         url: %Schema{type: :string, description: "Organization url"}
       },
-      additionalProperties: false,
       required: [
         :name
       ],
@@ -94,7 +93,6 @@ defmodule Quantu.App.Web.Schema.Organization do
         name: %Schema{type: :string, description: "Organization name"},
         url: %Schema{type: :string, description: "Organization url"}
       },
-      additionalProperties: false,
       required: [],
       example: %{
         "name" => "Another Organization",
