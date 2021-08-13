@@ -66,4 +66,34 @@ defmodule Quantu.App.Web.Controller.Question do
       |> render("show.json", question: question)
     end
   end
+
+  operation :answer,
+    summary: "Answer a Question",
+    description: "Returns correct status",
+    request_body:
+      {"Request body to answer question", "application/json", Schema.Question.Answer,
+       required: true},
+    responses: [
+      ok: {"Question Answer result", "application/json", Schema.Question.Result}
+    ],
+    parameters: [
+      id: [in: :path, description: "Question Id", type: :integer, example: 1001]
+    ],
+    security: [%{"authorization" => []}]
+
+  def answer(
+        conn = %{
+          body_params: answer
+        },
+        %{id: id}
+      ) do
+    with {:ok, command} <-
+           Service.Question.Answer.new(%{question_id: id, answer: answer}),
+         {:ok, result} <- Service.Question.Answer.handle(command) do
+      conn
+      |> put_status(200)
+      |> put_view(View.Question)
+      |> render("answer.json", result: result)
+    end
+  end
 end

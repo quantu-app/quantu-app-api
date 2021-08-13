@@ -26,6 +26,10 @@ defmodule Quantu.App.Web.Router do
     plug(OpenApiSpex.Plug.PutApiSpec, module: Quantu.App.Web.ApiSpec)
   end
 
+  pipeline :organization_write do
+    plug Quantu.App.Web.Plug.Organization.Write
+  end
+
   scope "/swagger" do
     pipe_through(:browser)
 
@@ -98,6 +102,8 @@ defmodule Quantu.App.Web.Router do
         end
 
         resources "/organizations", Organization, except: [:new, :edit] do
+          pipe_through(:organization_write)
+
           resources "/questions", Question, except: [:new, :edit]
           resources "/quizzes", Quiz, except: [:new, :edit]
         end
@@ -105,6 +111,7 @@ defmodule Quantu.App.Web.Router do
 
       resources "/organizations", Organization, only: [:index, :show]
       resources "/questions", Question, only: [:index, :show]
+      post("/questions/:id/answer", Question, :answer)
       resources "/quizzes", Quiz, only: [:index, :show]
 
       get("/organization/:url", Organization, :show_by_url)

@@ -63,11 +63,10 @@ defmodule Quantu.App.Web.Controller.User.OrganizationTest do
   end
 
   describe "create organization" do
-    test "should return created organization", %{conn: conn, user: user} do
+    test "should return created organization", %{conn: conn} do
       create_params =
         OpenApiSpex.Schema.example(Schema.Organization.Create.schema())
         |> Util.underscore()
-        |> Map.put("user_id", user.id)
 
       conn =
         post(

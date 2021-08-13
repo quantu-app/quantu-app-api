@@ -45,7 +45,7 @@ defmodule Quantu.App.Web.Controller.QuestionTest do
 
       questions_json = json_response(conn, 200)
 
-      assert_schema questions_json, "QuestionList", Quantu.App.Web.ApiSpec.spec()
+      assert_schema(questions_json, "QuestionList", Quantu.App.Web.ApiSpec.spec())
       assert Enum.at(questions_json, 0)["id"] == question_id
     end
 
@@ -73,13 +73,14 @@ defmodule Quantu.App.Web.Controller.QuestionTest do
 
       questions_json = json_response(conn, 200)
 
-      assert_schema questions_json, "QuestionList", Quantu.App.Web.ApiSpec.spec()
+      assert_schema(questions_json, "QuestionList", Quantu.App.Web.ApiSpec.spec())
       assert Enum.at(questions_json, 0)["id"] == question_id
     end
 
     test "should return a question", %{conn: conn, organization: organization} do
       %{id: question_id} =
         OpenApiSpex.Schema.example(Schema.Question.Create.schema())
+        |> Map.merge(OpenApiSpex.Schema.example(Schema.Question.Update.schema()))
         |> Util.underscore()
         |> Map.put("organization_id", organization.id)
         |> Service.Question.Create.new!()
@@ -93,8 +94,36 @@ defmodule Quantu.App.Web.Controller.QuestionTest do
 
       question_json = json_response(conn, 200)
 
-      assert_schema question_json, "Question", Quantu.App.Web.ApiSpec.spec()
+      assert_schema(question_json, "Question", Quantu.App.Web.ApiSpec.spec())
       assert question_json["id"] == question_id
+    end
+  end
+
+  describe "answer question" do
+    test "should return result of multiple_choice question", %{
+      conn: conn,
+      organization: organization
+    } do
+      %{id: question_id} =
+        OpenApiSpex.Schema.example(Schema.Question.Create.schema())
+        |> Map.merge(OpenApiSpex.Schema.example(Schema.Question.Update.schema()))
+        |> Util.underscore()
+        |> Map.put("organization_id", organization.id)
+        |> Service.Question.Create.new!()
+        |> Service.Question.Create.handle!()
+
+      answer = OpenApiSpex.Schema.example(Schema.Question.Answer.schema())
+
+      conn =
+        post(
+          conn,
+          Routes.question_path(@endpoint, :answer, question_id),
+          answer
+        )
+
+      %{"result" => result} = json_response(conn, 200)
+
+      assert result == 1
     end
   end
 end

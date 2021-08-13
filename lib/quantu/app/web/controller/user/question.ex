@@ -14,7 +14,7 @@ defmodule Quantu.App.Web.Controller.User.Question do
     summary: "List Questions",
     description: "Returns organization's questions",
     responses: [
-      ok: {"Organization/Quiz Questions", "application/json", Schema.Question.List}
+      ok: {"Organization/Quiz Questions", "application/json", Schema.Question.ListPrivate}
     ],
     parameters: [
       organization_id: [
@@ -42,7 +42,7 @@ defmodule Quantu.App.Web.Controller.User.Question do
       conn
       |> put_status(200)
       |> put_view(View.Question)
-      |> render("index.json", questions: questions)
+      |> render("index_private.json", questions: questions)
     end
   end
 
@@ -50,7 +50,7 @@ defmodule Quantu.App.Web.Controller.User.Question do
     summary: "Get a Question",
     description: "Returns organization's question",
     responses: [
-      ok: {"Organization/Quiz Question", "application/json", Schema.Question.Show}
+      ok: {"Organization/Quiz Question", "application/json", Schema.Question.ShowPrivate}
     ],
     parameters: [
       id: [in: :path, description: "Question Id", type: :integer, example: 1001],
@@ -69,7 +69,7 @@ defmodule Quantu.App.Web.Controller.User.Question do
       conn
       |> put_status(200)
       |> put_view(View.Question)
-      |> render("show.json", question: question)
+      |> render("show_private.json", question: question)
     end
   end
 
@@ -80,7 +80,7 @@ defmodule Quantu.App.Web.Controller.User.Question do
       {"Request body to create question", "application/json", Schema.Question.Create,
        required: true},
     responses: [
-      ok: {"Organization/Quiz Question", "application/json", Schema.Question.Show}
+      ok: {"Organization/Quiz Question", "application/json", Schema.Question.ShowPrivate}
     ],
     parameters: [
       organization_id: [
@@ -110,7 +110,7 @@ defmodule Quantu.App.Web.Controller.User.Question do
       conn
       |> put_status(201)
       |> put_view(View.Question)
-      |> render("show.json", question: question)
+      |> render("show_private.json", question: question)
     end
   end
 
@@ -121,7 +121,7 @@ defmodule Quantu.App.Web.Controller.User.Question do
       {"Request body to update question", "application/json", Schema.Question.Update,
        required: true},
     responses: [
-      ok: {"Organization/Quiz Question", "application/json", Schema.Question.Show}
+      ok: {"Organization/Quiz Question", "application/json", Schema.Question.ShowPrivate}
     ],
     parameters: [
       id: [in: :path, description: "Question Id", type: :integer, example: 1001],
@@ -149,7 +149,7 @@ defmodule Quantu.App.Web.Controller.User.Question do
       conn
       |> put_status(200)
       |> put_view(View.Question)
-      |> render("show.json", question: question)
+      |> render("show_private.json", question: question)
     end
   end
 

@@ -75,7 +75,6 @@ defmodule Quantu.App.Web.Controller.User.QuizTest do
       create_params =
         OpenApiSpex.Schema.example(Schema.Quiz.Create.schema())
         |> Util.underscore()
-        |> Map.put("organization_id", organization.id)
 
       conn =
         post(

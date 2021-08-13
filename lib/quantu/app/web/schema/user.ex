@@ -22,6 +22,7 @@ defmodule Quantu.App.Web.Schema.User do
         updatedAt: %Schema{type: :string, description: "Update timestamp", format: :"date-time"}
       },
       nullable: true,
+      additionalProperties: false,
       required: [:id, :userId, :email, :confirmed, :primary, :insertedAt, :updatedAt],
       example: %{
         "id" => 1234,
@@ -45,6 +46,7 @@ defmodule Quantu.App.Web.Schema.User do
       properties: %{
         email: %Schema{type: :string, description: "Email address", format: :email}
       },
+      additionalProperties: false,
       required: [:email],
       example: %{
         "email" => "example@domain.com"
@@ -63,6 +65,7 @@ defmodule Quantu.App.Web.Schema.User do
         oldPassword: %Schema{type: :string, description: "old password"},
         password: %Schema{type: :string, description: "password"}
       },
+      additionalProperties: false,
       required: [:oldPassword, :password],
       example: %{
         "oldPassword" => "oldPassword",
@@ -81,6 +84,7 @@ defmodule Quantu.App.Web.Schema.User do
       properties: %{
         username: %Schema{type: :string, description: "username"}
       },
+      additionalProperties: false,
       required: [:username],
       example: %{
         "username" => "new_username"
@@ -108,6 +112,7 @@ defmodule Quantu.App.Web.Schema.User do
         },
         updatedAt: %Schema{type: :string, description: "Update timestamp", format: :"date-time"}
       },
+      additionalProperties: false,
       required: [:id, :token, :username, :emails, :insertedAt, :updatedAt],
       example: %{
         "id" => "ebf5b33a-7a68-41b7-8d0b-9b3a32caff02",

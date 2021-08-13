@@ -13,6 +13,7 @@ defmodule Quantu.App.Web.Schema.SignUp do
         password: %Schema{type: :string, description: "Password"},
         passwordConfirmation: %Schema{type: :string, description: "Password confirmation"}
       },
+      additionalProperties: false,
       required: [:username, :password, :passwordConfirmation],
       example: %{
         "username" => "username",

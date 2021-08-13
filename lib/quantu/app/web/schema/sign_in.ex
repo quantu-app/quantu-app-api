@@ -12,6 +12,7 @@ defmodule Quantu.App.Web.Schema.SignIn do
         usernameOrEmail: %Schema{type: :string, description: "Email or Username"},
         password: %Schema{type: :string, description: "Password"}
       },
+      additionalProperties: false,
       required: [:password, :usernameOrEmail],
       example: %{
         "usernameOrEmail" => "example@domain.com",

@@ -45,7 +45,7 @@ defmodule Quantu.App.Web.Controller.User.QuestionTest do
 
       questions_json = json_response(conn, 200)
 
-      assert_schema questions_json, "QuestionList", Quantu.App.Web.ApiSpec.spec()
+      assert_schema(questions_json, "QuestionListPrivate", Quantu.App.Web.ApiSpec.spec())
       assert Enum.at(questions_json, 0)["id"] == question_id
     end
 
@@ -75,7 +75,7 @@ defmodule Quantu.App.Web.Controller.User.QuestionTest do
 
       questions_json = json_response(conn, 200)
 
-      assert_schema questions_json, "QuestionList", Quantu.App.Web.ApiSpec.spec()
+      assert_schema(questions_json, "QuestionListPrivate", Quantu.App.Web.ApiSpec.spec())
       assert Enum.at(questions_json, 0)["id"] == question_id
     end
 
@@ -95,7 +95,7 @@ defmodule Quantu.App.Web.Controller.User.QuestionTest do
 
       question_json = json_response(conn, 200)
 
-      assert_schema question_json, "Question", Quantu.App.Web.ApiSpec.spec()
+      assert_schema(question_json, "QuestionPrivate", Quantu.App.Web.ApiSpec.spec())
       assert question_json["id"] == question_id
     end
   end
@@ -105,7 +105,6 @@ defmodule Quantu.App.Web.Controller.User.QuestionTest do
       create_params =
         OpenApiSpex.Schema.example(Schema.Question.Create.schema())
         |> Util.underscore()
-        |> Map.put("organization_id", organization.id)
 
       conn =
         post(
@@ -116,7 +115,7 @@ defmodule Quantu.App.Web.Controller.User.QuestionTest do
 
       question_json = json_response(conn, 201)
 
-      assert_schema question_json, "Question", Quantu.App.Web.ApiSpec.spec()
+      assert_schema(question_json, "QuestionPrivate", Quantu.App.Web.ApiSpec.spec())
       assert question_json["type"] == create_params["type"]
     end
 
@@ -172,7 +171,7 @@ defmodule Quantu.App.Web.Controller.User.QuestionTest do
 
       question_json = json_response(conn, 201)
 
-      assert_schema question_json, "Question", Quantu.App.Web.ApiSpec.spec()
+      assert_schema(question_json, "QuestionPrivate", Quantu.App.Web.ApiSpec.spec())
       assert question_json["type"] == create_params["type"]
       assert question_json["index"] == 1
     end
@@ -203,64 +202,8 @@ defmodule Quantu.App.Web.Controller.User.QuestionTest do
 
       question_json = json_response(conn, 200)
 
-      assert_schema question_json, "Question", Quantu.App.Web.ApiSpec.spec()
+      assert_schema(question_json, "QuestionPrivate", Quantu.App.Web.ApiSpec.spec())
       assert question_json["type"] == update_params["type"]
-    end
-
-    test "should return updated question and update quiz questions indices", %{
-      conn: conn,
-      organization: organization
-    } do
-      %{id: quiz_id} =
-        OpenApiSpex.Schema.example(Schema.Quiz.Create.schema())
-        |> Util.underscore()
-        |> Map.put("organization_id", organization.id)
-        |> Service.Quiz.Create.new!()
-        |> Service.Quiz.Create.handle!()
-
-      %{id: first_question_id} =
-        OpenApiSpex.Schema.example(Schema.Question.Create.schema())
-        |> Util.underscore()
-        |> Map.put("organization_id", organization.id)
-        |> Map.put("quiz_id", quiz_id)
-        |> Service.Question.Create.new!()
-        |> Service.Question.Create.handle!()
-
-      %{id: question_id} =
-        OpenApiSpex.Schema.example(Schema.Question.Create.schema())
-        |> Util.underscore()
-        |> Map.put("organization_id", organization.id)
-        |> Map.put("quiz_id", quiz_id)
-        |> Service.Question.Create.new!()
-        |> Service.Question.Create.handle!()
-
-      update_params =
-        OpenApiSpex.Schema.example(Schema.Question.Update.schema())
-        |> Map.put("index", 0)
-        |> Map.put("quizId", quiz_id)
-
-      conn =
-        put(
-          conn,
-          Routes.user_organization_question_path(
-            @endpoint,
-            :update,
-            organization.id,
-            question_id
-          ),
-          update_params
-        )
-
-      question_json = json_response(conn, 200)
-
-      assert_schema question_json, "Question", Quantu.App.Web.ApiSpec.spec()
-      assert question_json["type"] == update_params["type"]
-      assert question_json["index"] == 0
-
-      first_question =
-        Service.Question.Show.handle!(%{question_id: first_question_id, quiz_id: quiz_id})
-
-      assert Map.get(first_question, :index) == 1
     end
   end
 
@@ -284,6 +227,33 @@ defmodule Quantu.App.Web.Controller.User.QuestionTest do
       conn =
         get(
           conn,
+          Routes.user_organization_question_path(@endpoint, :show, organization.id, question_id)
+        )
+
+      json_response(conn, 404)
+    end
+  end
+
+  describe "question access" do
+    test "should not find question if no access", %{conn: conn, organization: organization} do
+      other_user =
+        Service.User.Create.new!(%{
+          username: "new_username",
+          password: "new_password",
+          password_confirmation: "new_password"
+        })
+        |> Service.User.Create.handle!()
+
+      %{id: question_id} =
+        OpenApiSpex.Schema.example(Schema.Question.Create.schema())
+        |> Util.underscore()
+        |> Map.put("organization_id", organization.id)
+        |> Service.Question.Create.new!()
+        |> Service.Question.Create.handle!()
+
+      conn =
+        get(
+          conn |> Guardian.Plug.sign_in(other_user),
           Routes.user_organization_question_path(@endpoint, :show, organization.id, question_id)
         )
 

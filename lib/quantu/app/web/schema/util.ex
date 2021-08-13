@@ -11,6 +11,7 @@ defmodule Quantu.App.Web.Schema.Util do
       properties: %{
         ok: %Schema{type: :boolean, description: "ok status"}
       },
+      additionalProperties: false,
       required: [:ok],
       example: %{
         "ok" => true

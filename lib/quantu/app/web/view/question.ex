@@ -3,13 +3,19 @@ defmodule Quantu.App.Web.View.Question do
 
   alias Quantu.App.Web.View.Question
 
+  def render("index_private.json", %{questions: questions}),
+    do: render_many(questions, Question, "question_private.json")
+
+  def render("show_private.json", %{question: question}),
+    do: render_one(question, Question, "question_private.json")
+
   def render("index.json", %{questions: questions}),
     do: render_many(questions, Question, "question.json")
 
   def render("show.json", %{question: question}),
     do: render_one(question, Question, "question.json")
 
-  def render("question.json", %{question: question}),
+  def render("question_private.json", %{question: question}),
     do: %{
       id: question.id,
       organizationId: question.organization_id,
@@ -17,28 +23,36 @@ defmodule Quantu.App.Web.View.Question do
       index: Map.get(question, :index),
       name: question.name,
       type: question.type,
-      prompt: render_prompt(question.prompt),
+      prompt: question.prompt,
       tags: question.tags,
       insertedAt: question.inserted_at,
       updatedAt: question.updated_at
     }
 
-  def render_prompt(%{front: front, back: back}),
+  def render("question.json", %{question: question}),
+    do:
+      render("question_private.json", %{question: question})
+      |> Map.put(:prompt, render_prompt(question.prompt))
+
+  def render("answer.json", %{result: result}),
+    do: %{result: result}
+
+  def render_prompt(%{"front" => front, "back" => back}),
     do: %{
       front: front,
       back: back
     }
 
-  def render_prompt(%{question: question, choices: choices}),
+  def render_prompt(%{"question" => question, "choices" => choices}),
     do: %{
-      question: question,
-      choices:
+      "question" => question,
+      "choices" =>
         choices
         |> Enum.map(fn choice ->
-          choice |> Map.delete(:correct)
+          choice |> Map.delete("correct")
         end)
         |> Enum.to_list()
     }
 
-    def render_prompt(prompt), do: prompt
+  def render_prompt(prompt), do: prompt
 end

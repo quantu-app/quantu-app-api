@@ -20,6 +20,7 @@ defmodule Quantu.App.Web.Schema.Organization do
         },
         updatedAt: %Schema{type: :string, description: "Update timestamp", format: :"date-time"}
       },
+      additionalProperties: false,
       required: [
         :id,
         :userId,
@@ -71,6 +72,7 @@ defmodule Quantu.App.Web.Schema.Organization do
         name: %Schema{type: :string, description: "Organization name"},
         url: %Schema{type: :string, description: "Organization url"}
       },
+      additionalProperties: false,
       required: [
         :name
       ],
@@ -92,6 +94,7 @@ defmodule Quantu.App.Web.Schema.Organization do
         name: %Schema{type: :string, description: "Organization name"},
         url: %Schema{type: :string, description: "Organization url"}
       },
+      additionalProperties: false,
       required: [],
       example: %{
         "name" => "Another Organization",
