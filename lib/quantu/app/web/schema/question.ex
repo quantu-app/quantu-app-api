@@ -67,23 +67,24 @@ defmodule Quantu.App.Web.Schema.Question do
           description: "question explanation"
         },
         choices: %Schema{
-          type: :array,
-          items: %Schema{
-            type: :object,
-            properties: %{
-              key: %Schema{type: :string, description: "choice key"},
-              content: %Schema{
-                type: :array,
-                items: %Schema{type: :object},
-                description: "choice content"
+          type: :object,
+          properties: %{
+            ".*": %Schema{
+              type: :object,
+              properties: %{
+                content: %Schema{
+                  type: :array,
+                  items: %Schema{type: :object},
+                  description: "choice content"
+                },
+                correct: %Schema{type: :boolean, description: "is this choice correct?"}
               },
-              correct: %Schema{type: :boolean, description: "is this choice correct?"}
-            },
-            additionalProperties: false,
-            required: [
-              :key,
-              :content
-            ]
+              additionalProperties: false,
+              required: [
+                :key,
+                :content
+              ]
+            }
           },
           description: "answer choices"
         }
@@ -96,18 +97,16 @@ defmodule Quantu.App.Web.Schema.Question do
       example: %{
         "question" => [%{"insert" => "Which is the lowest Number?"}],
         "explanation" => [%{"insert" => "Zero is."}],
-        "choices" => [
-          %{
-            "key" => "a",
-            "content" => [%{"insert" => "0"}],
-            "correct" => true
+        "choices" => %{
+          "a" => %{
+            "correct" => true,
+            "content" => [%{"insert" => "0"}]
           },
-          %{
-            "key" => "b",
-            "content" => [%{"insert" => "1"}],
-            "correct" => false
+          "b" => %{
+            "correct" => false,
+            "content" => [%{"insert" => "1"}]
           }
-        ]
+        }
       }
     })
   end
@@ -126,22 +125,23 @@ defmodule Quantu.App.Web.Schema.Question do
           description: "question content"
         },
         choices: %Schema{
-          type: :array,
-          items: %Schema{
-            type: :object,
-            properties: %{
-              key: %Schema{type: :string, description: "choice key"},
-              content: %Schema{
-                type: :array,
-                items: %Schema{type: :object},
-                description: "choice content"
-              }
-            },
-            additionalProperties: false,
-            required: [
-              :key,
-              :content
-            ]
+          type: :object,
+          properties: %{
+            ".*": %Schema{
+              type: :object,
+              properties: %{
+                content: %Schema{
+                  type: :array,
+                  items: %Schema{type: :object},
+                  description: "choice content"
+                }
+              },
+              additionalProperties: false,
+              required: [
+                :key,
+                :content
+              ]
+            }
           },
           description: "answer choices"
         }
@@ -153,16 +153,14 @@ defmodule Quantu.App.Web.Schema.Question do
       ],
       example: %{
         "question" => [%{"insert" => "Which is the lowest Number?"}],
-        "choices" => [
-          %{
-            "key" => "a",
+        "choices" => %{
+          "a" => %{
             "content" => [%{"insert" => "0"}]
           },
-          %{
-            "key" => "b",
+          "b" => %{
             "content" => [%{"insert" => "1"}]
           }
-        ]
+        }
       }
     })
   end
@@ -186,8 +184,8 @@ defmodule Quantu.App.Web.Schema.Question do
     require OpenApiSpex
 
     OpenApiSpex.schema(%{
-      title: "QuestionPromptPublic",
-      description: "Question prompt public",
+      title: "QuestionPrompt",
+      description: "Question prompt",
       type: :object,
       oneOf: [MultipleChoice, FlashCard],
       example: %{
@@ -420,18 +418,16 @@ defmodule Quantu.App.Web.Schema.Question do
         "prompt" => %{
           "question" => [%{"insert" => "Which is the lowest Number?"}],
           "explanation" => [%{"insert" => "Zero is."}],
-          "choices" => [
-            %{
-              "key" => "a",
+          "choices" => %{
+            "a" => %{
               "content" => [%{"insert" => "0"}],
               "correct" => true
             },
-            %{
-              "key" => "b",
+            "b" => %{
               "content" => [%{"insert" => "1"}],
               "correct" => false
             }
-          ]
+          }
         },
         "tags" => ["math", "new-math"]
       }

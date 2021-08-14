@@ -9,6 +9,7 @@ defmodule Quantu.App.Model.Organization do
 
     field(:name, :string, null: false)
     field(:url, :string, null: false)
+    field(:tags, {:array, :string}, null: false, default: [])
 
     timestamps(type: :utc_datetime)
   end

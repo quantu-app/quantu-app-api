@@ -14,11 +14,12 @@ defmodule Quantu.App.Service.Organization.Create do
     belongs_to(:user, Model.User, type: :binary_id)
     field(:name, :string, null: false)
     field(:url, :string)
+    field(:tags, {:array, :string})
   end
 
   def changeset(%{} = attrs) do
     %__MODULE__{}
-    |> cast(attrs, [:user_id, :name, :url])
+    |> cast(attrs, [:user_id, :name, :url, :tags])
     |> url_from_name()
     |> validate_required([
       :user_id,
@@ -32,12 +33,7 @@ defmodule Quantu.App.Service.Organization.Create do
   def handle(%{} = command) do
     Repo.run(fn ->
       %Model.Organization{}
-      |> cast(command, [:user_id, :name, :url])
-      |> validate_required([
-        :user_id,
-        :name,
-        :url
-      ])
+      |> cast(command, [:user_id, :name, :url, :tags])
       |> unique_constraint(:url)
       |> Repo.insert!()
     end)

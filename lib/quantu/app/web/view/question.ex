@@ -48,10 +48,9 @@ defmodule Quantu.App.Web.View.Question do
       "question" => question,
       "choices" =>
         choices
-        |> Enum.map(fn choice ->
-          choice |> Map.delete("correct")
+        |> Enum.reduce(%{}, fn {key, choice}, choices ->
+          choices |> Map.put(key, choice |> Map.delete("correct"))
         end)
-        |> Enum.to_list()
     }
 
   def render_prompt(prompt), do: prompt

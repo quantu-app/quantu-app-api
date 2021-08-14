@@ -15,6 +15,7 @@ defmodule Quantu.App.Web.View.Organization do
       userId: organization.user_id,
       name: organization.name,
       url: organization.url,
+      tags: organization.tags,
       insertedAt: organization.inserted_at,
       updatedAt: organization.updated_at
     }

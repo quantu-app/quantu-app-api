@@ -11,6 +11,7 @@ defmodule AicaciaId.Repo.Migrations.CreateOrganizations do
 
       add(:name, :string, null: false)
       add(:url, :string, null: false)
+      add(:tags, {:array, :string}, null: false, default: [])
 
       timestamps(type: :utc_datetime)
     end

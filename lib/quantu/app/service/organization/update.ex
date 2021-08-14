@@ -9,6 +9,7 @@ defmodule Quantu.App.Service.Organization.Update do
     belongs_to(:user, Model.User, type: :binary_id)
     field(:name, :string)
     field(:url, :string)
+    field(:tags, {:array, :string})
   end
 
   def changeset(%{} = attrs) do
@@ -17,7 +18,8 @@ defmodule Quantu.App.Service.Organization.Update do
       :organization_id,
       :user_id,
       :name,
-      :url
+      :url,
+      :tags
     ])
     |> Service.Organization.Create.url_from_name()
     |> validate_format(:url, Service.Organization.Create.url_regex())
@@ -29,7 +31,7 @@ defmodule Quantu.App.Service.Organization.Update do
   def handle(%{} = command) do
     Repo.run(fn ->
       Repo.get_by!(Model.Organization, id: command.organization_id, user_id: command.user_id)
-      |> cast(command, [:name, :url])
+      |> cast(command, [:name, :url, :tags])
       |> unique_constraint(:url)
       |> Repo.update!()
     end)

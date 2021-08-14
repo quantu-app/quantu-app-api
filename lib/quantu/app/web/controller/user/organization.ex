@@ -80,6 +80,7 @@ defmodule Quantu.App.Web.Controller.User.Organization do
            Service.Organization.Create.new(%{
              name: body_params.name,
              url: body_params.url,
+             tags: body_params.tags,
              user_id: resource_user.id
            }),
          {:ok, organization} <- Service.Organization.Create.handle(command) do
@@ -116,6 +117,7 @@ defmodule Quantu.App.Web.Controller.User.Organization do
            Service.Organization.Update.new(%{
              name: body_params.name,
              url: body_params.url,
+             tags: body_params.tags,
              organization_id: id,
              user_id: resource_user.id
            }),

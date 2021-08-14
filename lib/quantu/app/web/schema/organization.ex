@@ -13,6 +13,7 @@ defmodule Quantu.App.Web.Schema.Organization do
         userId: %Schema{type: :string, description: "User Id"},
         name: %Schema{type: :string, description: "Organization name"},
         url: %Schema{type: :string, description: "Organization url"},
+        tags: %Schema{type: :array, items: %Schema{type: :string}, description: "Organization tags"},
         insertedAt: %Schema{
           type: :string,
           description: "Creation timestamp",
@@ -26,6 +27,7 @@ defmodule Quantu.App.Web.Schema.Organization do
         :userId,
         :name,
         :url,
+        :tags,
         :insertedAt,
         :updatedAt
       ],
@@ -34,6 +36,7 @@ defmodule Quantu.App.Web.Schema.Organization do
         "userId" => "6b934301-847a-4ce9-85fb-82e8eb7c9ab6",
         "name" => "My Organization",
         "url" => "my-organization-entry",
+        "tags" => ["tag"],
         "insertedAt" => "2017-09-12T12:34:55Z",
         "updatedAt" => "2017-09-13T10:11:12Z"
       }
@@ -54,6 +57,7 @@ defmodule Quantu.App.Web.Schema.Organization do
           "userId" => "6b934301-847a-4ce9-85fb-82e8eb7c9ab6",
           "name" => "My Organization",
           "url" => "my-organization-entry",
+          "tags" => ["tag"],
           "insertedAt" => "2017-09-12T12:34:55Z",
           "updatedAt" => "2017-09-13T10:11:12Z"
         }
@@ -70,7 +74,8 @@ defmodule Quantu.App.Web.Schema.Organization do
       type: :object,
       properties: %{
         name: %Schema{type: :string, description: "Organization name"},
-        url: %Schema{type: :string, description: "Organization url"}
+        url: %Schema{type: :string, description: "Organization url"},
+        tags: %Schema{type: :array, items: %Schema{type: :string}, description: "Organization tags"}
       },
       required: [
         :name
@@ -91,12 +96,14 @@ defmodule Quantu.App.Web.Schema.Organization do
       type: :object,
       properties: %{
         name: %Schema{type: :string, description: "Organization name"},
-        url: %Schema{type: :string, description: "Organization url"}
+        url: %Schema{type: :string, description: "Organization url"},
+        tags: %Schema{type: :array, items: %Schema{type: :string}, description: "Organization tags"},
       },
       required: [],
       example: %{
         "name" => "Another Organization",
-        "url" => "my-organization-entry"
+        "url" => "my-organization-entry",
+        "tags" => ["tag", "new-tag"]
       }
     })
   end
