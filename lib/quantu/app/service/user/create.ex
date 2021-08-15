@@ -29,7 +29,6 @@ defmodule Quantu.App.Service.User.Create do
     Repo.run(fn ->
       %Model.User{}
       |> cast(command, [:username, :encrypted_password])
-      |> validate_required([:username, :encrypted_password])
       |> unique_constraint(:username)
       |> Repo.insert!()
       |> Repo.preload([:emails])

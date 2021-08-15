@@ -16,6 +16,9 @@ defmodule Quantu.App.Service.Email.CreateConfirmationToken do
     |> validate_required([:user_id, :email_id])
     |> foreign_key_constraint(:user_id)
     |> foreign_key_constraint(:email_id)
+    |> unique_constraint(:email_id,
+      name: :email_confirmation_token_user_id_email_id_index
+    )
   end
 
   def handle(%{} = command) do
@@ -28,11 +31,6 @@ defmodule Quantu.App.Service.Email.CreateConfirmationToken do
           confirmation_token: Quantu.App.Util.generate_token(64)
         },
         [:user_id, :email_id, :confirmation_token]
-      )
-      |> foreign_key_constraint(:user_id)
-      |> foreign_key_constraint(:email_id)
-      |> unique_constraint(:email_id,
-        name: :email_confirmation_token_user_id_email_id_index
       )
       |> Repo.insert!()
     end)

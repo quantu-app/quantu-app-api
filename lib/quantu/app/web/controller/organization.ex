@@ -16,10 +16,19 @@ defmodule Quantu.App.Web.Controller.Organization do
     responses: [
       ok: {"User Organizations", "application/json", Schema.Organization.List}
     ],
+    parameters: [
+      subscriptions: [
+        in: :query,
+        description: "Only user's subscriptions",
+        type: :boolean,
+        example: true
+      ]
+    ],
     security: [%{"authorization" => []}]
 
-  def index(conn, _params) do
-    with {:ok, command} <- Service.Organization.Index.new(%{}),
+  def index(conn, params) do
+    with {:ok, command} <-
+           Service.Organization.Index.new(%{subscriptions: Map.get(params, :subscriptions)}),
          {:ok, organizations} <- Service.Organization.Index.handle(command) do
       conn
       |> put_status(200)

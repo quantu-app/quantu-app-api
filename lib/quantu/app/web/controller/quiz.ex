@@ -29,7 +29,7 @@ defmodule Quantu.App.Web.Controller.Quiz do
   def index(conn, params) do
     with {:ok, command} <-
            Service.Quiz.Index.new(%{
-             organization_id: Map.get(params, "organizationId")
+             organization_id: Map.get(params, :organizationId)
            }),
          {:ok, quizzes} <- Service.Quiz.Index.handle(command) do
       conn

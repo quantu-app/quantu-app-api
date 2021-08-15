@@ -19,33 +19,23 @@ defmodule Quantu.App.Service.Question.Index do
 
   def handle(%{} = command) do
     Repo.run(fn ->
-      if Map.get(command, :quiz_id) == nil do
-        if Map.get(command, :organization_id) == nil do
-          from(q in Model.Question)
-          |> Repo.all()
-        else
-          from(q in Model.Question, where: q.organization_id == ^command.organization_id)
-          |> Repo.all()
-        end
-      else
-        questions_query =
-          if Map.get(command, :organization_id) == nil do
-            from(q in Model.Question,
-              join: qqj in Model.QuizQuestionJoin,
-              on: qqj.question_id == q.id and qqj.quiz_id == ^command.quiz_id,
-              select: {q, qqj}
-            )
-          else
-            from(q in Model.Question,
-              join: qqj in Model.QuizQuestionJoin,
-              on: qqj.question_id == q.id and qqj.quiz_id == ^command.quiz_id,
-              where: q.organization_id == ^command.organization_id,
-              order_by: [asc: qqj.index],
-              select: {q, qqj}
-            )
-          end
+      query = from(q in Model.Question)
 
-        questions_query
+      query =
+        if Map.get(command, :organization_id) == nil do
+          query
+        else
+          where(query, [q], q.organization_id == ^command.organization_id)
+        end
+
+      if Map.get(command, :quiz_id) == nil do
+        Repo.all(query)
+      else
+        join(query, :inner, [q], qqj in Model.QuizQuestionJoin,
+          on: qqj.question_id == q.id and qqj.quiz_id == ^command.quiz_id
+        )
+        |> order_by([q, qqj], asc: qqj.index)
+        |> select([q, qqj], {q, qqj})
         |> Repo.all()
         |> Enum.map(fn {question, qqj} ->
           question

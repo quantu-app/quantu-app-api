@@ -38,29 +38,30 @@ defmodule Quantu.App.Service.Question.Answer do
        do: correct("multiple_choice", %{"choices" => choices}, [input])
 
   defp correct("multiple_choice", %{"choices" => choices}, input) when is_list(input) do
-    {correct, total} =
-      choices
-      |> Enum.reduce({0, 0}, fn {key, choice}, {correct, total} ->
-        is_correct_choice = Map.get(choice, "correct")
+    correct =
+      input
+      |> Enum.reduce(0, fn key, correct ->
+        if Map.get(choices, key, %{}) |> Map.get("correct") == true do
+          correct + 1
+        else
+          correct - 1
+        end
+      end)
 
-        {
-          if is_correct_choice and Enum.any?(input, fn k -> k == key end) do
-            correct + 1
-          else
-            correct
-          end,
-          if is_correct_choice do
-            total + 1
-          else
-            total
-          end
-        }
+    total =
+      choices
+      |> Enum.reduce(0, fn {_key, choice}, total ->
+        if Map.get(choice, "correct") == true do
+          total + 1
+        else
+          total
+        end
       end)
 
     if total == 0 do
-      correct / total
+      0
     else
-      1
+      correct / total
     end
   end
 

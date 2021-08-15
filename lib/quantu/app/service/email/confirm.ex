@@ -32,7 +32,6 @@ defmodule Quantu.App.Service.Email.Confirm do
           %{confirmed: true},
           [:confirmed]
         )
-        |> validate_required([:confirmed])
         |> Repo.update!()
 
       Repo.delete!(email_confirmation_token)

@@ -20,7 +20,6 @@ defmodule Quantu.App.Service.User.Deactivate do
     Repo.run(fn ->
       %Model.User{}
       |> cast(%{id: command.user_id, active: false}, [:id, :active])
-      |> validate_required([:id, :active])
       |> Repo.update!()
       |> Repo.preload([:emails])
     end)
