@@ -115,9 +115,9 @@ defmodule Quantu.App.Service.Question.Update do
         order_by: [asc: qqj.index]
       )
       |> Repo.all()
-      |> Enum.reduce({[], 0}, fn quiz_question_join, {quiz_question_joins, index} ->
+      |> Enum.map_reduce(0, fn quiz_question_join, index ->
         {
-          quiz_question_joins ++ [change(quiz_question_join, index: index)],
+          change(quiz_question_join, index: index),
           index + 1
         }
       end)
@@ -133,9 +133,9 @@ defmodule Quantu.App.Service.Question.Update do
         order_by: [asc: qqj.index]
       )
       |> Repo.all()
-      |> Enum.reduce({[], index + 1}, fn quiz_question_join, {quiz_question_joins, index} ->
+      |> Enum.map_reduce(index + 1, fn quiz_question_join, index ->
         {
-          quiz_question_joins ++ [change(quiz_question_join, index: index)],
+          change(quiz_question_join, index: index),
           index + 1
         }
       end)

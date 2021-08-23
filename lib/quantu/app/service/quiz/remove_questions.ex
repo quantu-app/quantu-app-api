@@ -23,6 +23,21 @@ defmodule Quantu.App.Service.Quiz.RemoveQuestions do
         where: qqj.quiz_id == ^command.quiz_id and qqj.question_id in ^command.questions
       )
       |> Repo.delete_all()
+
+      {changes, _last_index} =
+        from(qqj in Model.QuizQuestionJoin,
+          where: qqj.quiz_id == ^command.quiz_id,
+          order_by: [asc: qqj.index]
+        )
+        |> Repo.all()
+        |> Enum.map_reduce(0, fn quiz_question_join, index ->
+          {
+            change(quiz_question_join, index: index),
+            index + 1
+          }
+        end)
+
+      Enum.each(changes, &Repo.update!/1)
     end)
   end
 end
