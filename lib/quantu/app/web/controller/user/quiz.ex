@@ -165,4 +165,66 @@ defmodule Quantu.App.Web.Controller.User.Quiz do
       send_resp(conn, :no_content, "")
     end
   end
+
+  operation :add_questions,
+    summary: "Add Quertions to Quiz",
+    description: "Returns nothing",
+    request_body:
+      {"Request body to add questions to quiz", "application/json", Schema.Quiz.QuestionIds,
+       required: true},
+    responses: [
+      no_content: "Empty response"
+    ],
+    parameters: [
+      id: [in: :path, description: "Quiz Id", type: :integer, example: 1001],
+      organization_id: [
+        in: :path,
+        description: "Organization Id",
+        type: :integer,
+        example: 1001
+      ]
+    ],
+    security: [%{"authorization" => []}]
+
+  def add_questions(conn = %{body_params: body_params}, %{id: id}) do
+    with {:ok, command} <-
+           Service.Quiz.AddQuestions.new(%{
+             quiz_id: id,
+             questions: body_params.questions
+           }),
+         {:ok, _} <- Service.Quiz.AddQuestions.handle(command) do
+      send_resp(conn, :no_content, "")
+    end
+  end
+
+  operation :remove_questions,
+    summary: "Remove Quertions from Quiz",
+    description: "Returns nothing",
+    request_body:
+      {"Request body to remove questions from quiz", "application/json", Schema.Quiz.QuestionIds,
+       required: true},
+    responses: [
+      no_content: "Empty response"
+    ],
+    parameters: [
+      id: [in: :path, description: "Quiz Id", type: :integer, example: 1001],
+      organization_id: [
+        in: :path,
+        description: "Organization Id",
+        type: :integer,
+        example: 1001
+      ]
+    ],
+    security: [%{"authorization" => []}]
+
+  def remove_questions(conn = %{body_params: body_params}, %{id: id}) do
+    with {:ok, command} <-
+           Service.Quiz.RemoveQuestions.new(%{
+             quiz_id: id,
+             questions: body_params.questions
+           }),
+         {:ok, _} <- Service.Quiz.RemoveQuestions.handle(command) do
+      send_resp(conn, :no_content, "")
+    end
+  end
 end

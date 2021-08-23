@@ -87,13 +87,19 @@ defmodule Quantu.App.Web.Controller.Question do
         },
         %{id: id}
       ) do
+    resource_user = Guardian.Plug.current_resource(conn)
+
     with {:ok, command} <-
-           Service.Question.Answer.new(%{question_id: id, answer: answer}),
-         {:ok, result} <- Service.Question.Answer.handle(command) do
+           Service.Question.Answer.new(%{
+             user_id: resource_user.id,
+             question_id: id,
+             answer: answer
+           }),
+         {:ok, question_result} <- Service.Question.Answer.handle(command) do
       conn
       |> put_status(200)
-      |> put_view(View.Question)
-      |> render("answer.json", result: result)
+      |> put_view(View.QuestionResult)
+      |> render("question_result.json", question_result: question_result)
     end
   end
 end

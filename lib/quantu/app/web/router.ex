@@ -106,6 +106,8 @@ defmodule Quantu.App.Web.Router do
 
           resources "/questions", Question, except: [:new, :edit]
           resources "/quizzes", Quiz, except: [:new, :edit]
+          post("/quizzes/:id/add-questions", Quiz, :add_questions)
+          post("/quizzes/:id/remove-questions", Quiz, :remove_questions)
         end
       end
 

@@ -5,21 +5,50 @@ defmodule Quantu.App.Service.Question.Answer do
 
   @primary_key false
   schema "" do
+    belongs_to(:user, Model.User, type: :binary_id)
     belongs_to(:question, Model.Question)
     field(:answer, :map)
   end
 
   def changeset(%{} = attrs) do
     %__MODULE__{}
-    |> cast(attrs, [:question_id, :answer])
-    |> validate_required([:question_id])
+    |> cast(attrs, [:user_id, :question_id, :answer])
+    |> validate_required([:user_id, :question_id])
+    |> foreign_key_constraint(:user_id)
     |> foreign_key_constraint(:question_id)
   end
 
   def handle(%{} = command) do
     Repo.run(fn ->
-      %{type: type, prompt: prompt} = Repo.get_by!(Model.Question, id: command.question_id)
-      correct(type, prompt, Map.get(command.answer, :input))
+      %Model.Question{type: type, prompt: prompt} = Repo.get!(Model.Question, command.question_id)
+      result = correct(type, prompt, Map.get(command.answer, :input))
+
+      case Repo.get_by(Model.QuestionResult,
+             question_id: command.question_id,
+             user_id: command.user_id
+           ) do
+        nil ->
+          %Model.QuestionResult{
+            question_id: command.question_id,
+            user_id: command.user_id,
+            type: type,
+            prompt: prompt,
+            answer: command.answer,
+            result: result
+          }
+          |> Repo.insert!()
+
+        question_result ->
+          question_result
+          |> change(
+            answered: question_result.answered + 1,
+            type: type,
+            prompt: prompt,
+            answer: command.answer,
+            result: result
+          )
+          |> Repo.update!()
+      end
     end)
   end
 

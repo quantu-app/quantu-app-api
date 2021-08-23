@@ -34,9 +34,6 @@ defmodule Quantu.App.Web.View.Question do
       render("question_private.json", %{question: question})
       |> Map.put(:prompt, render_prompt(question.prompt))
 
-  def render("answer.json", %{result: result}),
-    do: %{result: result}
-
   def render_prompt(%{"front" => front, "back" => back}),
     do: %{
       front: front,

@@ -45,7 +45,7 @@ defmodule Quantu.App.Web.Controller.User.QuizTest do
 
       quizzes_json = json_response(conn, 200)
 
-      assert_schema quizzes_json, "QuizList", Quantu.App.Web.ApiSpec.spec()
+      assert_schema(quizzes_json, "QuizList", Quantu.App.Web.ApiSpec.spec())
       assert Enum.at(quizzes_json, 0)["id"] == quiz_id
     end
 
@@ -65,7 +65,7 @@ defmodule Quantu.App.Web.Controller.User.QuizTest do
 
       quiz_json = json_response(conn, 200)
 
-      assert_schema quiz_json, "Quiz", Quantu.App.Web.ApiSpec.spec()
+      assert_schema(quiz_json, "Quiz", Quantu.App.Web.ApiSpec.spec())
       assert quiz_json["id"] == quiz_id
     end
   end
@@ -85,7 +85,7 @@ defmodule Quantu.App.Web.Controller.User.QuizTest do
 
       quiz_json = json_response(conn, 201)
 
-      assert_schema quiz_json, "Quiz", Quantu.App.Web.ApiSpec.spec()
+      assert_schema(quiz_json, "Quiz", Quantu.App.Web.ApiSpec.spec())
       assert quiz_json["name"] == create_params["name"]
     end
   end
@@ -110,7 +110,7 @@ defmodule Quantu.App.Web.Controller.User.QuizTest do
 
       quiz_json = json_response(conn, 200)
 
-      assert_schema quiz_json, "Quiz", Quantu.App.Web.ApiSpec.spec()
+      assert_schema(quiz_json, "Quiz", Quantu.App.Web.ApiSpec.spec())
       assert quiz_json["name"] == update_params["name"]
     end
   end
@@ -140,5 +140,82 @@ defmodule Quantu.App.Web.Controller.User.QuizTest do
 
       json_response(conn, 404)
     end
+  end
+
+  describe "add/remove questions to quiz" do
+    test "should add questions to quiz", %{conn: conn, organization: organization} do
+      %{id: quiz_id} =
+        OpenApiSpex.Schema.example(Schema.Quiz.Create.schema())
+        |> Util.underscore()
+        |> Map.put("organization_id", organization.id)
+        |> Service.Quiz.Create.new!()
+        |> Service.Quiz.Create.handle!()
+
+      %{id: question_one_id} =
+        OpenApiSpex.Schema.example(Schema.Question.Create.schema())
+        |> Util.underscore()
+        |> Map.put("organization_id", organization.id)
+        |> Service.Question.Create.new!()
+        |> Service.Question.Create.handle!()
+
+      %{id: question_two_id} =
+        OpenApiSpex.Schema.example(Schema.Question.Create.schema())
+        |> Util.underscore()
+        |> Map.put("organization_id", organization.id)
+        |> Service.Question.Create.new!()
+        |> Service.Question.Create.handle!()
+
+      conn =
+        post(
+          conn,
+          Routes.user_organization_quiz_path(@endpoint, :add_questions, organization.id, quiz_id),
+          %{"questions" => [question_one_id, question_two_id]}
+        )
+
+      assert response(conn, 204)
+      assert length(Service.Question.Index.handle!(%{quiz_id: quiz_id})) == 2
+    end
+  end
+
+  test "should remove questions from quiz", %{conn: conn, organization: organization} do
+    %{id: quiz_id} =
+      OpenApiSpex.Schema.example(Schema.Quiz.Create.schema())
+      |> Util.underscore()
+      |> Map.put("organization_id", organization.id)
+      |> Service.Quiz.Create.new!()
+      |> Service.Quiz.Create.handle!()
+
+    %{id: question_one_id} =
+      OpenApiSpex.Schema.example(Schema.Question.Create.schema())
+      |> Util.underscore()
+      |> Map.put("quiz_id", quiz_id)
+      |> Map.put("organization_id", organization.id)
+      |> Service.Question.Create.new!()
+      |> Service.Question.Create.handle!()
+
+    %{id: question_two_id} =
+      OpenApiSpex.Schema.example(Schema.Question.Create.schema())
+      |> Util.underscore()
+      |> Map.put("quiz_id", quiz_id)
+      |> Map.put("organization_id", organization.id)
+      |> Service.Question.Create.new!()
+      |> Service.Question.Create.handle!()
+
+    assert length(Service.Question.Index.handle!(%{quiz_id: quiz_id})) == 2
+
+    conn =
+      post(
+        conn,
+        Routes.user_organization_quiz_path(
+          @endpoint,
+          :remove_questions,
+          organization.id,
+          quiz_id
+        ),
+        %{"questions" => [question_one_id, question_two_id]}
+      )
+
+    assert response(conn, 204)
+    assert length(Service.Question.Index.handle!(%{quiz_id: quiz_id})) == 0
   end
 end

@@ -121,9 +121,10 @@ defmodule Quantu.App.Web.Controller.QuestionTest do
           answer
         )
 
-      %{"result" => result} = json_response(conn, 200)
+      question_result_json = json_response(conn, 200)
+      assert_schema(question_result_json, "QuestionResult", Quantu.App.Web.ApiSpec.spec())
 
-      assert result == 1
+      assert question_result_json["result"] == 1
     end
   end
 end

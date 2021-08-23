@@ -75,7 +75,12 @@ defmodule Quantu.App.Web.Schema.Quiz do
       properties: %{
         name: %Schema{type: :string, description: "Quiz name"},
         description: %Schema{type: :string, nullable: true, description: "Quiz description"},
-        tags: %Schema{type: :array, items: %Schema{type: :string}, nullable: true, description: "Quiz tags"},
+        tags: %Schema{
+          type: :array,
+          items: %Schema{type: :string},
+          nullable: true,
+          description: "Quiz tags"
+        }
       },
       required: [
         :name
@@ -83,7 +88,7 @@ defmodule Quantu.App.Web.Schema.Quiz do
       example: %{
         "name" => "My Quiz",
         "description" => "My Quiz Description",
-        "tags" => ["math"],
+        "tags" => ["math"]
       }
     })
   end
@@ -98,13 +103,42 @@ defmodule Quantu.App.Web.Schema.Quiz do
       properties: %{
         name: %Schema{type: :string, nullable: true, description: "Quiz name"},
         description: %Schema{type: :string, nullable: true, description: "Quiz description"},
-        tags: %Schema{type: :array, items: %Schema{type: :string}, nullable: true, description: "Quiz tags"},
+        tags: %Schema{
+          type: :array,
+          items: %Schema{type: :string},
+          nullable: true,
+          description: "Quiz tags"
+        }
       },
       required: [],
       example: %{
         "name" => "My Quiz Update",
         "description" => "My Quiz Description Updated",
-        "tags" => ["math", "new-math"],
+        "tags" => ["math", "new-math"]
+      }
+    })
+  end
+
+  defmodule QuestionIds do
+    require OpenApiSpex
+
+    OpenApiSpex.schema(%{
+      title: "QuizQuestionIds",
+      description: "quiz questions ids",
+      type: :object,
+      properties: %{
+        questions: %Schema{
+          type: :array,
+          items: %Schema{
+            type: :integer
+          },
+          nullable: true,
+          description: "Question ids"
+        }
+      },
+      required: [],
+      example: %{
+        "questions" => [1, 2]
       }
     })
   end
