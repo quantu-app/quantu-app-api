@@ -112,19 +112,74 @@ defmodule Quantu.App.Web.Controller.QuestionTest do
         |> Service.Question.Create.new!()
         |> Service.Question.Create.handle!()
 
-      answer = OpenApiSpex.Schema.example(Schema.Question.Answer.schema())
+      answer = OpenApiSpex.Schema.example(Schema.QuestionResult.Answer.schema())
 
-      conn =
+      answer_conn =
         post(
           conn,
           Routes.question_path(@endpoint, :answer, question_id),
           answer
         )
 
-      question_result_json = json_response(conn, 200)
+      answer_json = json_response(answer_conn, 200)
+      assert_schema(answer_json, "QuestionResult", Quantu.App.Web.ApiSpec.spec())
+
+      result_conn =
+        get(
+          conn,
+          Routes.question_result_path(@endpoint, :show, question_id)
+        )
+
+      question_result_json = json_response(result_conn, 200)
       assert_schema(question_result_json, "QuestionResult", Quantu.App.Web.ApiSpec.spec())
 
+      assert answer_json["result"] == 1
       assert question_result_json["result"] == 1
+    end
+
+    test "should return results of quiz questions", %{
+      conn: conn,
+      organization: organization
+    } do
+      %{id: quiz_id} =
+        OpenApiSpex.Schema.example(Schema.Quiz.Create.schema())
+        |> Util.underscore()
+        |> Map.put("organization_id", organization.id)
+        |> Service.Quiz.Create.new!()
+        |> Service.Quiz.Create.handle!()
+
+      %{id: question_id} =
+        OpenApiSpex.Schema.example(Schema.Question.Create.schema())
+        |> Map.merge(OpenApiSpex.Schema.example(Schema.Question.Update.schema()))
+        |> Util.underscore()
+        |> Map.put("organization_id", organization.id)
+        |> Map.put("quiz_id", quiz_id)
+        |> Service.Question.Create.new!()
+        |> Service.Question.Create.handle!()
+
+      answer = OpenApiSpex.Schema.example(Schema.QuestionResult.Answer.schema())
+
+      answer_conn =
+        post(
+          conn,
+          Routes.question_path(@endpoint, :answer, question_id),
+          answer
+        )
+
+      answer_json = json_response(answer_conn, 200)
+      assert_schema(answer_json, "QuestionResult", Quantu.App.Web.ApiSpec.spec())
+
+      results_conn =
+        get(
+          conn,
+          Routes.question_result_path(@endpoint, :index, quizId: quiz_id)
+        )
+
+      question_results_json = json_response(results_conn, 200)
+      assert_schema(question_results_json, "QuestionResultList", Quantu.App.Web.ApiSpec.spec())
+
+      assert answer_json["result"] == 1
+      assert Enum.at(question_results_json, 0)["result"] == 1
     end
   end
 end

@@ -54,9 +54,9 @@ defmodule Quantu.App.Service.Question.Answer do
 
   defp correct("flash_card", _prompt, input) when is_float(input) or is_integer(input) do
     cond do
-      input < 0 -> 0
-      input > 1 -> 1
-      true -> input
+      input < 0 -> 0.0
+      input > 1 -> 1.0
+      true -> input / 1
     end
   end
 
@@ -73,7 +73,7 @@ defmodule Quantu.App.Service.Question.Answer do
         if Map.get(choices, key, %{}) |> Map.get("correct") == true do
           correct + 1
         else
-          correct - 1
+          correct
         end
       end)
 
@@ -88,7 +88,7 @@ defmodule Quantu.App.Service.Question.Answer do
       end)
 
     if total == 0 do
-      0
+      0.0
     else
       correct / total
     end

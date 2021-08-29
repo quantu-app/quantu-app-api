@@ -71,10 +71,10 @@ defmodule Quantu.App.Web.Controller.Question do
     summary: "Answer a Question",
     description: "Returns correct status",
     request_body:
-      {"Request body to answer question", "application/json", Schema.Question.Answer,
+      {"Request body to answer question", "application/json", Schema.QuestionResult.Answer,
        required: true},
     responses: [
-      ok: {"Question Answer result", "application/json", Schema.Question.Result}
+      ok: {"Question Answer result", "application/json", Schema.QuestionResult.Show}
     ],
     parameters: [
       id: [in: :path, description: "Question Id", type: :integer, example: 1001]

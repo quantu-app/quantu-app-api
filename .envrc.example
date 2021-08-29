@@ -3,3 +3,5 @@ export GUARDIAN_TOKEN="Secret key. You can use `mix guardian.gen.secret` to get 
 
 export GOOGLE_CLIENT_ID=""
 export GOOGLE_CLIENT_SECRET=""
+
+export KUBECONFIG=/path/to/kubeconfig.yaml
