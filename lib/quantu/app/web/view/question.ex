@@ -43,6 +43,14 @@ defmodule Quantu.App.Web.View.Question do
   def render_prompt(%{"question" => question, "choices" => choices}),
     do: %{
       "question" => question,
+      "singleAnswer" =>
+        Enum.reduce(choices, 0, fn {_key, choice}, count ->
+          if Map.get(choice, "correct") == true do
+            count + 1
+          else
+            count
+          end
+        end) == 1,
       "choices" =>
         choices
         |> Enum.reduce(%{}, fn {key, choice}, choices ->
