@@ -114,6 +114,7 @@ defmodule Quantu.App.Web.Router do
       resources "/organizations", Organization, only: [:index, :show]
       resources "/questions", Question, only: [:index, :show]
       post("/questions/:id/answer", Question, :answer)
+      post("/questions/:id/explain", Question, :explain)
       resources "/quizzes", Quiz, only: [:index, :show]
       resources "/question-results", QuestionResult, only: [:index, :show]
 

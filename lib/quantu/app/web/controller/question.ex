@@ -102,4 +102,34 @@ defmodule Quantu.App.Web.Controller.Question do
       |> render("question_result.json", question_result: question_result)
     end
   end
+
+  operation :explain,
+    summary: "Explain a Question",
+    description: "Returns Question result with explanation",
+    responses: [
+      ok: {"Question Answer result", "application/json", Schema.QuestionResult.Show}
+    ],
+    parameters: [
+      id: [in: :path, description: "Question Id", type: :integer, example: 1001]
+    ],
+    security: [%{"authorization" => []}]
+
+  def explain(
+        conn,
+        %{id: id}
+      ) do
+    resource_user = Guardian.Plug.current_resource(conn)
+
+    with {:ok, command} <-
+           Service.Question.Explain.new(%{
+             user_id: resource_user.id,
+             question_id: id
+           }),
+         {:ok, question_result} <- Service.Question.Explain.handle(command) do
+      conn
+      |> put_status(200)
+      |> put_view(View.QuestionResult)
+      |> render("question_result.json", question_result: question_result)
+    end
+  end
 end

@@ -124,6 +124,11 @@ defmodule Quantu.App.Web.Schema.Question do
           items: %Schema{type: :object},
           description: "question content"
         },
+        singleAnswer: %Schema{
+          type: :boolean,
+          nullable: true,
+          description: "question singleAnswer"
+        },
         choices: %Schema{
           type: :object,
           properties: %{
@@ -153,6 +158,7 @@ defmodule Quantu.App.Web.Schema.Question do
       ],
       example: %{
         "question" => [%{"insert" => "Which is the lowest Number?"}],
+        "singleAnswer" => true,
         "choices" => %{
           "a" => %{
             "content" => [%{"insert" => "0"}]
