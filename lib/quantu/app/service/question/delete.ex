@@ -20,6 +20,11 @@ defmodule Quantu.App.Service.Question.Delete do
     Repo.run(fn ->
       question = Repo.get!(Model.Question, command.question_id)
 
+      from(qr in Model.QuestionResult,
+        where: qr.question_id == ^question.id
+      )
+      |> Repo.delete_all()
+
       from(qqj in Model.QuizQuestionJoin,
         where: qqj.quiz_id == ^question.id
       )
