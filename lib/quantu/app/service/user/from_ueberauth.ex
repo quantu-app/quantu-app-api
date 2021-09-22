@@ -24,12 +24,7 @@ defmodule Quantu.App.Service.User.FromUeberauth do
         end
       ) do
         nil ->
-          user = create_user!(email, username_from_auth(auth, email))
-
-          Service.Organization.CreateForUser.new!(%{user_id: user.id})
-          |> Service.Organization.CreateForUser.handle!()
-
-          user
+          create_user!(email, username_from_auth(auth, email))
 
         user ->
           user
@@ -68,6 +63,7 @@ defmodule Quantu.App.Service.User.FromUeberauth do
     case Repo.get_by(Model.User, username: username) do
       nil ->
         username
+
       %Model.User{} ->
         unique_username(username <> Util.generate_token(4))
     end
@@ -80,8 +76,9 @@ defmodule Quantu.App.Service.User.FromUeberauth do
 
   def email_from_auth(_auth), do: nil
 
-  def username_from_auth(%Auth{info: %Auth.Info{nickname: nickname}}, _email) when is_binary(nickname),
-    do: nickname
+  def username_from_auth(%Auth{info: %Auth.Info{nickname: nickname}}, _email)
+      when is_binary(nickname),
+      do: nickname
 
   def username_from_auth(_auth, email) when is_binary(email),
     do: Regex.replace(~r/@.*$/, email, "")
