@@ -11,6 +11,8 @@ defmodule Quantu.App.Web.Controller.User.QuizQuestionTest do
       |> Service.User.Create.new!()
       |> Service.User.Create.handle!()
 
+    Service.User.Creator.handle!(%{user_id: user.id, creator: true})
+
     organization =
       OpenApiSpex.Schema.example(Schema.Organization.Create.schema())
       |> Util.underscore()
@@ -100,6 +102,7 @@ defmodule Quantu.App.Web.Controller.User.QuizQuestionTest do
              |> Map.get(:index) == 2
     end
   end
+
   test "should move question from first to last and update quiz questions indices", %{
     conn: conn,
     organization: organization,
@@ -136,6 +139,7 @@ defmodule Quantu.App.Web.Controller.User.QuizQuestionTest do
            })
            |> Map.get(:index) == 1
   end
+
   test "should move question from first to middle and update quiz questions indices", %{
     conn: conn,
     organization: organization,
@@ -172,6 +176,7 @@ defmodule Quantu.App.Web.Controller.User.QuizQuestionTest do
            })
            |> Map.get(:index) == 2
   end
+
   test "should move question from last to middle and update quiz questions indices", %{
     conn: conn,
     organization: organization,

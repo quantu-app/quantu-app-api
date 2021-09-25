@@ -29,7 +29,8 @@ defmodule Quantu.App.Web.Controller.Quiz do
   def index(conn, params) do
     with {:ok, command} <-
            Service.Quiz.Index.new(%{
-             organization_id: Map.get(params, :organizationId)
+             organization_id: Map.get(params, :organizationId),
+             published: true
            }),
          {:ok, quizzes} <- Service.Quiz.Index.handle(command) do
       conn
@@ -51,7 +52,7 @@ defmodule Quantu.App.Web.Controller.Quiz do
     security: [%{"authorization" => []}]
 
   def show(conn, %{id: quiz_id}) do
-    with {:ok, command} <- Service.Quiz.Show.new(%{quiz_id: quiz_id}),
+    with {:ok, command} <- Service.Quiz.Show.new(%{quiz_id: quiz_id, published: true}),
          {:ok, quiz} <- Service.Quiz.Show.handle(command) do
       conn
       |> put_status(200)

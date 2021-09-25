@@ -103,6 +103,7 @@ defmodule Quantu.App.Web.Schema.User do
         id: %Schema{type: :string, description: "Id"},
         token: %Schema{type: :string, description: "User Token"},
         username: %Schema{type: :string, description: "User name"},
+        creator: %Schema{type: :boolean, nullable: true, description: "User creator status"},
         email: Email,
         emails: %Schema{type: :array, items: Email},
         insertedAt: %Schema{
@@ -118,6 +119,7 @@ defmodule Quantu.App.Web.Schema.User do
         "id" => "ebf5b33a-7a68-41b7-8d0b-9b3a32caff02",
         "token" => "DwBg/rBlmXjTnQ3Xw9Hhr0A5hY1+FNHk1GlWnGPhbfX1ctqyqdlbiDXMX2Nzbxfu",
         "username" => "example",
+        "creator" => true,
         "email" => %{
           "id" => 1234,
           "userId" => "ebf5b33a-7a68-41b7-8d0b-9b3a32caff02",

@@ -12,6 +12,8 @@ defmodule Quantu.App.Web.Controller.User.EmailTest do
       |> Service.User.Create.new!()
       |> Service.User.Create.handle!()
 
+    Service.User.Creator.handle!(%{user_id: user.id, creator: true})
+
     conn = Guardian.Plug.sign_in(conn, user)
 
     {:ok,
@@ -34,7 +36,7 @@ defmodule Quantu.App.Web.Controller.User.EmailTest do
 
       email_json = json_response(conn, 201)
 
-      assert_schema email_json, "Email", Quantu.App.Web.ApiSpec.spec()
+      assert_schema(email_json, "Email", Quantu.App.Web.ApiSpec.spec())
       assert email_json["email"] == "example@domain.com"
       assert email_json["userId"] == user.id
     end
@@ -51,7 +53,7 @@ defmodule Quantu.App.Web.Controller.User.EmailTest do
           }
         )
 
-        email_json = json_response(conn, 422)
+      email_json = json_response(conn, 422)
 
       assert email_json["errors"]["email"] == ["has already been taken"]
     end
@@ -72,12 +74,14 @@ defmodule Quantu.App.Web.Controller.User.EmailTest do
       conn =
         put(
           conn,
-          Routes.user_email_path(@endpoint, :confirm, confirmationToken: confirmation_token.confirmation_token)
+          Routes.user_email_path(@endpoint, :confirm,
+            confirmationToken: confirmation_token.confirmation_token
+          )
         )
 
       user_json = json_response(conn, 200)
 
-      assert_schema user_json, "User", Quantu.App.Web.ApiSpec.spec()
+      assert_schema(user_json, "User", Quantu.App.Web.ApiSpec.spec())
       assert user_json["email"]["confirmed"] == true
     end
   end
@@ -105,7 +109,7 @@ defmodule Quantu.App.Web.Controller.User.EmailTest do
 
       email_json = json_response(conn, 200)
 
-      assert_schema email_json, "Email", Quantu.App.Web.ApiSpec.spec()
+      assert_schema(email_json, "Email", Quantu.App.Web.ApiSpec.spec())
       assert email_json["primary"] == true
       assert Repo.get!(Model.Email, old_email.id).primary == false
     end

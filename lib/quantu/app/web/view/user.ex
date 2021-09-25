@@ -29,6 +29,7 @@ defmodule Quantu.App.Web.View.User do
       id: user.id,
       token: token,
       username: user.username,
+      creator: user.creator,
       email: render_email(user.emails),
       emails:
         render_many(

@@ -32,6 +32,8 @@ defmodule Quantu.App.Service.Organization.Create do
 
   def handle(%{} = command) do
     Repo.run(fn ->
+      Repo.get_by!(Model.User, id: command.user_id, creator: true)
+
       %Model.Organization{}
       |> cast(command, [:user_id, :name, :url, :tags])
       |> unique_constraint(:url)
@@ -45,6 +47,7 @@ defmodule Quantu.App.Service.Organization.Create do
         case get_field(changeset, :name) do
           nil ->
             changeset
+
           name ->
             url = Regex.replace(@replace_regex, String.downcase(name), " ") |> String.trim()
             url = Regex.replace(@spaces_regex, url, "-")

@@ -11,6 +11,7 @@ defmodule Quantu.App.Web.Schema.Quiz do
       properties: %{
         id: %Schema{type: :integer, description: "Id"},
         organizationId: %Schema{type: :integer, description: "Organization Id"},
+        published: %Schema{type: :boolean, nullable: true, description: "Quiz published status"},
         name: %Schema{type: :string, description: "Quiz name"},
         description: %Schema{type: :string, description: "Quiz description"},
         tags: %Schema{type: :array, items: %Schema{type: :string}, description: "Quiz tags"},
@@ -25,6 +26,7 @@ defmodule Quantu.App.Web.Schema.Quiz do
       required: [
         :id,
         :organizationId,
+        :published,
         :name,
         :description,
         :tags,
@@ -34,6 +36,7 @@ defmodule Quantu.App.Web.Schema.Quiz do
       example: %{
         "id" => 1234,
         "organizationId" => "6b934301-847a-4ce9-85fb-82e8eb7c9ab6",
+        "published" => true,
         "name" => "My Quiz",
         "description" => "My Quiz Description",
         "tags" => ["math"],
@@ -55,6 +58,7 @@ defmodule Quantu.App.Web.Schema.Quiz do
         %{
           "id" => 1234,
           "organizationId" => "6b934301-847a-4ce9-85fb-82e8eb7c9ab6",
+          "published" => true,
           "name" => "My Quiz",
           "description" => "My Quiz Description",
           "tags" => ["math"],
@@ -75,6 +79,7 @@ defmodule Quantu.App.Web.Schema.Quiz do
       properties: %{
         name: %Schema{type: :string, description: "Quiz name"},
         description: %Schema{type: :string, nullable: true, description: "Quiz description"},
+        published: %Schema{type: :boolean, nullable: true, description: "Quiz published status"},
         tags: %Schema{
           type: :array,
           items: %Schema{type: :string},
@@ -87,6 +92,7 @@ defmodule Quantu.App.Web.Schema.Quiz do
       ],
       example: %{
         "name" => "My Quiz",
+        "published" => true,
         "description" => "My Quiz Description",
         "tags" => ["math"]
       }
@@ -103,6 +109,7 @@ defmodule Quantu.App.Web.Schema.Quiz do
       properties: %{
         name: %Schema{type: :string, nullable: true, description: "Quiz name"},
         description: %Schema{type: :string, nullable: true, description: "Quiz description"},
+        published: %Schema{type: :boolean, nullable: true, description: "Quiz published status"},
         tags: %Schema{
           type: :array,
           items: %Schema{type: :string},
@@ -113,6 +120,7 @@ defmodule Quantu.App.Web.Schema.Quiz do
       required: [],
       example: %{
         "name" => "My Quiz Update",
+        "published" => true,
         "description" => "My Quiz Description Updated",
         "tags" => ["math", "new-math"]
       }

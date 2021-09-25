@@ -94,7 +94,8 @@ defmodule Quantu.App.Web.Controller.User.Quiz do
              organization_id: organization_id,
              name: body_params.name,
              description: Map.get(body_params, :description),
-             tags: Map.get(body_params, :tags)
+             tags: Map.get(body_params, :tags),
+             published: Map.get(body_params, :published)
            }),
          {:ok, quiz} <- Service.Quiz.Create.handle(command) do
       conn
@@ -129,7 +130,8 @@ defmodule Quantu.App.Web.Controller.User.Quiz do
              quiz_id: id,
              name: body_params.name,
              description: body_params.description,
-             tags: body_params.tags
+             tags: body_params.tags,
+             published: Map.get(body_params, :published)
            }),
          {:ok, quiz} <- Service.Quiz.Update.handle(command) do
       conn

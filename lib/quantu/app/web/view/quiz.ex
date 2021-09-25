@@ -13,6 +13,7 @@ defmodule Quantu.App.Web.View.Quiz do
     do: %{
       id: quiz.id,
       organizationId: quiz.organization_id,
+      published: quiz.published,
       name: quiz.name,
       description: quiz.description,
       tags: quiz.tags,

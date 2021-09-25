@@ -9,11 +9,12 @@ defmodule Quantu.App.Service.Quiz.Create do
     field(:name, :string, null: false)
     field(:description, :string, null: false, default: "")
     field(:tags, {:array, :string}, null: false, default: [])
+    field(:published, :boolean)
   end
 
   def changeset(%{} = attrs) do
     %__MODULE__{}
-    |> cast(attrs, [:organization_id, :name, :description, :tags])
+    |> cast(attrs, [:organization_id, :name, :description, :tags, :published])
     |> validate_required([
       :organization_id,
       :name
@@ -24,7 +25,7 @@ defmodule Quantu.App.Service.Quiz.Create do
   def handle(%{} = command) do
     Repo.run(fn ->
       %Model.Quiz{}
-      |> cast(command, [:organization_id, :name, :description, :tags])
+      |> cast(command, [:organization_id, :name, :description, :tags, :published])
       |> validate_required([
         :organization_id,
         :name

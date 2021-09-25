@@ -12,6 +12,8 @@ defmodule Quantu.App.Web.Controller.User.QuizTest do
       |> Service.User.Create.new!()
       |> Service.User.Create.handle!()
 
+    Service.User.Creator.handle!(%{user_id: user.id, creator: true})
+
     organization =
       OpenApiSpex.Schema.example(Schema.Organization.Create.schema())
       |> Util.underscore()

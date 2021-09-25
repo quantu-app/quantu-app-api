@@ -12,6 +12,8 @@ defmodule Quantu.App.Web.Controller.UserTest do
       |> Service.User.Create.new!()
       |> Service.User.Create.handle!()
 
+    Service.User.Creator.handle!(%{user_id: user.id, creator: true})
+
     {:ok,
      user: user,
      conn:
@@ -31,7 +33,7 @@ defmodule Quantu.App.Web.Controller.UserTest do
 
       user_json = json_response(conn, 200)
 
-      assert_schema user_json, "User", Quantu.App.Web.ApiSpec.spec()
+      assert_schema(user_json, "User", Quantu.App.Web.ApiSpec.spec())
       assert user_json["id"] == user.id
     end
 

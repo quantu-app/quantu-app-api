@@ -9,6 +9,7 @@ defmodule Quantu.App.Model.User do
     has_many(:emails, Model.Email)
     has_many(:old_passwords, Model.OldPassword)
 
+    field(:creator, :boolean, null: false, default: false)
     field(:encrypted_password, :string, null: false)
     field(:username, :string, null: false)
     field(:active, :boolean, null: false, default: true)
