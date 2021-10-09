@@ -18,3 +18,11 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 - Docs: https://hexdocs.pm/phoenix
 - Forum: https://elixirforum.com/c/phoenix-forum
 - Source: https://github.com/phoenixframework/phoenix
+
+### Make a User a creator
+
+```bash
+iex -S mix
+user_id = Quantu.App.Repo.get_by!(Quantu.App.Model.User, username: "nathanfaucett").id
+Quantu.App.Service.User.Creator.handle!(%{user_id: user_id, creator: true})
+```

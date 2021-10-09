@@ -241,7 +241,7 @@ defmodule Quantu.App.Web.Schema.Question do
       ],
       example: %{
         "id" => 1234,
-        "organizationId" => "6b934301-847a-4ce9-85fb-82e8eb7c9ab6",
+        "organizationId" => 1001,
         "name" => "Question",
         "type" => "flash_card",
         "prompt" => %{
@@ -295,7 +295,7 @@ defmodule Quantu.App.Web.Schema.Question do
       ],
       example: %{
         "id" => 1234,
-        "organizationId" => "6b934301-847a-4ce9-85fb-82e8eb7c9ab6",
+        "organizationId" => 1001,
         "name" => "Question",
         "type" => "flash_card",
         "prompt" => %{
@@ -320,7 +320,7 @@ defmodule Quantu.App.Web.Schema.Question do
       example: [
         %{
           "id" => 1234,
-          "organizationId" => "6b934301-847a-4ce9-85fb-82e8eb7c9ab6",
+          "organizationId" => 1001,
           "name" => "Question",
           "type" => "flash_card",
           "prompt" => %{
@@ -346,7 +346,7 @@ defmodule Quantu.App.Web.Schema.Question do
       example: [
         %{
           "id" => 1234,
-          "organizationId" => "6b934301-847a-4ce9-85fb-82e8eb7c9ab6",
+          "organizationId" => 1001,
           "name" => "Question",
           "type" => "flash_card",
           "prompt" => %{

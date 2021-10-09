@@ -35,7 +35,7 @@ defmodule Quantu.App.Web.Schema.Quiz do
       ],
       example: %{
         "id" => 1234,
-        "organizationId" => "6b934301-847a-4ce9-85fb-82e8eb7c9ab6",
+        "organizationId" => 1001,
         "published" => true,
         "name" => "My Quiz",
         "description" => "My Quiz Description",
@@ -57,7 +57,7 @@ defmodule Quantu.App.Web.Schema.Quiz do
       example: [
         %{
           "id" => 1234,
-          "organizationId" => "6b934301-847a-4ce9-85fb-82e8eb7c9ab6",
+          "organizationId" => 1001,
           "published" => true,
           "name" => "My Quiz",
           "description" => "My Quiz Description",

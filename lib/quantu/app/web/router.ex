@@ -54,14 +54,17 @@ defmodule Quantu.App.Web.Router do
   end
 
   scope "/" do
-    pipe_through(:api)
     pipe_through(:api_spec)
+    pipe_through(:api)
 
     get("/swagger.json", OpenApiSpex.Plug.RenderSpec, [])
 
     scope "/", Quantu.App.Web.Controller do
       get("/health", HealthCheck, :health)
       head("/health", HealthCheck, :health)
+
+      get("/static/assets/:organization_id/:parent_id/:id", Asset, :show_by_parent)
+      get("/static/assets/:organization_id/:id", Asset, :show_by_organization)
 
       scope "/auth" do
         get("/:provider", Auth, :request)
@@ -104,6 +107,7 @@ defmodule Quantu.App.Web.Router do
         resources "/organizations", Organization, except: [:new, :edit] do
           pipe_through(:organization_write)
 
+          resources "/assets", Asset, except: [:new, :edit]
           resources "/questions", Question, except: [:new, :edit]
           resources "/quizzes", Quiz, except: [:new, :edit]
           post("/quizzes/:id/add-questions", Quiz, :add_questions)

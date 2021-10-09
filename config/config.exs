@@ -87,4 +87,28 @@ config :quantu_app, Quantu.App.Repo,
   hostname: "localhost",
   show_sensitive_data_on_connection_error: true
 
+config :ex_aws,
+  json_codec: Jason,
+  access_key_id: [
+    System.get_env("AWS_ACCESS_KEY_ID") ||
+      (Mix.env() == "prod" &&
+         raise("""
+         environment variable AWS_ACCESS_KEY_ID is missing.
+         You can generate one by calling: mix phx.gen.secret
+         """)),
+    :instance_role
+  ],
+  secret_access_key: [
+    System.get_env("AWS_SECRET_ACCESS_KEY") ||
+      (Mix.env() == "prod" &&
+         raise("""
+         environment variable AWS_SECRET_ACCESS_KEY is missing.
+         You can generate one by calling: mix phx.gen.secret
+         """)),
+    :instance_role
+  ]
+
+config :waffle,
+  storage: Waffle.Storage.Local
+
 import_config "#{Mix.env()}.exs"
