@@ -6,7 +6,8 @@ config :peerage,
 
 config :waffle,
   storage: Waffle.Storage.S3,
-  bucket: "quantu-app-assets"
+  bucket: "quantu-app-assets",
+  asset_host: "https://quantu-app-assets.us-southeast-1.linodeobjects.com/quantu-app-assets"
 
 config :quantu_app, Quantu.App.Repo,
   show_sensitive_data_on_connection_error: false,

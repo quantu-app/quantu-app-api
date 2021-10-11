@@ -2,6 +2,8 @@ defmodule Quantu.App.Web.Uploader.Asset do
   use Waffle.Definition
   use Waffle.Ecto.Definition
 
+  @acl :public_read
+
   def prefix,
     do:
       if(
@@ -31,6 +33,9 @@ defmodule Quantu.App.Web.Uploader.Asset do
     file_name = Path.basename(file.file_name, Path.extname(file.file_name))
     Path.join([to_string(asset.id), "#{version}_#{file_name}"])
   end
+
+  def s3_object_headers(_version, {file, _asset}),
+    do: [content_type: MIME.from_path(file.file_name)]
 
   def local_filepath({file, asset}, version \\ :original) do
     Path.join([

@@ -36,9 +36,14 @@ defmodule Quantu.App.Web.Controller.Asset do
              organization_id: organization_id
            }),
          {:ok, asset} <- Service.Asset.Show.handle(command) do
-      conn
-      |> put_resp_header("content-type", asset.type)
-      |> send_file(200, Uploader.Asset.local_filepath({asset.name, asset}))
+      if Application.get_env(:waffle, :storage) == Waffle.Storage.Local do
+        conn
+        |> put_resp_header("content-type", asset.type)
+        |> send_file(200, Uploader.Asset.local_filepath({asset.name, asset}))
+      else
+        conn
+        |> redirect(external: Uploader.Asset.url({asset.name, asset}))
+      end
     end
   end
 
@@ -66,9 +71,14 @@ defmodule Quantu.App.Web.Controller.Asset do
     with {:ok, command} <-
            Service.Asset.Show.new(%{asset_id: asset_id, organization_id: organization_id}),
          {:ok, asset} <- Service.Asset.Show.handle(command) do
-      conn
+      if Application.get_env(:waffle, :storage) == Waffle.Storage.Local do
+        conn
       |> put_resp_header("content-type", asset.type)
       |> send_file(200, Uploader.Asset.local_filepath({asset.name, asset}))
+      else
+        conn
+        |> redirect(external: Uploader.Asset.url({asset.name, asset}))
+      end
     end
   end
 end

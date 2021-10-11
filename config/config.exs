@@ -89,20 +89,24 @@ config :quantu_app, Quantu.App.Repo,
 
 config :ex_aws,
   json_codec: Jason,
+  s3: [
+    scheme: "https://",
+    host: "quantu-app-assets.us-southeast-1.linodeobjects.com"
+  ],
   access_key_id: [
-    System.get_env("AWS_ACCESS_KEY_ID") ||
+    System.get_env("S3_ACCESS_KEY_ID") ||
       (Mix.env() == "prod" &&
          raise("""
-         environment variable AWS_ACCESS_KEY_ID is missing.
+         environment variable S3_ACCESS_KEY_ID is missing.
          You can generate one by calling: mix phx.gen.secret
          """)),
     :instance_role
   ],
   secret_access_key: [
-    System.get_env("AWS_SECRET_ACCESS_KEY") ||
+    System.get_env("S3_SECRET_ACCESS_KEY") ||
       (Mix.env() == "prod" &&
          raise("""
-         environment variable AWS_SECRET_ACCESS_KEY is missing.
+         environment variable S3_SECRET_ACCESS_KEY is missing.
          You can generate one by calling: mix phx.gen.secret
          """)),
     :instance_role

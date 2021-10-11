@@ -64,6 +64,8 @@ defmodule Quantu.App.MixProject do
       {:waffle_ecto, "~> 0.0"},
       {:ex_aws, "~> 2.1"},
       {:ex_aws_s3, "~> 2.0"},
+      {:hackney, "~> 1.9"},
+      {:sweet_xml, "~> 0.6"},
       {:mime, "~> 1.2"},
       {:open_api_spex, "~> 3.10"},
       {:excoveralls, "~> 0.14", only: :test}
@@ -85,7 +87,9 @@ defmodule Quantu.App.MixProject do
         " --set env.SECRET_KEY_BASE=#{System.get_env("SECRET_KEY_BASE")}" <>
         " --set env.GUARDIAN_TOKEN=#{System.get_env("GUARDIAN_TOKEN")}" <>
         " --set env.GOOGLE_CLIENT_ID=#{System.get_env("GOOGLE_CLIENT_ID")}" <>
-        " --set env.GOOGLE_CLIENT_SECRET=#{System.get_env("GOOGLE_CLIENT_SECRET")}"
+        " --set env.GOOGLE_CLIENT_SECRET=#{System.get_env("GOOGLE_CLIENT_SECRET")}" <>
+        " --set env.S3_ACCESS_KEY_ID=#{System.get_env("S3_ACCESS_KEY_ID")}" <>
+        " --set env.S3_SECRET_ACCESS_KEY=#{System.get_env("S3_SECRET_ACCESS_KEY")}"
 
   defp create_helm_upgrade(),
     do:
