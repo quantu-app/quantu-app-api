@@ -90,9 +90,7 @@ defmodule Quantu.App.Web.Schema.Asset do
         name: %Schema{type: :string, format: :binary, description: "Asset file name"},
         type: %Schema{type: :string, nullable: true, description: "Asset type"}
       },
-      required: [
-        :name
-      ],
+      required: [],
       example: %{
         "parentId" => nil,
         "name" => "image.png"

@@ -102,7 +102,7 @@ defmodule Quantu.App.Web.Controller.User.Asset do
     ],
     security: [%{"authorization" => []}]
 
-  def create(conn = %{body_params: body_params}, %{organization_id: organization_id}) do
+  def create(conn = %{body_params: body_params}, params = %{organization_id: organization_id}) do
     with {:ok, command} <-
            Service.Asset.Create.new(%{
              organization_id: organization_id,

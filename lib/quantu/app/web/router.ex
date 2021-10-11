@@ -11,7 +11,7 @@ defmodule Quantu.App.Web.Router do
   end
 
   pipeline :upload do
-    plug(:accepts, ["html", "json"])
+    plug(:accepts, ["json", "multipart"])
   end
 
   pipeline :api do
@@ -107,7 +107,11 @@ defmodule Quantu.App.Web.Router do
         resources "/organizations", Organization, except: [:new, :edit] do
           pipe_through(:organization_write)
 
-          resources "/assets", Asset, except: [:new, :edit]
+          scope "/" do
+            pipe_through(:upload)
+            resources "/assets", Asset, except: [:new, :edit]
+          end
+
           resources "/questions", Question, except: [:new, :edit]
           resources "/quizzes", Quiz, except: [:new, :edit]
           post("/quizzes/:id/add-questions", Quiz, :add_questions)
