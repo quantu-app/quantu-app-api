@@ -52,15 +52,27 @@ defmodule Quantu.App.Service.Question.Answer do
     end)
   end
 
+  defp correct("input", %{"answers" => answers}, input) do
+    answer = to_string(input)
+
+    if Enum.any?(answers, fn a -> a == answer end) do
+      1.0
+    else
+      0.0
+    end
+  end
+
+  defp correct("input", _prompt, _input), do: 0.0
+
   defp correct("flash_card", _prompt, input) when is_float(input) or is_integer(input) do
     cond do
       input < 0 -> 0.0
       input > 1 -> 1.0
-      true -> input / 1
+      true -> input / 1.0
     end
   end
 
-  defp correct("flash_card", _prompt, _input), do: 0
+  defp correct("flash_card", _prompt, _input), do: 0.0
 
   defp correct("multiple_choice", %{"choices" => choices}, input)
        when is_binary(input) or is_bitstring(input),
@@ -94,5 +106,5 @@ defmodule Quantu.App.Service.Question.Answer do
     end
   end
 
-  defp correct(_type, _prompt, _input), do: 0
+  defp correct(_type, _prompt, _input), do: 0.0
 end

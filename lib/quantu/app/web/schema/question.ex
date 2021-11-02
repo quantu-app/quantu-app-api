@@ -47,6 +47,89 @@ defmodule Quantu.App.Web.Schema.Question do
     })
   end
 
+  defmodule InputPrivate do
+    require OpenApiSpex
+
+    OpenApiSpex.schema(%{
+      title: "QuestionInputPrivate",
+      description: "Question input private prompt",
+      type: :object,
+      properties: %{
+        question: %Schema{
+          type: :array,
+          items: %Schema{type: :object},
+          description: "question content"
+        },
+        explanation: %Schema{
+          type: :array,
+          items: %Schema{type: :object},
+          nullable: true,
+          description: "question explanation"
+        },
+        type: %Schema{
+          type: :string,
+          enum: ["number", "latex", "text"],
+          description: "question input type"
+        },
+        answers: %Schema{
+          type: :array,
+          items: %Schema{type: :string},
+          description: "answers"
+        }
+      },
+      additionalProperties: false,
+      required: [
+        :question,
+        :type,
+        :answers
+      ],
+      example: %{
+        "question" => [%{"insert" => "Which is lower, 1 or 2"}],
+        "explanation" => [%{"insert" => "One is."}],
+        "type" => "number",
+        "answers" => ["1"]
+      }
+    })
+  end
+
+  defmodule Input do
+    require OpenApiSpex
+
+    OpenApiSpex.schema(%{
+      title: "QuestionInput",
+      description: "Question input prompt",
+      type: :object,
+      properties: %{
+        question: %Schema{
+          type: :array,
+          items: %Schema{type: :object},
+          description: "question content"
+        },
+        explanation: %Schema{
+          type: :array,
+          items: %Schema{type: :object},
+          nullable: true,
+          description: "question explanation"
+        },
+        type: %Schema{
+          type: :string,
+          enum: ["number", "latex", "text"],
+          description: "question input type"
+        }
+      },
+      additionalProperties: false,
+      required: [
+        :question,
+        :type
+      ],
+      example: %{
+        "question" => [%{"insert" => "Which is lower, 1 or 2"}],
+        "explanation" => [%{"insert" => "One is."}],
+        "type" => "number"
+      }
+    })
+  end
+
   defmodule MultipleChoicePrivate do
     require OpenApiSpex
 
@@ -178,7 +261,7 @@ defmodule Quantu.App.Web.Schema.Question do
       title: "QuestionPromptPrivate",
       description: "Question prompt private",
       type: :object,
-      oneOf: [MultipleChoicePrivate, FlashCardPrivate],
+      oneOf: [MultipleChoicePrivate, FlashCardPrivate, InputPrivate],
       example: %{
         "front" => [%{"insert" => "Front"}],
         "back" => [%{"insert" => "Back"}]
@@ -193,7 +276,7 @@ defmodule Quantu.App.Web.Schema.Question do
       title: "QuestionPrompt",
       description: "Question prompt",
       type: :object,
-      oneOf: [MultipleChoice, FlashCard],
+      oneOf: [MultipleChoice, FlashCard, Input],
       example: %{
         "front" => [%{"insert" => "Front"}],
         "back" => [%{"insert" => "Back"}]
@@ -216,7 +299,7 @@ defmodule Quantu.App.Web.Schema.Question do
         name: %Schema{type: :string, nullable: true, description: "Question name"},
         type: %Schema{
           type: :string,
-          enum: ["flash_card", "multiple_choice"],
+          enum: ["flash_card", "multiple_choice", "input"],
           description: "Question type"
         },
         prompt: PromptPrivate,
@@ -270,7 +353,7 @@ defmodule Quantu.App.Web.Schema.Question do
         name: %Schema{type: :string, nullable: true, description: "Question name"},
         type: %Schema{
           type: :string,
-          enum: ["flash_card", "multiple_choice"],
+          enum: ["flash_card", "multiple_choice", "input"],
           description: "Question type"
         },
         prompt: Prompt,
@@ -373,7 +456,7 @@ defmodule Quantu.App.Web.Schema.Question do
         name: %Schema{type: :string, nullable: true, description: "Question name"},
         type: %Schema{
           type: :string,
-          enum: ["flash_card", "multiple_choice"],
+          enum: ["flash_card", "multiple_choice", "input"],
           description: "Question type"
         },
         prompt: PromptPrivate,

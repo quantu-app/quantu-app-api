@@ -2,6 +2,17 @@ defmodule Quantu.App.Web.Schema.QuestionResult do
   alias OpenApiSpex.Schema
   alias Quantu.App.Web.Schema.Question.PromptPrivate
 
+  defmodule InputAnswer do
+    require OpenApiSpex
+
+    OpenApiSpex.schema(%{
+      title: "InputAnswer",
+      description: "Input answer",
+      type: :string,
+      example: "a"
+    })
+  end
+
   defmodule MultipleChoiceAnswer do
     require OpenApiSpex
 
@@ -34,7 +45,7 @@ defmodule Quantu.App.Web.Schema.QuestionResult do
       type: :object,
       properties: %{
         input: %Schema{
-          anyOf: [FlashCardAnswer, MultipleChoiceAnswer],
+          anyOf: [FlashCardAnswer, MultipleChoiceAnswer, InputAnswer],
           description: "Question Answer input"
         }
       },
@@ -56,7 +67,7 @@ defmodule Quantu.App.Web.Schema.QuestionResult do
         questionId: %Schema{type: :integer, description: "Question Id"},
         type: %Schema{
           type: :string,
-          enum: ["flash_card", "multiple_choice"],
+          enum: ["flash_card", "multiple_choice", "input"],
           description: "Question type"
         },
         prompt: PromptPrivate,
