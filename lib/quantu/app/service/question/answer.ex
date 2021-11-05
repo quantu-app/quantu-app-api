@@ -21,34 +21,33 @@ defmodule Quantu.App.Service.Question.Answer do
   def handle(%{} = command) do
     Repo.run(fn ->
       %Model.Question{type: type, prompt: prompt} = Repo.get!(Model.Question, command.question_id)
+
       result = correct(type, prompt, Map.get(command.answer, :input))
 
-      case Repo.get_by(Model.QuestionResult,
-             question_id: command.question_id,
-             user_id: command.user_id
-           ) do
-        nil ->
-          %Model.QuestionResult{
+      question_result =
+        %Model.QuestionResult{}
+        |> cast(
+          %{
             question_id: command.question_id,
             user_id: command.user_id,
             type: type,
             prompt: prompt,
             answer: command.answer,
             result: result
-          }
-          |> Repo.insert!()
+          },
+          [:question_id, :user_id, :type, :prompt, :answer, :result]
+        )
+        |> unique_constraint([:user_id, :question_id],
+          name: :question_results_user_id_question_id_index
+        )
+        |> Repo.insert!(
+          on_conflict: {:replace, [:type, :prompt, :answer, :result]},
+          conflict_target: [:user_id, :question_id]
+        )
 
-        question_result ->
-          question_result
-          |> change(
-            answered: question_result.answered + 1,
-            type: type,
-            prompt: prompt,
-            answer: command.answer,
-            result: result
-          )
-          |> Repo.update!()
-      end
+      question_result
+      |> change(answered: question_result.answered + 1)
+      |> Repo.update!()
     end)
   end
 
