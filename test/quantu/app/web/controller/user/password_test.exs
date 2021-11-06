@@ -37,7 +37,7 @@ defmodule Quantu.App.Web.Controller.User.PasswordTest do
 
       user_json = json_response(conn, 201)
 
-      assert_schema(user_json, "User", Quantu.App.Web.ApiSpec.spec())
+      assert_schema(user_json, "UserPrivate", Quantu.App.Web.ApiSpec.spec())
     end
 
     test "should fail to reset password if old password is invalid", %{conn: conn} do

@@ -92,11 +92,39 @@ defmodule Quantu.App.Web.Schema.User do
     })
   end
 
+  defmodule Public do
+    require OpenApiSpex
+
+    OpenApiSpex.schema(%{
+      title: "UserPublic",
+      description: "A public user",
+      type: :object,
+      properties: %{
+        id: %Schema{type: :string, description: "Id"},
+        username: %Schema{type: :string, description: "User name"},
+        insertedAt: %Schema{
+          type: :string,
+          description: "Creation timestamp",
+          format: :"date-time"
+        },
+        updatedAt: %Schema{type: :string, description: "Update timestamp", format: :"date-time"}
+      },
+      additionalProperties: false,
+      required: [:id, :username, :insertedAt, :updatedAt],
+      example: %{
+        "id" => "ebf5b33a-7a68-41b7-8d0b-9b3a32caff02",
+        "username" => "example",
+        "insertedAt" => "2017-09-12T12:34:55Z",
+        "updatedAt" => "2017-09-13T10:11:12Z"
+      }
+    })
+  end
+
   defmodule Private do
     require OpenApiSpex
 
     OpenApiSpex.schema(%{
-      title: "User",
+      title: "UserPrivate",
       description: "A private user",
       type: :object,
       properties: %{

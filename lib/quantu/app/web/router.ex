@@ -80,6 +80,8 @@ defmodule Quantu.App.Web.Router do
 
       pipe_through(:auth_access)
 
+      resources "/users", User, only: [:show]
+
       scope "/user", User, as: :user do
         scope "/email" do
           post("/", Email, :create)

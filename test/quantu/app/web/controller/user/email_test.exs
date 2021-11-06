@@ -81,7 +81,7 @@ defmodule Quantu.App.Web.Controller.User.EmailTest do
 
       user_json = json_response(conn, 200)
 
-      assert_schema(user_json, "User", Quantu.App.Web.ApiSpec.spec())
+      assert_schema(user_json, "UserPrivate", Quantu.App.Web.ApiSpec.spec())
       assert user_json["email"]["confirmed"] == true
     end
   end

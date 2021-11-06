@@ -2,6 +2,8 @@ defmodule Quantu.App.Web.Socket.User do
   use Phoenix.Socket
   require Logger
 
+  channel "play", Quantu.App.Web.Channel.Play
+
   @impl true
   def connect(%{"token" => token}, socket) do
     case Guardian.Phoenix.Socket.authenticate(socket, Quantu.App.Web.Guardian, token) do
@@ -19,5 +21,5 @@ defmodule Quantu.App.Web.Socket.User do
   end
 
   @impl true
-  def id(socket), do: "user:#{Guardian.Phoenix.Socket.current_resource(socket).id}"
+  def id(socket), do: "#{Guardian.Phoenix.Socket.current_resource(socket).id}"
 end

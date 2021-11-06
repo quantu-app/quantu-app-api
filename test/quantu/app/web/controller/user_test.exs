@@ -21,6 +21,23 @@ defmodule Quantu.App.Web.Controller.UserTest do
        |> put_req_header("content-type", "application/json")}
   end
 
+  describe "show" do
+    test "should return a user by id", %{conn: conn, user: user} do
+      conn = Guardian.Plug.sign_in(conn, user)
+
+      conn =
+        get(
+          conn,
+          Routes.user_path(@endpoint, :show, user.id)
+        )
+
+      user_json = json_response(conn, 200)
+
+      assert_schema(user_json, "UserPublic", Quantu.App.Web.ApiSpec.spec())
+      assert user_json["id"] == user.id
+    end
+  end
+
   describe "current" do
     test "should return current user", %{conn: conn, user: user} do
       conn = Guardian.Plug.sign_in(conn, user)
@@ -33,7 +50,7 @@ defmodule Quantu.App.Web.Controller.UserTest do
 
       user_json = json_response(conn, 200)
 
-      assert_schema(user_json, "User", Quantu.App.Web.ApiSpec.spec())
+      assert_schema(user_json, "UserPrivate", Quantu.App.Web.ApiSpec.spec())
       assert user_json["id"] == user.id
     end
 

@@ -24,7 +24,7 @@ defmodule Quantu.App.Web.Controller.Auth.SignUpTest do
 
       user_json = json_response(conn, 201)
 
-      assert_schema user_json, "User", Quantu.App.Web.ApiSpec.spec()
+      assert_schema(user_json, "UserPrivate", Quantu.App.Web.ApiSpec.spec())
     end
   end
 end
