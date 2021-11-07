@@ -64,7 +64,8 @@ defmodule Quantu.App.Web.Schema.QuestionResult do
       type: :object,
       properties: %{
         id: %Schema{type: :integer, description: "Id"},
-        questionId: %Schema{type: :integer, description: "Question Id"},
+        userId: %Schema{type: :string, description: "Question results user Id"},
+        questionId: %Schema{type: :integer, description: "Question results Id"},
         type: %Schema{
           type: :string,
           enum: ["flash_card", "multiple_choice", "input"],
@@ -83,8 +84,19 @@ defmodule Quantu.App.Web.Schema.QuestionResult do
         },
         updatedAt: %Schema{type: :string, description: "Update timestamp", format: :"date-time"}
       },
+      required: [
+        :id,
+        :userId,
+        :questionId,
+        :type,
+        :prompt,
+        :result,
+        :insertedAt,
+        :updatedAt
+      ],
       example: %{
         "id" => 1,
+        "userId" => "6b934301-847a-4ce9-85fb-82e8eb7c9ab6",
         "questionId" => 1,
         "result" => 1.0,
         "type" => "multiple_choice",
@@ -122,6 +134,7 @@ defmodule Quantu.App.Web.Schema.QuestionResult do
       example: [
         %{
           "id" => 1,
+          "userId" => "6b934301-847a-4ce9-85fb-82e8eb7c9ab6",
           "questionId" => 1,
           "result" => 1.0,
           "type" => "multiple_choice",

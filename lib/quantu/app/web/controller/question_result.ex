@@ -27,9 +27,12 @@ defmodule Quantu.App.Web.Controller.QuestionResult do
     security: [%{"authorization" => []}]
 
   def index(conn, params) do
+    resource_user = Guardian.Plug.current_resource(conn)
+
     with {:ok, command} <-
            Service.QuestionResult.Index.new(%{
-             quiz_id: Map.get(params, :quizId)
+             quiz_id: Map.get(params, :quizId),
+             user_id: resource_user.id
            }),
          {:ok, question_results} <- Service.QuestionResult.Index.handle(command) do
       conn
@@ -51,7 +54,10 @@ defmodule Quantu.App.Web.Controller.QuestionResult do
     security: [%{"authorization" => []}]
 
   def show(conn, %{id: id}) do
-    with {:ok, command} <- Service.QuestionResult.Show.new(%{question_id: id}),
+    resource_user = Guardian.Plug.current_resource(conn)
+
+    with {:ok, command} <-
+           Service.QuestionResult.Show.new(%{question_id: id, user_id: resource_user.id}),
          {:ok, question_result} <- Service.QuestionResult.Show.handle(command) do
       conn
       |> put_status(200)

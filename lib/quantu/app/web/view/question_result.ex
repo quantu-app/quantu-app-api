@@ -12,6 +12,7 @@ defmodule Quantu.App.Web.View.QuestionResult do
   def render("question_result.json", %{question_result: question_result}),
     do: %{
       id: question_result.id,
+      userId: question_result.user_id,
       questionId: question_result.question_id,
       answered: question_result.answered,
       type: question_result.type,
