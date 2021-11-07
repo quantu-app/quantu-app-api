@@ -139,6 +139,41 @@ defmodule Quantu.App.Web.Controller.QuestionTest do
       assert question_result_json["result"] == 1
     end
 
+    test "should return result of input question", %{
+      conn: conn,
+      organization: organization
+    } do
+      %{id: question_id} =
+        OpenApiSpex.Schema.example(Schema.Question.Create.schema())
+        |> Map.put("prompt", OpenApiSpex.Schema.example(Schema.Question.InputPrivate.schema()))
+        |> Util.underscore()
+        |> Map.put("organization_id", organization.id)
+        |> Service.Question.Create.new!()
+        |> Service.Question.Create.handle!()
+
+      answer_conn =
+        post(
+          conn,
+          Routes.question_path(@endpoint, :answer, question_id),
+          %{"input" => "1.0"}
+        )
+
+      answer_json = json_response(answer_conn, 200)
+      assert_schema(answer_json, "QuestionResult", Quantu.App.Web.ApiSpec.spec())
+
+      result_conn =
+        get(
+          conn,
+          Routes.question_result_path(@endpoint, :show, question_id)
+        )
+
+      question_result_json = json_response(result_conn, 200)
+      assert_schema(question_result_json, "QuestionResult", Quantu.App.Web.ApiSpec.spec())
+
+      assert answer_json["result"] == 1
+      assert question_result_json["result"] == 1
+    end
+
     test "should return results of quiz questions", %{
       conn: conn,
       organization: organization

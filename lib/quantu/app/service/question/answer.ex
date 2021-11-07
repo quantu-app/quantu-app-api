@@ -51,10 +51,15 @@ defmodule Quantu.App.Service.Question.Answer do
     end)
   end
 
-  defp correct("input", %{"answers" => answers}, input) do
-    answer = to_string(input)
+  defp correct("input", %{"type" => type, "answers" => answers}, input) do
+    correct =
+      if type == "number" do
+        Enum.any?(answers, fn a -> to_float(a) == to_float(input) end)
+      else
+        Enum.any?(answers, fn a -> to_string(a) == to_string(input) end)
+      end
 
-    if Enum.any?(answers, fn a -> a == answer end) do
+    if correct do
       1.0
     else
       0.0
@@ -106,4 +111,14 @@ defmodule Quantu.App.Service.Question.Answer do
   end
 
   defp correct(_type, _prompt, _input), do: 0.0
+
+  defp to_float(x) when is_float(x), do: x
+  defp to_float(x) when is_integer(x), do: x / 1
+
+  defp to_float(x) do
+    case Float.parse(x) do
+      {x, _} -> x
+      :error -> 0.0
+    end
+  end
 end
