@@ -1,4 +1,4 @@
-defmodule Quantu.App.Service.Quiz.Index do
+defmodule Quantu.App.Service.Lesson.Index do
   use Aicacia.Handler
   import Ecto.Query
 
@@ -20,7 +20,7 @@ defmodule Quantu.App.Service.Quiz.Index do
 
   def handle(%{} = command) do
     Repo.run(fn ->
-      query = Model.Quiz
+      query = Model.Lesson
 
       query =
         if Map.get(command, :organization_id) == nil,

@@ -1,4 +1,4 @@
-defmodule Quantu.App.Service.Quiz.Show do
+defmodule Quantu.App.Service.Lesson.Show do
   use Aicacia.Handler
   import Ecto.Query
 
@@ -6,22 +6,22 @@ defmodule Quantu.App.Service.Quiz.Show do
 
   @primary_key false
   schema "" do
-    belongs_to(:quiz, Model.Quiz)
+    belongs_to(:lesson, Model.Lesson)
     field(:published, :boolean)
   end
 
   def changeset(%{} = attrs) do
     %__MODULE__{}
-    |> cast(attrs, [:quiz_id, :published])
-    |> validate_required([:quiz_id])
-    |> foreign_key_constraint(:quiz_id)
+    |> cast(attrs, [:lesson_id, :published])
+    |> validate_required([:lesson_id])
+    |> foreign_key_constraint(:lesson_id)
   end
 
   def handle(%{} = command) do
     Repo.run(fn ->
       query =
-        from(q in Model.Quiz,
-          where: q.id == ^command.quiz_id
+        from(q in Model.Lesson,
+          where: q.id == ^command.lesson_id
         )
 
       query =

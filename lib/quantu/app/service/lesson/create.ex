@@ -1,4 +1,4 @@
-defmodule Quantu.App.Service.Quiz.Create do
+defmodule Quantu.App.Service.Lesson.Create do
   use Aicacia.Handler
 
   alias Quantu.App.{Model, Repo, Service}
@@ -10,12 +10,13 @@ defmodule Quantu.App.Service.Quiz.Create do
     field(:name, :string, null: false)
     field(:description, :string, null: false, default: "")
     field(:tags, {:array, :string}, null: false, default: [])
+    field(:content, {:array, :map}, null: false, default: [])
     field(:published, :boolean)
   end
 
   def changeset(%{} = attrs) do
     %__MODULE__{}
-    |> cast(attrs, [:organization_id, :unit_id, :name, :description, :tags, :published])
+    |> cast(attrs, [:organization_id, :unit_id, :name, :description, :tags, :published, :content])
     |> validate_required([
       :organization_id,
       :name
@@ -25,9 +26,9 @@ defmodule Quantu.App.Service.Quiz.Create do
 
   def handle(%{} = command) do
     Repo.run(fn ->
-      quiz =
-        %Model.Quiz{}
-        |> cast(command, [:organization_id, :name, :description, :tags, :published])
+      lesson =
+        %Model.Lesson{}
+        |> cast(command, [:organization_id, :name, :description, :tags, :published, :content])
         |> validate_required([
           :organization_id,
           :name
@@ -35,9 +36,9 @@ defmodule Quantu.App.Service.Quiz.Create do
         |> Repo.insert!()
 
       if Map.get(command, :unit_id) == nil do
-        quiz
+        lesson
       else
-        Service.Unit.Create.create_unit_child_join!(quiz, command.unit_id)
+        Service.Unit.Create.create_unit_child_join!(lesson, command.unit_id)
       end
     end)
   end

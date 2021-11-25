@@ -11,6 +11,8 @@ defmodule Quantu.App.Web.Schema.Quiz do
       properties: %{
         id: %Schema{type: :integer, description: "Id"},
         organizationId: %Schema{type: :integer, description: "Organization Id"},
+        unitId: %Schema{type: :integer, nullable: true, description: "Unit Id"},
+        index: %Schema{type: :integer, nullable: true, description: "Quiz index in unit"},
         published: %Schema{type: :boolean, nullable: true, description: "Quiz published status"},
         name: %Schema{type: :string, description: "Quiz name"},
         description: %Schema{type: :string, description: "Quiz description"},
@@ -85,7 +87,9 @@ defmodule Quantu.App.Web.Schema.Quiz do
           items: %Schema{type: :string},
           nullable: true,
           description: "Quiz tags"
-        }
+        },
+        unitId: %Schema{type: :integer, nullable: true, description: "Unit Id"},
+        index: %Schema{type: :integer, nullable: true, description: "Quiz index in unit"}
       },
       required: [
         :name
@@ -115,7 +119,9 @@ defmodule Quantu.App.Web.Schema.Quiz do
           items: %Schema{type: :string},
           nullable: true,
           description: "Quiz tags"
-        }
+        },
+        unitId: %Schema{type: :integer, nullable: true, description: "Unit Id"},
+        index: %Schema{type: :integer, nullable: true, description: "Quiz index in unit"}
       },
       required: [],
       example: %{

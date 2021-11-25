@@ -51,7 +51,7 @@ defmodule Quantu.App.Web.Controller.QuizTest do
       assert Enum.at(quizzes_json, 0)["id"] == quiz_id
     end
 
-    test "should not eturn list of non-published quizzes", %{
+    test "should not return list of non-published quizzes", %{
       conn: conn,
       organization: organization
     } do

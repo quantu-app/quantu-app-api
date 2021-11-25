@@ -1,4 +1,4 @@
-defmodule Quantu.App.Web.Controller.Quiz do
+defmodule Quantu.App.Web.Controller.Lesson do
   use Quantu.App.Web, :controller
   use OpenApiSpex.ControllerSpecs
 
@@ -8,13 +8,13 @@ defmodule Quantu.App.Web.Controller.Quiz do
   plug(OpenApiSpex.Plug.CastAndValidate, json_render_error_v2: true)
   action_fallback(Quantu.App.Web.Controller.Fallback)
 
-  tags ["Quiz"]
+  tags ["Lesson"]
 
   operation :index,
-    summary: "List Quizzes",
-    description: "Returns organization's quizzes",
+    summary: "List Lessons",
+    description: "Returns organization's lessons",
     responses: [
-      ok: {"Organization Quizzes", "application/json", Schema.Quiz.List}
+      ok: {"Organization Lessons", "application/json", Schema.Lesson.List}
     ],
     parameters: [
       organizationId: [
@@ -34,37 +34,37 @@ defmodule Quantu.App.Web.Controller.Quiz do
 
   def index(conn, params) do
     with {:ok, command} <-
-           Service.Quiz.Index.new(%{
+           Service.Lesson.Index.new(%{
              organization_id: Map.get(params, :organizationId),
              unit_id: Map.get(params, :unitId),
              published: true
            }),
-         {:ok, quizzes} <- Service.Quiz.Index.handle(command) do
+         {:ok, lessons} <- Service.Lesson.Index.handle(command) do
       conn
       |> put_status(200)
-      |> put_view(View.Quiz)
-      |> render("index.json", quizzes: quizzes)
+      |> put_view(View.Lesson)
+      |> render("index.json", lessons: lessons)
     end
   end
 
   operation :show,
-    summary: "Get a Quiz",
-    description: "Returns organization's quiz",
+    summary: "Get a Lesson",
+    description: "Returns organization's lesson",
     responses: [
-      ok: {"Organization Quiz", "application/json", Schema.Quiz.Show}
+      ok: {"Organization Lesson", "application/json", Schema.Lesson.Show}
     ],
     parameters: [
-      id: [in: :path, description: "Quiz Id", type: :integer, example: 1001]
+      id: [in: :path, description: "Lesson Id", type: :integer, example: 1001]
     ],
     security: [%{"authorization" => []}]
 
-  def show(conn, %{id: quiz_id}) do
-    with {:ok, command} <- Service.Quiz.Show.new(%{quiz_id: quiz_id, published: true}),
-         {:ok, quiz} <- Service.Quiz.Show.handle(command) do
+  def show(conn, %{id: lesson_id}) do
+    with {:ok, command} <- Service.Lesson.Show.new(%{lesson_id: lesson_id, published: true}),
+         {:ok, lesson} <- Service.Lesson.Show.handle(command) do
       conn
       |> put_status(200)
-      |> put_view(View.Quiz)
-      |> render("show.json", quiz: quiz)
+      |> put_view(View.Lesson)
+      |> render("show.json", lesson: lesson)
     end
   end
 end

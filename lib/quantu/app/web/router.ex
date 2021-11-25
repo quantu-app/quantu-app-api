@@ -114,18 +114,25 @@ defmodule Quantu.App.Web.Router do
             resources "/assets", Asset, except: [:new, :edit]
           end
 
-          resources "/questions", Question, except: [:new, :edit]
+          resources "/courses", Course, except: [:new, :edit]
+          resources "/units", Unit, except: [:new, :edit]
+          resources "/lessons", Lesson, except: [:new, :edit]
           resources "/quizzes", Quiz, except: [:new, :edit]
           post("/quizzes/:id/add-questions", Quiz, :add_questions)
           post("/quizzes/:id/remove-questions", Quiz, :remove_questions)
+          resources "/questions", Question, except: [:new, :edit]
         end
       end
 
       resources "/organizations", Organization, only: [:index, :show]
-      resources "/questions", Question, only: [:index, :show]
+      resources "/courses", Course, only: [:index, :show]
+      resources "/units", Unit, only: [:index, :show]
+      get("/units/:id/children", Unit, :children)
+      resources "/lessons", Lesson, only: [:index, :show]
       post("/questions/:id/answer", Question, :answer)
       post("/questions/:id/explain", Question, :explain)
       resources "/quizzes", Quiz, only: [:index, :show]
+      resources "/questions", Question, only: [:index, :show]
       resources "/question-results", QuestionResult, only: [:index, :show]
 
       get("/organization/:url", Organization, :show_by_url)

@@ -22,14 +22,21 @@ defmodule Quantu.App.Web.Controller.User.Quiz do
         description: "Organization Id",
         type: :integer,
         example: 1001
+      ],
+      unitId: [
+        in: :query,
+        description: "Quiz Unit Id",
+        type: :integer,
+        example: 123
       ]
     ],
     security: [%{"authorization" => []}]
 
-  def index(conn, %{organization_id: organization_id}) do
+  def index(conn, %{organization_id: organization_id} = params) do
     with {:ok, command} <-
            Service.Quiz.Index.new(%{
-             organization_id: organization_id
+             organization_id: organization_id,
+             unit_id: Map.get(params, :unitId)
            }),
          {:ok, quizzes} <- Service.Quiz.Index.handle(command) do
       conn
@@ -95,7 +102,9 @@ defmodule Quantu.App.Web.Controller.User.Quiz do
              name: body_params.name,
              description: Map.get(body_params, :description),
              tags: Map.get(body_params, :tags),
-             published: Map.get(body_params, :published)
+             published: Map.get(body_params, :published),
+             unit_id: Map.get(body_params, :unitId),
+             index: Map.get(body_params, :index)
            }),
          {:ok, quiz} <- Service.Quiz.Create.handle(command) do
       conn
@@ -131,7 +140,9 @@ defmodule Quantu.App.Web.Controller.User.Quiz do
              name: body_params.name,
              description: body_params.description,
              tags: body_params.tags,
-             published: Map.get(body_params, :published)
+             published: Map.get(body_params, :published),
+             unit_id: Map.get(body_params, :unitId),
+             index: Map.get(body_params, :index)
            }),
          {:ok, quiz} <- Service.Quiz.Update.handle(command) do
       conn

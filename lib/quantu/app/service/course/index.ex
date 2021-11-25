@@ -1,4 +1,4 @@
-defmodule Quantu.App.Service.Quiz.Index do
+defmodule Quantu.App.Service.Course.Index do
   use Aicacia.Handler
   import Ecto.Query
 
@@ -7,37 +7,24 @@ defmodule Quantu.App.Service.Quiz.Index do
   @primary_key false
   schema "" do
     belongs_to(:organization, Model.Organization)
-    belongs_to(:unit, Model.Unit)
     field(:published, :boolean)
   end
 
   def changeset(%{} = attrs) do
     %__MODULE__{}
-    |> cast(attrs, [:organization_id, :unit_id, :published])
+    |> cast(attrs, [:organization_id, :published])
     |> foreign_key_constraint(:organization_id)
-    |> foreign_key_constraint(:unit_id)
   end
 
   def handle(%{} = command) do
     Repo.run(fn ->
-      query = Model.Quiz
-
       query =
         if Map.get(command, :organization_id) == nil,
-          do: query,
+          do: Model.Course,
           else:
-            query
-            |> where([q], q.organization_id == ^command.organization_id)
-            |> order_by([q], asc: q.inserted_at)
-
-      query =
-        if Map.get(command, :unit_id) == nil,
-          do: query,
-          else:
-            query
-            |> join(:left, [q], cqj in Model.UnitChildJoin, on: cqj.quiz_id == q.id)
-            |> where([q, cqj], cqj.unit_id == ^command.unit_id)
-            |> order_by([q, cqj], asc: cqj.index)
+            from(q in Model.Course,
+              where: q.organization_id == ^command.organization_id
+            )
 
       query =
         if Map.get(command, :published) == nil,
