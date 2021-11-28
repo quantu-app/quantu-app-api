@@ -12,6 +12,10 @@ defmodule Quantu.App.Model.Quiz do
     field(:description, :string, null: false, default: "")
     field(:tags, {:array, :string}, null: false, default: [])
 
+    field(:index, :integer, virtual: true)
+    field(:unit_id, :integer, virtual: true)
+    field(:type, :string, virtual: true)
+
     timestamps(type: :utc_datetime)
   end
 end

@@ -50,12 +50,13 @@ defmodule Quantu.App.Service.Unit.Show do
          index: index,
          quiz: %Model.Quiz{} = child
        }),
-       do: child |> Map.put(:unit_id, unit_id) |> Map.put(:index, index)
+       do: child |> Map.put(:unit_id, unit_id) |> Map.put(:index, index) |> Map.put(:type, :quiz)
 
   defp map_child(%Model.UnitChildJoin{
          unit_id: unit_id,
          index: index,
          lesson: %Model.Lesson{} = child
        }),
-       do: child |> Map.put(:unit_id, unit_id) |> Map.put(:index, index)
+       do:
+         child |> Map.put(:unit_id, unit_id) |> Map.put(:index, index) |> Map.put(:type, :lesson)
 end

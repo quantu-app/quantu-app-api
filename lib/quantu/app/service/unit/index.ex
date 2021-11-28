@@ -38,6 +38,7 @@ defmodule Quantu.App.Service.Unit.Index do
             |> join(:left, [u], cuj in Model.CourseUnitJoin, on: cuj.unit_id == u.id)
             |> where([u, cuj], cuj.course_id == ^command.course_id)
             |> order_by([u, cuj], asc: cuj.index)
+            |> select_merge([u, cuj], %{index: cuj.index, course_id: cuj.course_id})
 
       query =
         if Map.get(command, :published) == nil,

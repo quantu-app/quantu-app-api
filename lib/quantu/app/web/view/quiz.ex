@@ -15,6 +15,7 @@ defmodule Quantu.App.Web.View.Quiz do
       organizationId: quiz.organization_id,
       unitId: Map.get(quiz, :unit_id),
       index: Map.get(quiz, :index),
+      type: Map.get(quiz, :type),
       published: quiz.published,
       name: quiz.name,
       description: quiz.description,

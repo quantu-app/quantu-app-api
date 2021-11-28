@@ -116,6 +116,7 @@ defmodule Quantu.App.Web.Router do
 
           resources "/courses", Course, except: [:new, :edit]
           resources "/units", Unit, except: [:new, :edit]
+          get("/units/:id/children", Unit, :children)
           resources "/lessons", Lesson, except: [:new, :edit]
           resources "/quizzes", Quiz, except: [:new, :edit]
           post("/quizzes/:id/add-questions", Quiz, :add_questions)

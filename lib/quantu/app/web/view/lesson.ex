@@ -15,6 +15,7 @@ defmodule Quantu.App.Web.View.Lesson do
       organizationId: lesson.organization_id,
       unitId: Map.get(lesson, :unit_id),
       index: Map.get(lesson, :index),
+      type: Map.get(lesson, :type),
       published: lesson.published,
       name: lesson.name,
       description: lesson.description,

@@ -13,6 +13,7 @@ defmodule Quantu.App.Web.Schema.Lesson do
         organizationId: %Schema{type: :integer, description: "Organization Id"},
         unitId: %Schema{type: :integer, nullable: true, description: "Unit Id"},
         index: %Schema{type: :integer, nullable: true, description: "Lesson index in unit"},
+        type: %Schema{type: :string, enum: ["lesson"], nullable: true, description: "Lesson type"},
         published: %Schema{type: :boolean, nullable: true, description: "Lesson published status"},
         name: %Schema{type: :string, description: "Lesson name"},
         description: %Schema{type: :string, description: "Lesson description"},

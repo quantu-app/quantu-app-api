@@ -23,7 +23,7 @@ defmodule Quantu.App.Web.Controller.Unit do
         type: :integer,
         example: 1001
       ],
-      unitId: [
+      courseId: [
         in: :query,
         description: "Unit Id",
         type: :integer,
@@ -36,7 +36,7 @@ defmodule Quantu.App.Web.Controller.Unit do
     with {:ok, command} <-
            Service.Unit.Index.new(%{
              organization_id: Map.get(params, :organizationId),
-             unit_id: Map.get(params, :unitId),
+             course_id: Map.get(params, :courseId),
              published: true
            }),
          {:ok, units} <- Service.Unit.Index.handle(command) do

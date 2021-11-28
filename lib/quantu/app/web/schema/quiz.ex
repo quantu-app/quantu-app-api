@@ -13,6 +13,7 @@ defmodule Quantu.App.Web.Schema.Quiz do
         organizationId: %Schema{type: :integer, description: "Organization Id"},
         unitId: %Schema{type: :integer, nullable: true, description: "Unit Id"},
         index: %Schema{type: :integer, nullable: true, description: "Quiz index in unit"},
+        type: %Schema{type: :string, enum: ["quiz"], nullable: true, description: "Quiz type"},
         published: %Schema{type: :boolean, nullable: true, description: "Quiz published status"},
         name: %Schema{type: :string, description: "Quiz name"},
         description: %Schema{type: :string, description: "Quiz description"},

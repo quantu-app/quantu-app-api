@@ -11,6 +11,9 @@ defmodule Quantu.App.Model.Unit do
     field(:description, :string, null: false, default: "")
     field(:tags, {:array, :string}, null: false, default: [])
 
+    field(:index, :integer, virtual: true)
+    field(:course_id, :integer, virtual: true)
+
     timestamps(type: :utc_datetime)
   end
 end
