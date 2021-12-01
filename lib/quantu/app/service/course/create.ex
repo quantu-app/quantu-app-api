@@ -8,7 +8,7 @@ defmodule Quantu.App.Service.Course.Create do
   schema "" do
     belongs_to(:organization, Model.Organization)
     field(:name, :string, null: false)
-    field(:description, :string, null: false, default: "")
+    field(:description, {:array, :map}, null: false, default: [])
     field(:tags, {:array, :string}, null: false, default: [])
     field(:published, :boolean)
   end

@@ -7,7 +7,7 @@ defmodule Quantu.App.Service.Course.Update do
   schema "" do
     belongs_to(:course, Model.Course)
     field(:name, :string, null: false)
-    field(:description, :string, null: false, default: "")
+    field(:description, {:array, :map}, null: false, default: [])
     field(:tags, {:array, :string}, null: false, default: [])
     field(:published, :boolean)
   end

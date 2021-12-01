@@ -1,4 +1,4 @@
-defmodule AicaciaId.Repo.Migrations.CreateOrganizations do
+defmodule Quantu.App.Repo.Migrations.CreateOrganizations do
   use Ecto.Migration
 
   def change do

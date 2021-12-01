@@ -1,4 +1,4 @@
-defmodule AicaciaId.Repo.Migrations.CreateCourses do
+defmodule Quantu.App.Repo.Migrations.CreateCourses do
   use Ecto.Migration
 
   def change do

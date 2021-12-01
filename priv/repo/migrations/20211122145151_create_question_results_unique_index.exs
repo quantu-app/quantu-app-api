@@ -1,4 +1,4 @@
-defmodule AicaciaId.Repo.Migrations.CreateQuestionResultsUniqueIndex do
+defmodule Quantu.App.Repo.Migrations.CreateQuestionResultsUniqueIndex do
   use Ecto.Migration
 
   def change do

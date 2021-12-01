@@ -8,7 +8,7 @@ defmodule Quantu.App.Model.Lesson do
 
     field(:published, :boolean, null: false, default: false)
     field(:name, :string, null: false)
-    field(:description, :string, null: false, default: "")
+    field(:description, {:array, :map}, null: false, default: [])
     field(:tags, {:array, :string}, null: false, default: [])
     field(:content, {:array, :map}, null: false, default: [])
 

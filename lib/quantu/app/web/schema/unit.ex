@@ -15,7 +15,11 @@ defmodule Quantu.App.Web.Schema.Unit do
         index: %Schema{type: :integer, nullable: true, description: "Unit index in unit"},
         published: %Schema{type: :boolean, nullable: true, description: "Unit published status"},
         name: %Schema{type: :string, description: "Unit name"},
-        description: %Schema{type: :string, description: "Unit description"},
+        description: %Schema{
+          type: :array,
+          items: %Schema{type: :object},
+          description: "Unit description"
+        },
         tags: %Schema{type: :array, items: %Schema{type: :string}, description: "Unit tags"},
         insertedAt: %Schema{
           type: :string,
@@ -40,7 +44,7 @@ defmodule Quantu.App.Web.Schema.Unit do
         "organizationId" => 1001,
         "published" => true,
         "name" => "My Unit",
-        "description" => "My Unit Description",
+        "description" => [%{"insert" => "My Unit Description"}],
         "tags" => ["math"],
         "insertedAt" => "2017-09-12T12:34:55Z",
         "updatedAt" => "2017-09-13T10:11:12Z"
@@ -62,7 +66,7 @@ defmodule Quantu.App.Web.Schema.Unit do
           "organizationId" => 1001,
           "published" => true,
           "name" => "My Unit",
-          "description" => "My Unit Description",
+          "description" => [%{"insert" => "My Unit Description"}],
           "tags" => ["math"],
           "insertedAt" => "2017-09-12T12:34:55Z",
           "updatedAt" => "2017-09-13T10:11:12Z"
@@ -80,7 +84,12 @@ defmodule Quantu.App.Web.Schema.Unit do
       type: :object,
       properties: %{
         name: %Schema{type: :string, description: "Unit name"},
-        description: %Schema{type: :string, nullable: true, description: "Unit description"},
+        description: %Schema{
+          type: :array,
+          items: %Schema{type: :object},
+          nullable: true,
+          description: "Unit description"
+        },
         published: %Schema{type: :boolean, nullable: true, description: "Unit published status"},
         tags: %Schema{
           type: :array,
@@ -97,7 +106,7 @@ defmodule Quantu.App.Web.Schema.Unit do
       example: %{
         "name" => "My Unit",
         "published" => true,
-        "description" => "My Unit Description",
+        "description" => [%{"insert" => "My Unit Description"}],
         "tags" => ["math"]
       }
     })
@@ -112,7 +121,12 @@ defmodule Quantu.App.Web.Schema.Unit do
       type: :object,
       properties: %{
         name: %Schema{type: :string, nullable: true, description: "Unit name"},
-        description: %Schema{type: :string, nullable: true, description: "Unit description"},
+        description: %Schema{
+          type: :array,
+          items: %Schema{type: :object},
+          nullable: true,
+          description: "Unit description"
+        },
         published: %Schema{type: :boolean, nullable: true, description: "Unit published status"},
         tags: %Schema{
           type: :array,
@@ -127,7 +141,7 @@ defmodule Quantu.App.Web.Schema.Unit do
       example: %{
         "name" => "My Unit Update",
         "published" => true,
-        "description" => "My Unit Description Updated",
+        "description" => [%{"insert" => "My Unit Description Updated"}],
         "tags" => ["math", "new-math"]
       }
     })

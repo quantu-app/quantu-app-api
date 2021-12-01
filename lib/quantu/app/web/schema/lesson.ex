@@ -16,7 +16,11 @@ defmodule Quantu.App.Web.Schema.Lesson do
         type: %Schema{type: :string, enum: ["lesson"], nullable: true, description: "Lesson type"},
         published: %Schema{type: :boolean, nullable: true, description: "Lesson published status"},
         name: %Schema{type: :string, description: "Lesson name"},
-        description: %Schema{type: :string, description: "Lesson description"},
+        description: %Schema{
+          type: :array,
+          items: %Schema{type: :object},
+          description: "Lesson description"
+        },
         tags: %Schema{type: :array, items: %Schema{type: :string}, description: "Lesson tags"},
         content: %Schema{
           type: :array,
@@ -47,7 +51,7 @@ defmodule Quantu.App.Web.Schema.Lesson do
         "organizationId" => 1001,
         "published" => true,
         "name" => "My Lesson",
-        "description" => "My Lesson Description",
+        "description" => [%{"insert" => "My Lesson Description"}],
         "tags" => ["math"],
         "content" => [%{"insert" => "Hello, world!"}],
         "insertedAt" => "2017-09-12T12:34:55Z",
@@ -70,7 +74,7 @@ defmodule Quantu.App.Web.Schema.Lesson do
           "organizationId" => 1001,
           "published" => true,
           "name" => "My Lesson",
-          "description" => "My Lesson Description",
+          "description" => [%{"insert" => "My Lesson Description"}],
           "tags" => ["math"],
           "content" => [%{"insert" => "Hello, world!"}],
           "insertedAt" => "2017-09-12T12:34:55Z",
@@ -89,7 +93,12 @@ defmodule Quantu.App.Web.Schema.Lesson do
       type: :object,
       properties: %{
         name: %Schema{type: :string, description: "Lesson name"},
-        description: %Schema{type: :string, nullable: true, description: "Lesson description"},
+        description: %Schema{
+          type: :array,
+          items: %Schema{type: :object},
+          nullable: true,
+          description: "Lesson description"
+        },
         published: %Schema{type: :boolean, nullable: true, description: "Lesson published status"},
         tags: %Schema{
           type: :array,
@@ -111,7 +120,7 @@ defmodule Quantu.App.Web.Schema.Lesson do
       example: %{
         "name" => "My Lesson",
         "published" => true,
-        "description" => "My Lesson Description",
+        "description" => [%{"insert" => "My Lesson Description"}],
         "tags" => ["math"],
         "content" => [%{"insert" => "Hello, world!"}]
       }
@@ -127,7 +136,12 @@ defmodule Quantu.App.Web.Schema.Lesson do
       type: :object,
       properties: %{
         name: %Schema{type: :string, nullable: true, description: "Lesson name"},
-        description: %Schema{type: :string, nullable: true, description: "Lesson description"},
+        description: %Schema{
+          type: :array,
+          items: %Schema{type: :object},
+          nullable: true,
+          description: "Lesson description"
+        },
         published: %Schema{type: :boolean, nullable: true, description: "Lesson published status"},
         tags: %Schema{
           type: :array,
@@ -147,7 +161,7 @@ defmodule Quantu.App.Web.Schema.Lesson do
       example: %{
         "name" => "My Lesson Update",
         "published" => true,
-        "description" => "My Lesson Description Updated",
+        "description" => [%{"insert" => "My Lesson Description Updated"}],
         "tags" => ["math", "new-math"],
         "content" => [%{"insert" => "Hello, new world!"}]
       }

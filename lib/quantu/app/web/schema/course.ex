@@ -13,7 +13,11 @@ defmodule Quantu.App.Web.Schema.Course do
         organizationId: %Schema{type: :integer, description: "Organization Id"},
         published: %Schema{type: :boolean, nullable: true, description: "Course published status"},
         name: %Schema{type: :string, description: "Course name"},
-        description: %Schema{type: :string, description: "Course description"},
+        description: %Schema{
+          type: :array,
+          items: %Schema{type: :object},
+          description: "Course description"
+        },
         tags: %Schema{type: :array, items: %Schema{type: :string}, description: "Course tags"},
         insertedAt: %Schema{
           type: :string,
@@ -38,7 +42,7 @@ defmodule Quantu.App.Web.Schema.Course do
         "organizationId" => 1001,
         "published" => true,
         "name" => "My Course",
-        "description" => "My Course Description",
+        "description" => [%{"insert" => "My Course Description"}],
         "tags" => ["math"],
         "insertedAt" => "2017-09-12T12:34:55Z",
         "updatedAt" => "2017-09-13T10:11:12Z"
@@ -60,7 +64,7 @@ defmodule Quantu.App.Web.Schema.Course do
           "organizationId" => 1001,
           "published" => true,
           "name" => "My Course",
-          "description" => "My Course Description",
+          "description" => [%{"insert" => "My Course Description"}],
           "tags" => ["math"],
           "insertedAt" => "2017-09-12T12:34:55Z",
           "updatedAt" => "2017-09-13T10:11:12Z"
@@ -78,7 +82,12 @@ defmodule Quantu.App.Web.Schema.Course do
       type: :object,
       properties: %{
         name: %Schema{type: :string, description: "Course name"},
-        description: %Schema{type: :string, nullable: true, description: "Course description"},
+        description: %Schema{
+          type: :array,
+          items: %Schema{type: :object},
+          nullable: true,
+          description: "Course description"
+        },
         published: %Schema{type: :boolean, nullable: true, description: "Course published status"},
         tags: %Schema{
           type: :array,
@@ -93,7 +102,7 @@ defmodule Quantu.App.Web.Schema.Course do
       example: %{
         "name" => "My Course",
         "published" => true,
-        "description" => "My Course Description",
+        "description" => [%{"insert" => "My New Course Description"}],
         "tags" => ["math"]
       }
     })
@@ -108,7 +117,12 @@ defmodule Quantu.App.Web.Schema.Course do
       type: :object,
       properties: %{
         name: %Schema{type: :string, nullable: true, description: "Course name"},
-        description: %Schema{type: :string, nullable: true, description: "Course description"},
+        description: %Schema{
+          type: :array,
+          items: %Schema{type: :object},
+          nullable: true,
+          description: "Course description"
+        },
         published: %Schema{type: :boolean, nullable: true, description: "Course published status"},
         tags: %Schema{
           type: :array,
@@ -121,7 +135,7 @@ defmodule Quantu.App.Web.Schema.Course do
       example: %{
         "name" => "My Course Update",
         "published" => true,
-        "description" => "My Course Description Updated",
+        "description" => [%{"insert" => "My Course Description Updated"}],
         "tags" => ["math", "new-math"]
       }
     })

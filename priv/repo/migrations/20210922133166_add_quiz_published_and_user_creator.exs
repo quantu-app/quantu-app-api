@@ -1,4 +1,4 @@
-defmodule AicaciaId.Repo.Migrations.AddQuizPublishedAndUserCreator do
+defmodule Quantu.App.Repo.Migrations.AddQuizPublishedAndUserCreator do
   use Ecto.Migration
 
   def change do

@@ -39,11 +39,13 @@ defmodule Quantu.App.Service.Question.Update do
         Repo.get_by!(Model.Question, id: command.question_id)
         |> cast(command, [:name, :type, :prompt, :tags])
         |> Repo.update!()
+        |> Map.put(:quiz_id, Map.get(command, :quiz_id))
+        |> Map.put(:index, Map.get(command, :index))
 
-      if Map.get(command, :quiz_id) == nil do
+      if question.quiz_id == nil do
         question
       else
-        update_question_index!(question, command.quiz_id, Map.get(command, :index))
+        update_question_index!(question, question.quiz_id, question.index)
       end
     end)
   end

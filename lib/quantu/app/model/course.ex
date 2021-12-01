@@ -9,7 +9,7 @@ defmodule Quantu.App.Model.Course do
 
     field(:published, :boolean, null: false, default: false)
     field(:name, :string, null: false)
-    field(:description, :string, null: false, default: "")
+    field(:description, {:array, :map}, null: false, default: [])
     field(:tags, {:array, :string}, null: false, default: [])
 
     timestamps(type: :utc_datetime)

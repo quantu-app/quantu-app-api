@@ -1,4 +1,4 @@
-defmodule AicaciaId.Repo.Migrations.CreateQuizzess do
+defmodule Quantu.App.Repo.Migrations.CreateQuizzess do
   use Ecto.Migration
 
   def change do

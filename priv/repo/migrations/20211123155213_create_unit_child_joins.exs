@@ -1,4 +1,4 @@
-defmodule AicaciaId.Repo.Migrations.CreateUnitChildJoins do
+defmodule Quantu.App.Repo.Migrations.CreateUnitChildJoins do
   use Ecto.Migration
 
   def change do

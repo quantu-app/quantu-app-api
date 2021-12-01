@@ -1,4 +1,4 @@
-defmodule AicaciaId.Repo.Migrations.CreateTokens do
+defmodule Quantu.App.Repo.Migrations.CreateTokens do
   use Ecto.Migration
 
   def change do
