@@ -47,6 +47,54 @@ defmodule Quantu.App.Web.Schema.Question do
     })
   end
 
+  defmodule MarkAsReadPrivate do
+    require OpenApiSpex
+
+    OpenApiSpex.schema(%{
+      title: "QuestionMarkAsReadPrivate",
+      description: "Question mark as read private content",
+      type: :object,
+      properties: %{
+        content: %Schema{
+          type: :array,
+          items: %Schema{type: :object},
+          description: "content"
+        }
+      },
+      additionalProperties: false,
+      required: [
+        :content
+      ],
+      example: %{
+        "content" => [%{"insert" => "Did you read this?"}]
+      }
+    })
+  end
+
+  defmodule MarkAsRead do
+    require OpenApiSpex
+
+    OpenApiSpex.schema(%{
+      title: "QuestionMarkAsRead",
+      description: "Question mark as read content",
+      type: :object,
+      properties: %{
+        content: %Schema{
+          type: :array,
+          items: %Schema{type: :object},
+          description: "content"
+        }
+      },
+      additionalProperties: false,
+      required: [
+        :content
+      ],
+      example: %{
+        "content" => [%{"insert" => "Did you read this?"}]
+      }
+    })
+  end
+
   defmodule InputPrivate do
     require OpenApiSpex
 
@@ -261,7 +309,7 @@ defmodule Quantu.App.Web.Schema.Question do
       title: "QuestionPromptPrivate",
       description: "Question prompt private",
       type: :object,
-      oneOf: [MultipleChoicePrivate, FlashCardPrivate, InputPrivate],
+      oneOf: [MultipleChoicePrivate, FlashCardPrivate, InputPrivate, MarkAsReadPrivate],
       example: %{
         "front" => [%{"insert" => "Front"}],
         "back" => [%{"insert" => "Back"}]
@@ -276,7 +324,7 @@ defmodule Quantu.App.Web.Schema.Question do
       title: "QuestionPrompt",
       description: "Question prompt",
       type: :object,
-      oneOf: [MultipleChoice, FlashCard, Input],
+      oneOf: [MultipleChoice, FlashCard, Input, MarkAsRead],
       example: %{
         "front" => [%{"insert" => "Front"}],
         "back" => [%{"insert" => "Back"}]
@@ -299,7 +347,7 @@ defmodule Quantu.App.Web.Schema.Question do
         name: %Schema{type: :string, nullable: true, description: "Question name"},
         type: %Schema{
           type: :string,
-          enum: ["flash_card", "multiple_choice", "input"],
+          enum: ["flash_card", "multiple_choice", "input", "mark_as_read"],
           description: "Question type"
         },
         prompt: PromptPrivate,
@@ -353,7 +401,7 @@ defmodule Quantu.App.Web.Schema.Question do
         name: %Schema{type: :string, nullable: true, description: "Question name"},
         type: %Schema{
           type: :string,
-          enum: ["flash_card", "multiple_choice", "input"],
+          enum: ["flash_card", "multiple_choice", "input", "mark_as_read"],
           description: "Question type"
         },
         prompt: Prompt,
@@ -456,7 +504,7 @@ defmodule Quantu.App.Web.Schema.Question do
         name: %Schema{type: :string, nullable: true, description: "Question name"},
         type: %Schema{
           type: :string,
-          enum: ["flash_card", "multiple_choice", "input"],
+          enum: ["flash_card", "multiple_choice", "input", "mark_as_read"],
           description: "Question type"
         },
         prompt: PromptPrivate,

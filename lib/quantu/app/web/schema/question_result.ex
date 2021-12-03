@@ -13,6 +13,17 @@ defmodule Quantu.App.Web.Schema.QuestionResult do
     })
   end
 
+  defmodule MarkAsReadAnswer do
+    require OpenApiSpex
+
+    OpenApiSpex.schema(%{
+      title: "MarkAsReadAnswer",
+      description: "Mark as read answer",
+      type: :boolean,
+      example: true
+    })
+  end
+
   defmodule MultipleChoiceAnswer do
     require OpenApiSpex
 
@@ -45,7 +56,7 @@ defmodule Quantu.App.Web.Schema.QuestionResult do
       type: :object,
       properties: %{
         input: %Schema{
-          anyOf: [FlashCardAnswer, MultipleChoiceAnswer, InputAnswer],
+          anyOf: [FlashCardAnswer, MultipleChoiceAnswer, InputAnswer, MarkAsReadAnswer],
           description: "Question Answer input"
         }
       },
@@ -68,7 +79,7 @@ defmodule Quantu.App.Web.Schema.QuestionResult do
         questionId: %Schema{type: :integer, description: "Question results Id"},
         type: %Schema{
           type: :string,
-          enum: ["flash_card", "multiple_choice", "input"],
+          enum: ["flash_card", "multiple_choice", "input", "mark_as_read"],
           description: "Question type"
         },
         prompt: PromptPrivate,

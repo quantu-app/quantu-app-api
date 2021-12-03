@@ -68,6 +68,8 @@ defmodule Quantu.App.Service.Question.Answer do
 
   defp correct("input", _prompt, _input), do: 0.0
 
+  defp correct("mark_as_read", _prompt, _input), do: 1.0
+
   defp correct("flash_card", _prompt, input) when is_float(input) or is_integer(input) do
     cond do
       input < 0 -> 0.0
