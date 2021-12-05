@@ -7,7 +7,7 @@ defmodule Quantu.App.Service.Lesson.Update do
   @primary_key false
   schema "" do
     belongs_to(:lesson, Model.Lesson)
-    belongs_to(:unit, Model.Quiz)
+    belongs_to(:unit, Model.Unit)
     field(:index, :integer)
     field(:name, :string, null: false)
     field(:description, {:array, :map}, null: false, default: [])
@@ -34,6 +34,8 @@ defmodule Quantu.App.Service.Lesson.Update do
   end
 
   def handle(%{} = command) do
+    IO.inspect(command)
+
     Repo.run(fn ->
       lesson =
         Repo.get_by!(Model.Lesson, id: command.lesson_id)
@@ -50,9 +52,9 @@ defmodule Quantu.App.Service.Lesson.Update do
     end)
   end
 
-  def update_quiz_index!(%Model.Quiz{id: quiz_id} = lesson, unit_id, nil) do
+  def update_quiz_index!(%Model.Lesson{id: lesson_id} = lesson, unit_id, nil) do
     case Repo.get_by!(Model.UnitChildJoin,
-           quiz_id: quiz_id,
+           lesson_id: lesson_id,
            unit_id: unit_id
          ) do
       nil ->
@@ -65,7 +67,7 @@ defmodule Quantu.App.Service.Lesson.Update do
     end
   end
 
-  def update_quiz_index!(%Model.Quiz{id: quiz_id} = lesson, unit_id, index) do
+  def update_quiz_index!(%Model.Lesson{id: lesson_id} = lesson, unit_id, index) do
     max_index = Service.Unit.Create.children_count(unit_id) - 1
 
     index =
@@ -77,11 +79,11 @@ defmodule Quantu.App.Service.Lesson.Update do
 
     {course_unit_join, is_new} =
       case Repo.get_by!(Model.UnitChildJoin,
-             quiz_id: quiz_id,
+             lesson_id: lesson_id,
              unit_id: unit_id
            ) do
         nil ->
-          {%Model.UnitChildJoin{quiz_id: quiz_id, unit_id: unit_id, index: index}
+          {%Model.UnitChildJoin{lesson_id: lesson_id, unit_id: unit_id, index: index}
            |> Repo.insert!(), true}
 
         course_unit_join ->
@@ -96,11 +98,11 @@ defmodule Quantu.App.Service.Lesson.Update do
 
     if course_unit_join.index != index or is_new do
       if index > 0 do
-        update_course_indices_below_index(quiz_id, unit_id, index)
+        update_course_indices_below_index(lesson_id, unit_id, index)
       end
 
       if index < max_index do
-        update_course_indices_above_index(quiz_id, unit_id, index)
+        update_course_indices_above_index(lesson_id, unit_id, index)
       end
     end
 
@@ -109,10 +111,10 @@ defmodule Quantu.App.Service.Lesson.Update do
     |> Map.put(:index, index)
   end
 
-  defp update_course_indices_below_index(quiz_id, unit_id, index) do
+  defp update_course_indices_below_index(lesson_id, unit_id, index) do
     {changes, _last_index} =
       from(cuj in Model.UnitChildJoin,
-        where: cuj.quiz_id != ^quiz_id and cuj.unit_id == ^unit_id and cuj.index <= ^index,
+        where: cuj.lesson_id != ^lesson_id and cuj.unit_id == ^unit_id and cuj.index <= ^index,
         order_by: [asc: cuj.index]
       )
       |> Repo.all()
@@ -126,10 +128,10 @@ defmodule Quantu.App.Service.Lesson.Update do
     Enum.each(changes, &Repo.update!/1)
   end
 
-  defp update_course_indices_above_index(quiz_id, unit_id, index) do
+  defp update_course_indices_above_index(lesson_id, unit_id, index) do
     {changes, _last_index} =
       from(cuj in Model.UnitChildJoin,
-        where: cuj.quiz_id != ^quiz_id and cuj.unit_id == ^unit_id and cuj.index >= ^index,
+        where: cuj.lesson_id != ^lesson_id and cuj.unit_id == ^unit_id and cuj.index >= ^index,
         order_by: [asc: cuj.index]
       )
       |> Repo.all()
