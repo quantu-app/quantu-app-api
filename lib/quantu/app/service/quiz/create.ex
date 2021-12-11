@@ -36,6 +36,7 @@ defmodule Quantu.App.Service.Quiz.Create do
 
       if Map.get(command, :unit_id) == nil do
         quiz
+        |> Map.put(:type, :quiz)
       else
         Service.Unit.Create.create_unit_child_join!(quiz, command.unit_id)
       end

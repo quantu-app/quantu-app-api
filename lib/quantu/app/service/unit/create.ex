@@ -49,12 +49,12 @@ defmodule Quantu.App.Service.Unit.Create do
   end
 
   def create_unit_child_join!(%Model.Lesson{id: lesson_id} = lesson, unit_id),
-    do: create_unit_child_join!(lesson, :lesson_id, lesson_id, unit_id)
+    do: create_unit_child_join!(lesson, :lesson, :lesson_id, lesson_id, unit_id)
 
   def create_unit_child_join!(%Model.Quiz{id: quiz_id} = quiz, unit_id),
-    do: create_unit_child_join!(quiz, :quiz_id, quiz_id, unit_id)
+    do: create_unit_child_join!(quiz, :quiz, :quiz_id, quiz_id, unit_id)
 
-  defp create_unit_child_join!(%{} = child, child_id_key, child_id, unit_id) do
+  defp create_unit_child_join!(%{} = child, child_type, child_id_key, child_id, unit_id) do
     index = Service.Unit.Create.children_count(unit_id)
 
     %Model.UnitChildJoin{unit_id: unit_id, index: index}
@@ -64,5 +64,6 @@ defmodule Quantu.App.Service.Unit.Create do
     child
     |> Map.put(:unit_id, unit_id)
     |> Map.put(:index, index)
+    |> Map.put(:type, child_type)
   end
 end

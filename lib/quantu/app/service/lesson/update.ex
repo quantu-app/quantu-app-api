@@ -34,8 +34,6 @@ defmodule Quantu.App.Service.Lesson.Update do
   end
 
   def handle(%{} = command) do
-    IO.inspect(command)
-
     Repo.run(fn ->
       lesson =
         Repo.get_by!(Model.Lesson, id: command.lesson_id)

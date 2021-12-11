@@ -37,6 +37,7 @@ defmodule Quantu.App.Service.Lesson.Create do
 
       if Map.get(command, :unit_id) == nil do
         lesson
+        |> Map.put(:type, :lesson)
       else
         Service.Unit.Create.create_unit_child_join!(lesson, command.unit_id)
       end
