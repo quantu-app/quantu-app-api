@@ -12,11 +12,22 @@ defmodule Quantu.App.Service.Question.Create do
     field(:type, :string, null: false)
     field(:prompt, :map, null: false)
     field(:tags, {:array, :string}, null: false, default: [])
+    field(:is_challenge, :boolean, default: false)
+    field(:released_at, :utc_datetime)
   end
 
   def changeset(%{} = attrs) do
     %__MODULE__{}
-    |> cast(attrs, [:organization_id, :quiz_id, :name, :type, :prompt, :tags])
+    |> cast(attrs, [
+      :organization_id,
+      :quiz_id,
+      :name,
+      :type,
+      :prompt,
+      :tags,
+      :is_challenge,
+      :released_at
+    ])
     |> validate_required([
       :organization_id,
       :type,
@@ -30,7 +41,15 @@ defmodule Quantu.App.Service.Question.Create do
     Repo.run(fn ->
       question =
         %Model.Question{}
-        |> cast(command, [:organization_id, :name, :type, :prompt, :tags])
+        |> cast(command, [
+          :organization_id,
+          :name,
+          :type,
+          :prompt,
+          :tags,
+          :is_challenge,
+          :released_at
+        ])
         |> validate_required([
           :organization_id,
           :type,

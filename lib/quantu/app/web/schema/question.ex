@@ -352,6 +352,12 @@ defmodule Quantu.App.Web.Schema.Question do
         },
         prompt: PromptPrivate,
         tags: %Schema{type: :array, items: %Schema{type: :string}, description: "Question tags"},
+        isChallenge: %Schema{type: :boolean, description: "Is this a challenge question?"},
+        releasedAt: %Schema{
+          type: :string,
+          format: :"date-time",
+          description: "When was this question released?"
+        },
         insertedAt: %Schema{
           type: :string,
           description: "Creation timestamp",
@@ -379,6 +385,8 @@ defmodule Quantu.App.Web.Schema.Question do
           "front" => [%{"insert" => "Front"}],
           "back" => [%{"insert" => "Back"}]
         },
+        "isChallenge" => true,
+        "releasedAt" => "2020-01-01T00:00:00Z",
         "tags" => ["math"],
         "insertedAt" => "2017-09-12T12:34:55Z",
         "updatedAt" => "2017-09-13T10:11:12Z"
@@ -406,6 +414,12 @@ defmodule Quantu.App.Web.Schema.Question do
         },
         prompt: Prompt,
         tags: %Schema{type: :array, items: %Schema{type: :string}, description: "Question tags"},
+        isChallenge: %Schema{type: :boolean, description: "Is this a challenge question?"},
+        releasedAt: %Schema{
+          type: :string,
+          format: :"date-time",
+          description: "When was this question released?"
+        },
         insertedAt: %Schema{
           type: :string,
           description: "Creation timestamp",
@@ -433,6 +447,8 @@ defmodule Quantu.App.Web.Schema.Question do
           "front" => [%{"insert" => "Front"}],
           "back" => [%{"insert" => "Back"}]
         },
+        "isChallenge" => false,
+        "releasedAt" => "2020-01-01T00:00:00Z",
         "tags" => ["math"],
         "insertedAt" => "2017-09-12T12:34:55Z",
         "updatedAt" => "2017-09-13T10:11:12Z"
@@ -458,6 +474,8 @@ defmodule Quantu.App.Web.Schema.Question do
             "front" => [%{"insert" => "Front"}],
             "back" => [%{"insert" => "Back"}]
           },
+          "isChallenge" => false,
+          "releasedAt" => "2020-01-01T00:00:00Z",
           "tags" => ["math"],
           "insertedAt" => "2017-09-12T12:34:55Z",
           "updatedAt" => "2017-09-13T10:11:12Z"
@@ -484,6 +502,8 @@ defmodule Quantu.App.Web.Schema.Question do
             "front" => [%{"insert" => "Front"}],
             "back" => [%{"insert" => "Back"}]
           },
+          "isChallenge" => false,
+          "releasedAt" => "2020-01-01T00:00:00Z",
           "tags" => ["math"],
           "insertedAt" => "2017-09-12T12:34:55Z",
           "updatedAt" => "2017-09-13T10:11:12Z"
@@ -509,6 +529,17 @@ defmodule Quantu.App.Web.Schema.Question do
         },
         prompt: PromptPrivate,
         tags: %Schema{type: :array, items: %Schema{type: :string}, description: "Question tags"},
+        isChallenge: %Schema{
+          type: :boolean,
+          nullable: true,
+          description: "Is this a challenge question?"
+        },
+        releasedAt: %Schema{
+          type: :string,
+          format: :"date-time",
+          nullable: true,
+          description: "When was this question released?"
+        },
         index: %Schema{type: :integer, nullable: true, description: "Quiz Index"}
       },
       required: [
@@ -523,7 +554,9 @@ defmodule Quantu.App.Web.Schema.Question do
           "front" => [%{"insert" => "Front"}],
           "back" => [%{"insert" => "Back"}]
         },
-        "tags" => ["math"]
+        "tags" => ["math"],
+        "isChallenge" => false,
+        "releasedAt" => "2020-01-01T00:00:00Z"
       }
     })
   end
@@ -546,6 +579,17 @@ defmodule Quantu.App.Web.Schema.Question do
           nullable: true,
           description: "Question tags"
         },
+        isChallenge: %Schema{
+          type: :boolean,
+          nullable: true,
+          description: "Is this a challenge question?"
+        },
+        releasedAt: %Schema{
+          type: :string,
+          format: :"date-time",
+          nullable: true,
+          description: "When was this question released?"
+        },
         index: %Schema{type: :integer, nullable: true, description: "Quiz Index"}
       },
       required: [],
@@ -566,7 +610,9 @@ defmodule Quantu.App.Web.Schema.Question do
             }
           }
         },
-        "tags" => ["math", "new-math"]
+        "tags" => ["math", "new-math"],
+        "isChallenge" => false,
+        "releasedAt" => "2020-01-01T00:00:00Z"
       }
     })
   end

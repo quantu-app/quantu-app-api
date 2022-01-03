@@ -60,6 +60,7 @@ defmodule Quantu.App.MixProject do
       {:guardian_phoenix, "~> 2.0"},
       {:ueberauth, "~> 0.7"},
       {:ueberauth_google, "~> 0.10"},
+      {:ueberauth_facebook, "~> 0.8"},
       {:waffle, "~> 1.1"},
       {:waffle_ecto, "~> 0.0"},
       {:ex_aws, "~> 2.1"},

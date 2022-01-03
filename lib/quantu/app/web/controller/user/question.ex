@@ -104,7 +104,9 @@ defmodule Quantu.App.Web.Controller.User.Question do
              type: body_params.type,
              prompt: body_params.prompt,
              tags: body_params.tags,
-             index: Map.get(body_params, :index)
+             index: Map.get(body_params, :index),
+             is_challenge: body_params.isChallenge,
+             released_at: body_params.releasedAt
            }),
          {:ok, question} <- Service.Question.Create.handle(command) do
       conn
@@ -143,6 +145,8 @@ defmodule Quantu.App.Web.Controller.User.Question do
              prompt: Map.get(body_params, :prompt),
              tags: Map.get(body_params, :tags),
              index: Map.get(body_params, :index),
+             is_challenge: Map.get(body_params, :isChallenge),
+             released_at: Map.get(body_params, :releasedAt),
              question_id: id
            }),
          {:ok, question} <- Service.Question.Update.handle(command) do

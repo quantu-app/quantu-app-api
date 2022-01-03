@@ -13,6 +13,8 @@ defmodule Quantu.App.Service.Question.Update do
     field(:prompt, :map, null: false)
     field(:index, :integer)
     field(:tags, {:array, :string}, null: false, default: [])
+    field(:is_challenge, :boolean, default: false)
+    field(:released_at, :utc_datetime)
   end
 
   def changeset(%{} = attrs) do
@@ -24,7 +26,9 @@ defmodule Quantu.App.Service.Question.Update do
       :type,
       :prompt,
       :index,
-      :tags
+      :tags,
+      :is_challenge,
+      :released_at
     ])
     |> validate_required([
       :question_id
@@ -37,7 +41,7 @@ defmodule Quantu.App.Service.Question.Update do
     Repo.run(fn ->
       question =
         Repo.get_by!(Model.Question, id: command.question_id)
-        |> cast(command, [:name, :type, :prompt, :tags])
+        |> cast(command, [:name, :type, :prompt, :tags, :is_challenge, :released_at])
         |> Repo.update!()
         |> Map.put(:quiz_id, Map.get(command, :quiz_id))
         |> Map.put(:index, Map.get(command, :index))

@@ -61,7 +61,8 @@ config :guardian, Guardian.DB,
 
 config :ueberauth, Ueberauth,
   providers: [
-    google: {Ueberauth.Strategy.Google, []}
+    google: {Ueberauth.Strategy.Google, []},
+    facebook: {Ueberauth.Strategy.Facebook, [default_scope: "email,public_profile"]}
   ]
 
 config :ueberauth, Ueberauth.Strategy.Google.OAuth,
@@ -79,6 +80,10 @@ config :ueberauth, Ueberauth.Strategy.Google.OAuth,
          environment variable GOOGLE_CLIENT_SECRET is missing.
          You can generate one by calling: mix phx.gen.secret
          """))
+
+config :ueberauth, Ueberauth.Strategy.Facebook.OAuth,
+  client_id: System.get_env("FACEBOOK_CLIENT_ID_DEV"),
+  client_secret: System.get_env("FACEBOOK_CLIENT_SECRET_DEV")
 
 config :quantu_app, Quantu.App.Repo,
   username: "postgres",

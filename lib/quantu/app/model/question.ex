@@ -12,6 +12,9 @@ defmodule Quantu.App.Model.Question do
     field(:prompt, :map, null: false)
     field(:tags, {:array, :string}, null: false, default: [])
 
+    field(:is_challenge, :boolean, null: false, default: false)
+    field(:released_at, :utc_datetime)
+
     timestamps(type: :utc_datetime)
   end
 end

@@ -4,6 +4,11 @@ export GUARDIAN_TOKEN="Secret key. You can use `mix guardian.gen.secret` to get 
 export GOOGLE_CLIENT_ID=""
 export GOOGLE_CLIENT_SECRET=""
 
+export FACEBOOK_CLIENT_ID_DEV=""
+export FACEBOOK_CLIENT_SECRET_DEV=""
+export FACEBOOK_CLIENT_ID=""
+export FACEBOOK_CLIENT_SECRET=""
+
 export S3_ACCESS_KEY_ID=""
 export S3_SECRET_ACCESS_KEY=""
 
