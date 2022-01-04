@@ -52,6 +52,12 @@ defmodule Quantu.App.Service.Question.Answer do
   end
 
   defp correct("input", %{"type" => type, "answers" => answers}, input) do
+    input =
+      if(is_float(input) and fraction(input) == 0,
+        do: Kernel.trunc(input),
+        else: input
+      )
+
     correct =
       if type == "number" do
         Enum.any?(answers, fn a -> to_float(a) == to_float(input) end)
@@ -122,5 +128,15 @@ defmodule Quantu.App.Service.Question.Answer do
       {x, _} -> x
       :error -> 0.0
     end
+  end
+
+  def fraction(f) when is_float(f) do
+    i = trunc(f)
+
+    Decimal.sub(
+      Decimal.from_float(f),
+      Decimal.new(i)
+    )
+    |> Decimal.to_float()
   end
 end

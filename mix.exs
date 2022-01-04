@@ -46,6 +46,7 @@ defmodule Quantu.App.MixProject do
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 0.5"},
       {:aicacia_handler, "~> 0.1"},
+      {:decimal, "~> 2.0"},
       {:ecto_sql, "~> 3.7"},
       {:ecto_psql_extras, "~> 0.6", only: :dev},
       {:postgrex, ">= 0.0.0"},
