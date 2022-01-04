@@ -69,17 +69,11 @@ config :ueberauth, Ueberauth.Strategy.Google.OAuth,
   client_id:
     System.get_env("GOOGLE_CLIENT_ID") ||
       (Mix.env() == "prod" &&
-         raise("""
-         environment variable GOOGLE_CLIENT_ID is missing.
-         You can generate one by calling: mix phx.gen.secret
-         """)),
+         raise("environment variable GOOGLE_CLIENT_ID is missing.")),
   client_secret:
     System.get_env("GOOGLE_CLIENT_SECRET") ||
       (Mix.env() == "prod" &&
-         raise("""
-         environment variable GOOGLE_CLIENT_SECRET is missing.
-         You can generate one by calling: mix phx.gen.secret
-         """))
+         raise("environment variable GOOGLE_CLIENT_SECRET is missing."))
 
 config :ueberauth, Ueberauth.Strategy.Facebook.OAuth,
   client_id: System.get_env("FACEBOOK_CLIENT_ID_DEV"),
@@ -101,19 +95,13 @@ config :ex_aws,
   access_key_id: [
     System.get_env("S3_ACCESS_KEY_ID") ||
       (Mix.env() == "prod" &&
-         raise("""
-         environment variable S3_ACCESS_KEY_ID is missing.
-         You can generate one by calling: mix phx.gen.secret
-         """)),
+         raise("environment variable S3_ACCESS_KEY_ID is missing.")),
     :instance_role
   ],
   secret_access_key: [
     System.get_env("S3_SECRET_ACCESS_KEY") ||
       (Mix.env() == "prod" &&
-         raise("""
-         environment variable S3_SECRET_ACCESS_KEY is missing.
-         You can generate one by calling: mix phx.gen.secret
-         """)),
+         raise("environment variable S3_SECRET_ACCESS_KEY is missing.")),
     :instance_role
   ]
 

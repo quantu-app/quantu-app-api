@@ -89,6 +89,8 @@ defmodule Quantu.App.MixProject do
         " --set env.GUARDIAN_TOKEN=#{System.get_env("GUARDIAN_TOKEN")}" <>
         " --set env.GOOGLE_CLIENT_ID=#{System.get_env("GOOGLE_CLIENT_ID")}" <>
         " --set env.GOOGLE_CLIENT_SECRET=#{System.get_env("GOOGLE_CLIENT_SECRET")}" <>
+        " --set-string env.FACEBOOK_CLIENT_ID=#{System.get_env("FACEBOOK_CLIENT_ID")}" <>
+        " --set env.FACEBOOK_CLIENT_SECRET=#{System.get_env("FACEBOOK_CLIENT_SECRET")}" <>
         " --set env.S3_ACCESS_KEY_ID=#{System.get_env("S3_ACCESS_KEY_ID")}" <>
         " --set env.S3_SECRET_ACCESS_KEY=#{System.get_env("S3_SECRET_ACCESS_KEY")}"
 
