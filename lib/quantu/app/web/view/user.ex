@@ -30,7 +30,12 @@ defmodule Quantu.App.Web.View.User do
       token: token,
       username: user.username,
       creator: user.creator,
+      active: user.active,
       email: render_email(user.emails),
+      firstName: user.first_name,
+      lastName: user.last_name,
+      birthday: user.birthday,
+      country: user.country,
       emails:
         render_many(
           Enum.filter(user.emails, fn email -> not email.primary end),

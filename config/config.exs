@@ -61,7 +61,7 @@ config :guardian, Guardian.DB,
 
 config :ueberauth, Ueberauth,
   providers: [
-    google: {Ueberauth.Strategy.Google, []},
+    google: {Ueberauth.Strategy.Google, [default_scope: "email profile"]},
     facebook: {Ueberauth.Strategy.Facebook, [default_scope: "email,public_profile"]}
   ]
 

@@ -81,6 +81,8 @@ defmodule Quantu.App.Web.Router do
       pipe_through(:auth_access)
 
       resources "/users", User, only: [:show]
+      put("/user", User, :update)
+      patch("/user", User, :update)
 
       scope "/user", User, as: :user do
         scope "/email" do
@@ -100,10 +102,6 @@ defmodule Quantu.App.Web.Router do
         scope "/password" do
           put("/reset", Password, :reset)
           patch("/reset", Password, :reset)
-        end
-
-        scope "/deactivate" do
-          delete("/", Deactivate, :deactivate)
         end
 
         resources "/organizations", Organization, except: [:new, :edit] do

@@ -13,11 +13,23 @@ defmodule Quantu.App.Service.User.Create do
     field(:password, :string)
     field(:password_confirmation, :string)
     field(:encrypted_password, :string)
+    field(:first_name, :string)
+    field(:last_name, :string)
+    field(:birthday, :date)
+    field(:country, :string)
   end
 
   def changeset(%{} = attrs) do
     %__MODULE__{}
-    |> cast(attrs, [:username, :password, :password_confirmation])
+    |> cast(attrs, [
+      :username,
+      :password,
+      :password_confirmation,
+      :first_name,
+      :last_name,
+      :birthday,
+      :country
+    ])
     |> validate_confirmation(:password)
     |> validate_required([:username, :password])
     |> validate_format(:username, @username_regex)
@@ -28,7 +40,14 @@ defmodule Quantu.App.Service.User.Create do
   def handle(%{} = command) do
     Repo.run(fn ->
       %Model.User{}
-      |> cast(command, [:username, :encrypted_password])
+      |> cast(command, [
+        :username,
+        :encrypted_password,
+        :first_name,
+        :last_name,
+        :birthday,
+        :country
+      ])
       |> unique_constraint(:username)
       |> Repo.insert!()
       |> Repo.preload([:emails])

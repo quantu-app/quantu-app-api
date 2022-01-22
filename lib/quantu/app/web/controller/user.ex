@@ -37,4 +37,39 @@ defmodule Quantu.App.Web.Controller.User do
       |> render("show.json", user: user)
     end
   end
+
+  operation :update,
+    summary: "Updates the current User",
+    description: "Returns the user",
+    request_body:
+      {"Request body to update user", "application/json", Schema.User.Update, required: true},
+    responses: [
+      ok: {"Updated User Response", "application/json", Schema.User.Private}
+    ],
+    parameters: [],
+    security: [%{"authorization" => []}]
+
+  def update(conn = %{body_params: body_params}, _params) do
+    resource_user = Guardian.Plug.current_resource(conn)
+
+    with {:ok, command} <-
+           Service.User.Update.new(%{
+             user_id: resource_user.id,
+             username: Map.get(body_params, :username),
+             active: Map.get(body_params, :active),
+             first_name: Map.get(body_params, :firstName),
+             last_name: Map.get(body_params, :lastName),
+             birthday: Map.get(body_params, :birthday),
+             country: Map.get(body_params, :country)
+           }),
+         {:ok, user} <- Service.User.Update.handle(command) do
+      conn
+      |> put_status(200)
+      |> put_view(View.User)
+      |> render("private_show.json",
+        user: user,
+        token: Guardian.Plug.current_token(conn)
+      )
+    end
+  end
 end

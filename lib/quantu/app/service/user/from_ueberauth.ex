@@ -24,7 +24,12 @@ defmodule Quantu.App.Service.User.FromUeberauth do
         end
       ) do
         nil ->
-          create_user!(email, username_from_auth(auth, email))
+          create_user!(
+            email,
+            username_from_auth(auth, email),
+            first_last_name_from_auth(auth),
+            birthday_from_auth(auth)
+          )
 
         user ->
           user
@@ -32,11 +37,14 @@ defmodule Quantu.App.Service.User.FromUeberauth do
     end)
   end
 
-  def create_user!(email, username) do
+  def create_user!(email, username, [first_name, last_name], birthday) do
     %Model.User{id: user_id} =
       Service.User.Create.new!(%{
         username: unique_username(username),
-        password: Util.generate_token(64)
+        password: Util.generate_token(64),
+        first_name: first_name,
+        last_name: last_name,
+        birthday: birthday
       })
       |> Service.User.Create.handle!()
 
@@ -85,4 +93,18 @@ defmodule Quantu.App.Service.User.FromUeberauth do
 
   def username_from_auth(_auth, _email),
     do: nil
+
+  def first_last_name_from_auth(%Auth{info: %Auth.Info{} = info}) do
+    if info.name do
+      names = Enum.map(String.split(info.name, ~r"\s+"), &String.trim/1)
+      [List.first(names), List.last(names)]
+    else
+      [info.first_name, info.last_name]
+    end
+  end
+
+  def first_last_name_from_auth(_auth), do: [nil, nil]
+
+  def birthday_from_auth(%Auth{info: %Auth.Info{} = info}), do: info.birthday
+  def birthday_from_auth(_auth), do: nil
 end

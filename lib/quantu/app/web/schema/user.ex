@@ -102,6 +102,7 @@ defmodule Quantu.App.Web.Schema.User do
       properties: %{
         id: %Schema{type: :string, description: "Id"},
         username: %Schema{type: :string, description: "User name"},
+        active: %Schema{type: :boolean, description: "User active status"},
         insertedAt: %Schema{
           type: :string,
           description: "Creation timestamp",
@@ -131,9 +132,14 @@ defmodule Quantu.App.Web.Schema.User do
         id: %Schema{type: :string, description: "Id"},
         token: %Schema{type: :string, description: "User Token"},
         username: %Schema{type: :string, description: "User name"},
+        active: %Schema{type: :boolean, description: "User active status"},
         creator: %Schema{type: :boolean, nullable: true, description: "User creator status"},
         email: Email,
         emails: %Schema{type: :array, items: Email},
+        firstName: %Schema{type: :string, nullable: true, description: "User first name"},
+        lastName: %Schema{type: :string, nullable: true, description: "User last name"},
+        birthday: %Schema{type: :string, nullable: true, description: "User birthday"},
+        country: %Schema{type: :string, nullable: true, description: "User country"},
         insertedAt: %Schema{
           type: :string,
           description: "Creation timestamp",
@@ -142,12 +148,30 @@ defmodule Quantu.App.Web.Schema.User do
         updatedAt: %Schema{type: :string, description: "Update timestamp", format: :"date-time"}
       },
       additionalProperties: false,
-      required: [:id, :token, :username, :emails, :insertedAt, :updatedAt],
+      required: [
+        :id,
+        :token,
+        :username,
+        :active,
+        :creator,
+        :emails,
+        :firstName,
+        :lastName,
+        :birthday,
+        :country,
+        :insertedAt,
+        :updatedAt
+      ],
       example: %{
         "id" => "ebf5b33a-7a68-41b7-8d0b-9b3a32caff02",
         "token" => "DwBg/rBlmXjTnQ3Xw9Hhr0A5hY1+FNHk1GlWnGPhbfX1ctqyqdlbiDXMX2Nzbxfu",
         "username" => "example",
+        "active" => true,
         "creator" => true,
+        "firstName" => "John",
+        "lastName" => "Doe",
+        "birthday" => "1990-01-01",
+        "country" => "US",
         "email" => %{
           "id" => 1234,
           "userId" => "ebf5b33a-7a68-41b7-8d0b-9b3a32caff02",
@@ -160,6 +184,34 @@ defmodule Quantu.App.Web.Schema.User do
         "emails" => [],
         "insertedAt" => "2017-09-12T12:34:55Z",
         "updatedAt" => "2017-09-13T10:11:12Z"
+      }
+    })
+  end
+
+  defmodule Update do
+    require OpenApiSpex
+
+    OpenApiSpex.schema(%{
+      title: "UserUpdate",
+      description: "A private user update",
+      type: :object,
+      properties: %{
+        username: %Schema{type: :string, nullable: true, description: "User name"},
+        active: %Schema{type: :boolean, nullable: true, description: "User active status"},
+        firstName: %Schema{type: :string, nullable: true, description: "User first name"},
+        lastName: %Schema{type: :string, nullable: true, description: "User last name"},
+        birthday: %Schema{type: :string, nullable: true, description: "User birthday"},
+        country: %Schema{type: :string, nullable: true, description: "User country"}
+      },
+      additionalProperties: false,
+      required: [],
+      example: %{
+        "username" => "new_example",
+        "active" => true,
+        "firstName" => "John",
+        "lastName" => "Doe",
+        "birthday" => "1990-01-01",
+        "country" => "US"
       }
     })
   end
