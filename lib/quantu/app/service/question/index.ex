@@ -8,11 +8,12 @@ defmodule Quantu.App.Service.Question.Index do
   schema "" do
     belongs_to(:organization, Model.Organization)
     belongs_to(:quiz, Model.Quiz)
+    field(:is_challenge, :boolean)
   end
 
   def changeset(%{} = attrs) do
     %__MODULE__{}
-    |> cast(attrs, [:organization_id, :quiz_id])
+    |> cast(attrs, [:organization_id, :quiz_id, :is_challenge])
     |> foreign_key_constraint(:organization_id)
     |> foreign_key_constraint(:quiz_id)
   end
@@ -26,6 +27,13 @@ defmodule Quantu.App.Service.Question.Index do
           query
         else
           where(query, [q], q.organization_id == ^command.organization_id)
+        end
+
+      query =
+        if Map.get(command, :is_challenge) == nil do
+          query
+        else
+          where(query, [q], q.is_challenge == ^command.is_challenge)
         end
 
       if Map.get(command, :quiz_id) == nil do

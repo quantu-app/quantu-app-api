@@ -25,6 +25,7 @@ defmodule Quantu.App.Web.View.Question do
       type: question.type,
       prompt: question.prompt,
       tags: question.tags,
+      isChallenge: question.is_challenge,
       insertedAt: question.inserted_at,
       updatedAt: question.updated_at
     }

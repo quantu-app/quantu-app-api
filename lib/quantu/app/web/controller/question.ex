@@ -28,6 +28,12 @@ defmodule Quantu.App.Web.Controller.Question do
         description: "Quiz Id",
         type: :integer,
         example: 123
+      ],
+      isChallenge: [
+        in: :query,
+        description: "Is challenge",
+        type: :boolean,
+        example: true
       ]
     ],
     security: [%{"authorization" => []}]
@@ -36,7 +42,8 @@ defmodule Quantu.App.Web.Controller.Question do
     with {:ok, command} <-
            Service.Question.Index.new(%{
              organization_id: Map.get(params, :organizationId),
-             quiz_id: Map.get(params, :quizId)
+             quiz_id: Map.get(params, :quizId),
+             is_challenge: Map.get(params, :isChallenge)
            }),
          {:ok, questions} <- Service.Question.Index.handle(command) do
       conn
