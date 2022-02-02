@@ -77,7 +77,7 @@ defmodule Quantu.App.MixProject do
   defp helm_dir(), do: "./helm/#{organization()}-#{name()}-api"
 
   defp docker_repository(),
-    do: "docker.pkg.github.com/quantu-app/app-api/quantu-app-api"
+    do: "ghcr.io/quantu-app/quantu-app-api/quantu-app-api"
 
   defp docker_tag(), do: "#{docker_repository()}:#{version()}"
 

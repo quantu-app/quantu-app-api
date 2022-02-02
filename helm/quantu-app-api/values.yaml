@@ -6,7 +6,7 @@ replicas:
       utilization: 90
 
 image:
-  repository: docker.pkg.github.com/quantu-app/quantu-app-api/quantu-app-api
+  repository: ghcr.io/quantu-app/quantu-app-api/quantu-app-api
   tag: 0.1.0
   pullPolicy: Always
   hash: sha256:13ba025b6c186da3fdce3db68f192721fef8300ae02f2ae76c953d771b7180e4
