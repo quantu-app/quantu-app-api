@@ -121,7 +121,7 @@ defmodule Quantu.App.Web.Schema.Question do
         },
         answers: %Schema{
           type: :array,
-          items: %Schema{type: :string},
+          items: %Schema{oneOf: [%Schema{type: :string}, %Schema{type: :number}]},
           description: "answers"
         }
       },
