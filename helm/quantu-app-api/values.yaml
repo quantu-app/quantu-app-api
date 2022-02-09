@@ -42,6 +42,6 @@ postgresql:
   persistence:
     enabled: true
     storageClass: linode-block-storage-retain
-    existingClaim: data-quantu-app-postgresql-0
+    existingClaim: pvc-0d9c90ae6f1c4181
   postgresqlUsername: postgres
   postgresqlPassword: postgres
